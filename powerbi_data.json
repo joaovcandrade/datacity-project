@@ -1,0 +1,2679 @@
+{
+  "title": "Microsoft Power BI",
+  "url": "https://app.powerbi.com/view?r=eyJrIjoiODhhNmI1ZWYtMmZmYy00NjVlLTk4MjQtYjlmMTUxZTJlYTI0IiwidCI6IjA0ZTcxZThlLTUwZDMtNDU1ZC04ODAzLWM3ZGI4ODhkNjRiYiJ9",
+  "timestamp": "2025-06-17 12:39:36",
+  "visuals": [],
+  "tables": [],
+  "texts": [
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%\nMicrosoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%\nMicrosoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%\nMicrosoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE\n-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade\nEdição 2024\nUF\nMunicípio\nScroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+\nLondrina\nPR\n24°\n19°\n24°\nRanking CSC\n2023\n2022\n2024\nScroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Histórico da Cidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Edição 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "UF"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Município"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nPosição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Posição Eixos\n 2022\n 2023\n 2024\n  Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Posição Eixos\n 2022\n 2023\n 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Posição Eixos\n 2022\n 2023\n 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Posição Eixos"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022\n 2023\n 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022\n 2023\n 2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Saúde\n23\n22\n21\nMobilidade\n44\n38\n45\nMeio Ambiente\n58\n71\n58\nGovernança\nFora 100+\nFora 100+\nFora 100+\nEmpreendedorismo\n13\nFora 100+\n25\nEducação\nFora 100+\n29\n50\nEconomia\n32\n38\n56\nUrbanismo\n34\n6\n13\nTecnologia e Inovação\n13\n11\n17\nSegurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Saúde\n23\n22\n21"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Saúde"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "23\n22\n21"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "23\n22\n21"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "23"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "22"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "21"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Mobilidade\n44\n38\n45"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Mobilidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "44\n38\n45"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "44\n38\n45"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "44"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "38"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "45"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Meio Ambiente\n58\n71\n58"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Meio Ambiente"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "58\n71\n58"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "58\n71\n58"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "58"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "71"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "58"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Governança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Governança"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Empreendedorismo\n13\nFora 100+\n25"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Empreendedorismo"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13\nFora 100+\n25"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13\nFora 100+\n25"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "25"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Educação\nFora 100+\n29\n50"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Educação"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\n29\n50"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\n29\n50"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "29"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "50"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Economia\n32\n38\n56"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Economia"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "32\n38\n56"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "32\n38\n56"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "32"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "38"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "56"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Urbanismo\n34\n6\n13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Urbanismo"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "34\n6\n13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "34\n6\n13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "34"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Tecnologia e Inovação\n13\n11\n17"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Tecnologia e Inovação"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13\n11\n17"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13\n11\n17"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "11"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "17"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Segurança\nFora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Segurança"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+\nFora 100+\nFora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fora 100+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Londrina"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "PR"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "24°"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Ranking CSC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "p",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Scroll up\nScroll down\nScroll left\nScroll right\nRow Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte\nSelect Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection\nIndicador\n Eixo 1\nEixo 2\nEixo 3\n2022\n2023\n2024\nUnidade\nFonte"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Row Selection"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Indicador"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Eixo 1"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Eixo 2"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Eixo 3"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2022"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2023"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "2024"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Unidade"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Fonte"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios\nSelect Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios\nSelect Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems\nSelect Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS\nSelect Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS\nSelect Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS\nSelect Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor\nSelect Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED\nSelect Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS\nSelect Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE\nSelect Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel\nSelect Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi\nSelect Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi\nSelect Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios\nSelect Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAgendamento de consulta na rede pública de saúde\nSAU\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Agendamento de consulta na rede pública de saúde"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nAtendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo\nGOV\nAdditional Conditional Formatting\n  Não\nNão\nNão\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Atendimento ao Cidadão - Aplicativo Criado pela Prefeitura ou Outro Organismo"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim ou Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nBilhete eletrônico transporte público\nMOB\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\n Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Bilhete eletrônico transporte público"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MOB\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MOB"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim ou Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)\nURB\nAdditional Conditional Formatting\n  I - G - DC\n10\n10\nNOTA\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Cadastro Imobiliário (Informatizado, georreferenciado e disponibilzado ao cidadão)"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "I - G - DC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "10"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "10"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "NOTA"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCentro de controle e operações\nSEG\nAdditional Conditional Formatting\n  Sim\nSim\nSim\n IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Centro de controle e operações"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SEG\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SEG"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCiclovias\nMOB\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 6,95\n10,10\n12,05\nKMS / 100 MIL HABITANTES\nPesquisa Urban Systems"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Ciclovias"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MOB\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MOB"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "6,95"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "10,10"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "12,05"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "KMS / 100 MIL HABITANTES"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Pesquisa Urban Systems"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCobertura Do Serviço De Coleta De Resíduos - IN015_RS\nMAM\nAdditional Conditional Formatting\nSAU\nAdditional Conditional Formatting\n 99%\n99%\n89%\n%\nSNIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Cobertura Do Serviço De Coleta De Resíduos - IN015_RS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MAM\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "MAM"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "99%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "99%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "89%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SNIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Economia Criativa\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n -0,47%\n9,42%\n19,47%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Das Empresas De Economia Criativa"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-0,47%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "9,42%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "19,47%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "RAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Das Empresas De Tecnologia\nEMP\nAdditional Conditional Formatting\nTIC\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n9,52%\n4,35%\n13,2%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Das Empresas De Tecnologia"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "9,52%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "4,35%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "13,2%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "RAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Númer De Meis\nEMP\nAdditional Conditional Formatting\nECO\nAdditional Conditional Formatting\n 18,62%\n14,47%\n8,2%\n%\nPortal do Empreendedor"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Do Númer De Meis"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EMP"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "18,62%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "14,47%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "8,2%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Portal do Empreendedor"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empregos\nECO\nAdditional Conditional Formatting\n  5,1%\n5,5%\n4,2%\n%\nCAGED"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Do Número De Empregos"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "5,1%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "5,5%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "4,2%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "CAGED"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Número De Empresas\nECO\nAdditional Conditional Formatting\n  -2,51%\n3,18%\n9,69%\n%\nRAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Do Número De Empresas"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-2,51%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "3,18%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "9,69%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "RAIS"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nCrescimento Do Pib Per Capta\nECO\nAdditional Conditional Formatting\n  7,15%\n-0,35%\n7,7%\n%\nIBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Crescimento Do Pib Per Capta"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "7,15%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-0,35%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "7,7%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDensidade de Banda Larga Fixa\nTIC\nAdditional Conditional Formatting\n  34,47\n38,08\n36,41\n%\nAnatel"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Densidade de Banda Larga Fixa"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "TIC"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "34,47"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "38,08"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "36,41"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Anatel"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Educação\nEDU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$680,08\nR$920,51\nR$1.112,39\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Despesa Municipal Per Capta Paga Com Educação"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EDU\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "EDU"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$680,08"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$920,51"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$1.112,39"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$ por Habitante"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Saúde\nSAU\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$1.301,79\nR$1.288,44\nR$1.486,34\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Despesa Municipal Per Capta Paga Com Saúde"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SAU"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$1.301,79"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$1.288,44"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$1.486,34"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$ por Habitante"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Segurança\nSEG\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$34,42\nR$45,50\nR$59,56\n Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Despesa Municipal Per Capta Paga Com Segurança"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SEG\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "SEG"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$34,42"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$45,50"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$59,56"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nDespesa Municipal Per Capta Paga Com Urbanismo\nURB\nAdditional Conditional Formatting\nGOV\nAdditional Conditional Formatting\n R$256,29\nR$276,74\nR$330,75\nR$ por Habitante\nSiconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Despesa Municipal Per Capta Paga Com Urbanismo"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "GOV"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$256,29"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$276,74"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$330,75"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "R$ por Habitante"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Siconfi"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura\nURB\nAdditional Conditional Formatting\n  Sim\nSim\nSim\nSim ou Não\nIBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Emissão De Certidão Negativa De Débito E Alvará No Site Da Prefeitura"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "URB"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Sim ou Não"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "IBGE - Perfil de Municípios"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row\nEmpregabilidade (Empregos / PEA)\nECO\nAdditional Conditional Formatting\n  0,37\n0,39\n0,42\npessoas / emprego\nRAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Select Row"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Empregabilidade (Empregos / PEA)"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO\nAdditional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "ECO"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Additional Conditional Formatting"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "0,37"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "0,39"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "0,42"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "pessoas / emprego"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "RAIS / IBGE"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-\n+\n84%"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "-\n+"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Microsoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Microsoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Microsoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Microsoft Power BI\nPages"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Microsoft Power BI"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Pages"
+    },
+    {
+      "type": "text",
+      "tag": "span",
+      "text": "Pages"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "1 result"
+    },
+    {
+      "type": "text",
+      "tag": "div",
+      "text": "Page 2 of 2 Next Page Button Press Enter or Space"
+    }
+  ]
+}

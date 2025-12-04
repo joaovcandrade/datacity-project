@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - DataCity</title>
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: url('{% static "img/Fundo Cadastro e Login.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 5px 20px 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(106, 90, 205, 0.1) 25%, 
+                transparent 50%, 
+                rgba(72, 61, 139, 0.1) 75%, 
+                transparent 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-top: 0;
+            margin-bottom: 8px;
+            width: 180px;
+            height: 126px;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .form-container {
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+            width: 100%;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #6A5ACD;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            color: #483D8B;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #6A5ACD;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #483D8B;
+            box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        input::placeholder {
+            color: #9CA3AF;
+            font-style: italic;
+        }
+
+        select {
+            cursor: pointer;
+            color: #6B7280;
+        }
+
+        select option {
+            padding: 10px;
+        }
+
+        .btn-cadastrar {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6A5ACD 0%, #483D8B 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-cadastrar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(106, 90, 205, 0.3);
+            background: linear-gradient(135deg, #7B68EE 0%, #6A5ACD 100%);
+        }
+
+        .btn-cadastrar:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-link a {
+            color: #6A5ACD;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: rgba(212, 237, 218, 0.9);
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: rgba(248, 215, 218, 0.9);
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .errorlist {
+            color: #dc3545;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px 20px 20px 20px;
+            }
+
+            .form-container {
+                padding: 0;
+                margin: 0;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+
+            .logo-container {
+                width: 150px;
+                height: 105px;
+                margin-top: 0;
+                margin-bottom: 12px;
+            }
+
+            input, select {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            .btn-cadastrar {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        .form-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+        </div>
+        
+        <div class="form-container">
+            <h1 class="form-title">Cadastro</h1>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.nome.id_for_label }}" class="form-label">{{ form.nome.label }}</label>
+                        {{ form.nome }}
+                        {% if form.nome.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.nome.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.cidade.id_for_label }}" class="form-label">{{ form.cidade.label }}</label>
+                    {{ form.cidade }}
+                    {% if form.cidade.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.cidade.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.categoria.id_for_label }}" class="form-label">{{ form.categoria.label }}</label>
+                        {{ form.categoria }}
+                        {% if form.categoria.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.categoria.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.cpf.id_for_label }}" class="form-label">{{ form.cpf.label }}</label>
+                        {{ form.cpf }}
+                        {% if form.cpf.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.cpf.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password2.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.user_type.id_for_label }}" class="form-label">{{ form.user_type.label }}</label>
+                    {{ form.user_type }}
+                    {% if form.user_type.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.user_type.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn-cadastrar">Cadastrar</button>
+            </form>
+            
+            <div class="login-link">
+                <a href="{% url 'login' %}">Já tem conta? Faça login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animação de foco nos inputs
+            document.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Validação básica do formulário
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const password1 = document.querySelector('input[name="password1"]').value;
+                const password2 = document.querySelector('input[name="password2"]').value;
+                
+                if (password1 !== password2) {
+                    e.preventDefault();
+                    alert('As senhas não coincidem!');
+                }
+            });
+
+            // Formatação automática do CPF
+            const cpfInput = document.querySelector('input[name="cpf"]');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = value;
+                });
+            }
+
+            // Efeito de loading no botão ao submeter
+            document.querySelector('form').addEventListener('submit', function() {
+                const btn = document.querySelector('.btn-cadastrar');
+                btn.innerHTML = 'Cadastrando...';
+                btn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

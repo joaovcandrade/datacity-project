@@ -1,0 +1,3951 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+{% load static %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - ISO 37125</title>
+    <link rel="icon" type="image/png" href="{% static 'img/Logo_drive.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #513C9A;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 40px;
+        }
+
+        .back-button:hover {
+            color: #6B4FB5;
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .logo-header img {
+            width: 180px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: #513C9A;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            color: #513C9A;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Purple Sections */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Municipality Selection */
+        .municipality-dropdowns {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .municipality-select-container {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #333;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            min-width: 200px;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .municipality-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .search-input {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        /* Search results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #513C9A;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .search-result-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-result-item.selected {
+            background: #513C9A;
+            color: white;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 16px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        .loading {
+            padding: 16px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Toggle buttons */
+        .input-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #513C9A;
+            border-color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Selection display */
+        .selection-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            text-align: center;
+            color: white;
+            display: none;
+        }
+
+        .selection-display.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(81, 60, 154, 0.15);
+        }
+
+        .category-title {
+            color: #513C9A;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .indicator-count {
+            background: #513C9A;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .core-info {
+            color: #513C9A;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .progress-content {
+            display: grid;
+            grid-template-columns: 300px 1fr; 
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* Profile Indicators */
+        .profile-indicators-container {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 12px;
+            padding: 15px; 
+            max-height: 500px;
+            overflow-y: auto;
+            width: 100%; 
+        }
+
+        .profile-indicators-container h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .profile-indicator-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px; 
+            border-radius: 6px; 
+            margin-bottom: 8px; 
+            border-left: 3px solid rgba(255, 255, 255, 0.3); 
+        }
+
+        .profile-indicator-name {
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: white;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        .profile-indicator-value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Radar Chart */
+        .radar-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* White Sections */
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+       
+        /* Barra de progresso maior */
+        .certification-progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            height: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .certification-progress-bar,
+
+        .certification-progress-bar {
+            background: white;
+        }
+
+
+        .certification-details {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Controls */
+        .controls-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .year-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .year-selector label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .year-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .year-btn {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .year-btn:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .year-btn.active {
+            background: #513C9A;
+            color: white;
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .filter-section label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .category-filter {
+            background: white;
+            color: #333;
+            border: 2px solid #513C9A;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        .generate-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Toggle buttons for input mode */
+        .input-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #513C9A;
+            border-color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Legend */
+        .legend-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .legend-title {
+            font-size: 16px;
+            color: #513C9A;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-core {
+            background: #513C9A;
+        }
+
+        .legend-supporting {
+            background: #6B4FB5;
+        }
+
+        /* Table styles */
+        .indicators-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .table-header {
+            background: #513C9A;
+            display: grid;
+            /* removed ODS column - now: Indicador | Dado | Unidade | Fonte */
+            grid-template-columns: 3fr 1.5fr 1fr 2fr;
+            gap: 1px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table-header > div {
+            padding: 16px 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .table-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            /* match header after removing ODS: Indicador | Dado | Unidade | Fonte */
+            grid-template-columns: 3fr 1.5fr 1fr 2fr;
+            gap: 1px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .table-row:hover {
+            background-color: rgba(81, 60, 154, 0.05);
+        }
+
+        .table-cell {
+            padding: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            min-height: 50px;
+            font-size: 14px;
+        }
+
+        .indicator-name {
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .unit-cell {
+            text-align: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .data-input, .source-input {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            flex: 1;
+        }
+
+        .data-input:focus, .source-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        .data-input.filled {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .data-input:disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: #e9ecef;
+        }
+
+        .data-input.editing {
+            background: white;
+            border-color: #513C9A;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        /* Edit Icon Styles */
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edit-icon {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            padding: 4px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #513C9A;
+            background: transparent;
+            border: none;
+            width: 24px;
+            height: 24px;
+        }
+
+        .edit-icon:hover {
+            opacity: 1;
+            background: rgba(81, 60, 154, 0.1);
+            transform: scale(1.1);
+        }
+
+        .edit-icon:active {
+            transform: scale(0.95);
+        }
+
+        .edit-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 2;
+        }
+
+        .source-link {
+            color: #513C9A;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 12px;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Anexo PDF Styles */
+        .anexo-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .anexo-input {
+            display: none;
+        }
+
+        .anexo-btn {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .anexo-btn:hover {
+            background: #513C9A;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.3);
+        }
+
+        .anexo-link {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .anexo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.3);
+            text-decoration: none;
+        }
+
+        .anexo-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .anexo-delete-btn {
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            padding: 6px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .anexo-delete-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .category-divider {
+            background: #513C9A;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Indicator type styling */
+        .indicator-type-text {
+            font-weight: 600;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .type-principal {
+            color: #513C9A !important;
+        }
+
+        .type-apoio {
+            color: #513C9A !important;
+        }
+
+        .type-perfil {
+            color: #513C9A !important;
+        }
+
+        /* Export buttons */
+        .export-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Chart info */
+        .chart-info-container {
+            position: relative;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .info-button {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .info-button:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .legend-popup {
+            display: none;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 2px solid #513C9A;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 250px;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .legend-popup h4 {
+            color: #513C9A;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .legend-popup-category {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #513C9A;
+            font-weight: 500;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-button {
+            color: #999;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close-button:hover {
+            color: #513C9A;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #513C9A;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            padding-right: 60px;
+        }
+
+        .modal-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .modal-summary strong {
+            color: #513C9A;
+        }
+
+        /* Charts section */
+        .indicator-charts-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #513C9A;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h4 {
+            color: #513C9A;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .chart-card canvas {
+            max-height: 300px;
+        }
+
+        /* Category charts sections */
+        .category-charts-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-charts-header {
+            background: #513C9A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .category-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* Trends summary */
+        .trends-summary {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .trends-title {
+            font-size: 20px;
+            color: #513C9A;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .trends-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--trend-color);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .trends-card.improving {
+            --trend-color: #28a745;
+        }
+
+        .trends-card.worsening {
+            --trend-color: #dc3545;
+        }
+
+        .trends-card.stable {
+            --trend-color: #6c757d;
+        }
+
+        .trends-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .trends-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--trend-color);
+            margin-bottom: 5px;
+        }
+
+        .trends-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .modal-export-buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Hidden sections */
+        .hidden-sections {
+            display: none;
+        }
+
+        .detailed-view {
+            display: none;
+        }
+
+        .municipality-details {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .municipality-details.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .progress-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .radar-container {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .chart-container {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .profile-indicators-container {
+                max-height: 300px;
+            }
+
+            .certification-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .certification-card:nth-child(1),
+            .certification-card:nth-child(2),
+            .certification-card:nth-child(3),
+            .certification-card:nth-child(4) {
+                grid-column: 1;
+                grid-row: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .back-button {
+                left: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 36px;
+            }
+
+            .purple-section, .white-section, .progress-section {
+                padding: 24px;
+            }
+
+            .section-title, .white-section-title, .progress-title {
+                font-size: 24px;
+            }
+
+            .municipality-dropdowns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-select-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .municipality-select,
+            .search-input {
+                width: 100%;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 2fr 0.5fr 1fr 0.8fr 1.5fr;
+                font-size: 12px;
+            }
+            
+            .table-cell {
+                padding: 8px;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+                padding: 20px;
+                max-height: 95vh;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+                padding-right: 40px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar customization */
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-results::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .search-results::-webkit-scrollbar-thumb {
+            background: #513C9A;
+            border-radius: 3px;
+        }
+
+        .search-results::-webkit-scrollbar-thumb:hover {
+            background: #6B4FB5;
+        }
+
+        .generate-btn[style*="background: #dc3545"] {
+    background: #dc3545 !important;
+}
+
+.generate-btn[style*="background: #dc3545"]:hover {
+    background: #c82333 !important;
+}
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 450px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid #513C9A;
+        }
+
+        .toast.success {
+            border-left-color: #28a745;
+        }
+
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-left-color: #ffc107;
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .toast.error .toast-icon {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .toast.warning .toast-icon {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .toast-close:hover {
+            color: #513C9A;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Confirm Modal */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .confirm-modal.show {
+            display: flex;
+        }
+
+        .confirm-modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.2s ease;
+        }
+
+        .confirm-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(81, 60, 154, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .confirm-modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .confirm-modal-message {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .confirm-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .confirm-modal-btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .confirm-modal-btn.cancel {
+            background: white;
+            color: #666;
+            border-color: #ddd;
+        }
+
+        .confirm-modal-btn.cancel:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .confirm-modal-btn.danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .confirm-modal-btn.danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="#" class="back-button" onclick="history.back(); return false;">
+                ← Voltar para Normas
+            </a>
+           <div class="logo-header">
+            <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1>ISO 37125</h1>
+                <p>133 indicadores voltados para ESG: Ambientais, Sociais e de Governança</p>
+            </div>
+
+            <!-- Municipality Selection -->
+            <div class="purple-section municipality-section-header" id="municipality-section">
+                <div class="section-content">
+                    <h2 class="section-title" id="municipality-title">Selecione um município</h2>
+                    <p class="section-subtitle">Escolha o município para visualizar os indicadores ISO 37125</p>
+                    
+                    <!-- Dropdown Mode -->
+                    <div class="municipality-dropdowns" id="dropdown-mode">
+                        <div class="municipality-select-container">
+                            <select class="municipality-select" id="uf-select" onchange="selectUF()">
+                                <option value="">Carregando estados...</option>
+                            </select>
+                        </div>
+                        <div class="municipality-select-container">
+                            <select class="municipality-select" id="municipality-select" onchange="selectMunicipality()" disabled>
+                                <option value="">Primeiro selecione o estado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Search Mode -->
+                    <div class="municipality-dropdowns" id="search-mode" style="display: none;">
+                        <div class="municipality-select-container">
+                            <input type="text" 
+                                   class="search-input" 
+                                   id="municipality-search" 
+                                   placeholder="Digite o nome do município (ex: São Paulo, Londrina...)"
+                                   oninput="searchMunicipalities()"
+                                   onfocus="showSearchResults()"
+                                   autocomplete="off">
+                            <div class="search-results" id="search-results"></div>
+                        </div>
+                    </div>
+
+                    <div class="selection-display" id="selection-display">
+                        <h3>Município Selecionado:</h3>
+                        <p id="selection-text"></p>
+                    </div>
+                    <div class="selection-display" id="clear-selection" style="display: none; margin-top: 15px;">
+                        <button class="generate-btn" onclick="clearSelection()" style="background: #dc3545;">
+                            🗑️ Limpar Seleção
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+            
+
+            <!-- Sections to hide when municipality is selected -->
+            <div id="default-sections">
+                <!-- Summary Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Resumo dos indicadores</h2>
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">133</div>
+                                <div class="stat-label">Indicadores</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Eixos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">26</div>
+                                <div class="stat-label">Indicadores de Perfil</div>
+                            </div>
+                    
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Eixos de indicadores</h2>
+                        <div class="categories-grid" id="categories-grid">
+                            <!-- Categories will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Municipality Details (Hidden by default) -->
+            <div id="municipality-details" class="municipality-details">
+                <!-- Progress Mapping -->
+                <div class="progress-section" id="radar-section">
+                    <h2 class="progress-title">Progresso de Mapeamento</h2>
+                    <div class="progress-content">
+                        <div class="profile-indicators-container">
+                            <h3>Indicadores de Perfil do município</h3>
+                            <div class="profile-indicators-grid" id="profile-indicators">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                        <div class="radar-container">
+                            <div class="chart-container">
+                                <canvas id="categoryRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-info-container">
+                        <button class="info-button" onclick="toggleLegendPopup()">ℹ️ Ver Progresso por Eixo</button>
+                        <div class="legend-popup" id="legend-popup">
+                            <h4>📊 Progresso por Eixo</h4>
+                            <div id="category-progress-list">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overall Progress Section (replacing certification levels) -->
+                <div class="white-section">
+                    <h2 class="white-section-title">Progresso Geral</h2>
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Progresso de preenchimento</span>
+                            <span id="progress-percentage">0%</span>
+                        </div>
+                        <div style="background: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden;">
+                            <div id="overall-progress-bar" style="background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 15px; color: #666;">
+                            <span id="progress-count">0/82 indicadores preenchidos</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Indicators -->
+                <div class="white-section">
+                    <h2 class="white-section-title">Indicadores</h2>
+                    
+                    <div class="controls-section">
+                        <div class="year-selector">
+                            <label>📅 Ano:</label>
+                            <div class="year-buttons" id="year-buttons">
+                                <button class="year-btn active" onclick="selectYear(2025)">2025</button>
+                                <button class="year-btn" onclick="selectYear(2024)">2024</button>
+                                <button class="year-btn" onclick="selectYear(2023)">2023</button>
+                                <button class="year-btn" onclick="selectYear(2022)">2022</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <label>🔍 Filtrar por categoria:</label>
+                            <select class="category-filter" id="category-filter" onchange="filterByCategory()">
+                                <option value="all">Todas as categorias</option>
+                                <option value="ambiental">Ambiental</option>
+                                <option value="social">Social</option>
+                                <option value="governanca">Governança</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <button class="generate-btn" onclick="generateReport()">📊 Visualização histórica</button>
+                        </div>
+                    </div>
+                    
+                    <div class="indicators-table">
+                        <div class="table-header">
+                            <div>Indicador</div>
+                            <div>Dado</div>
+                            <div>Unidade</div>
+                            <div>Fonte</div>
+                        </div>
+                        <div class="table-body" id="table-body">
+                            <!-- Table rows will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="export-section">
+                        <!-- Year selection for PDF export -->
+                        <label style="margin-right:8px">📅 Anos para exportar:</label>
+                        <label style="margin-right:6px"><input type="checkbox" class="export-year" value="2025" checked> 2025</label>
+                        <label style="margin-right:6px"><input type="checkbox" class="export-year" value="2024"> 2024</label>
+                        <label style="margin-right:6px"><input type="checkbox" class="export-year" value="2023"> 2023</label>
+                        <label style="margin-right:6px"><input type="checkbox" class="export-year" value="2022"> 2022</label>
+                        <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">Relatório Completo ISO 37125 - Londrina PR</h2>
+            <div id="reportSummary" class="modal-summary">
+                <!-- Summary will be inserted here -->
+            </div>
+            <div id="trendsSummary" class="trends-summary" style="display: none;">
+                <!-- Trends summary will be inserted here -->
+            </div>
+            <div class="indicator-charts-section">
+                <h3 class="chart-title">📈 Evolução dos Indicadores (2022-2025)</h3>
+                <div id="indicator-charts-container" class="charts-grid">
+                    <!-- Individual indicator charts will be rendered here -->
+                </div>
+            </div>
+            <div class="modal-export-buttons">
+                <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon" id="confirmModalIcon">🗑️</div>
+            <h3 class="confirm-modal-title" id="confirmModalTitle">Confirmar ação</h3>
+            <p class="confirm-modal-message" id="confirmModalMessage">Tem certeza que deseja continuar?</p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-modal-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="confirm-modal-btn danger" id="confirmModalBtn" onclick="executeConfirmAction()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let radarChart = null;
+        let modalCharts = [];
+
+        // Tipo de usuário para controle de permissões
+        const userType = '{{ user.user_type }}';
+        const canEdit = userType === 'ADMIN' || userType === 'MANAGER';
+
+        // ========== Toast & Modal Functions ==========
+        let confirmCallback = null;
+
+        // Show toast notification
+        function showToast(message, type = 'success', title = null) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠'
+            };
+
+            const titles = {
+                success: title || 'Sucesso',
+                error: title || 'Erro',
+                warning: title || 'Atenção'
+            };
+
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type]}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Show confirm modal
+        function showConfirmModal(title, message, callback, icon = '🗑️', buttonText = 'Confirmar', buttonClass = 'danger') {
+            const modal = document.getElementById('confirmModal');
+            document.getElementById('confirmModalIcon').textContent = icon;
+            document.getElementById('confirmModalTitle').textContent = title;
+            document.getElementById('confirmModalMessage').textContent = message;
+
+            const btn = document.getElementById('confirmModalBtn');
+            btn.textContent = buttonText;
+            btn.className = `confirm-modal-btn ${buttonClass}`;
+
+            confirmCallback = callback;
+            modal.classList.add('show');
+        }
+
+        // Close confirm modal
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('show');
+            confirmCallback = null;
+        }
+
+        // Execute confirm action
+        function executeConfirmAction() {
+            if (confirmCallback) {
+                confirmCallback();
+            }
+            closeConfirmModal();
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('confirmModal');
+            if (e.target === modal) {
+                closeConfirmModal();
+            }
+        });
+
+        // ========== End Toast & Modal Functions ==========
+
+        // Data structure for ESG indicators
+        const indicatorsData = {
+            'ambiental': {
+                name: 'Ambiental',
+                description: 'Indicadores ambientais para cidades sustentáveis',
+                indicators: [
+                    { name: 'Consumo final de energia dos edifícios públicos por ano', ods: '7, 11, 12', unit: 'GJ/m2', trendDirection: -1 },
+                    { name: 'Consumo total de energia elétrica residencial per capita', ods: '7', unit: 'kWh/ano', trendDirection: -1 },
+                    { name: 'Percentagem do consumo total de eletricidade proveniente de fontes renováveis', ods: '7', unit: '%', trendDirection: +1 },
+                    { name: 'Consumo de eletricidade da iluminação pública por quilômetro de rua iluminada', ods: '7, 11', unit: 'kWh/ano', trendDirection: -1 },
+                    { name: 'metros quadrados de área de cobertura verde de propriedade/operada pela cidade como uma porcentagem de toda a área de cobertura de todos os edifícios de propriedade/operados pela cidade', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Número de portas de estações de carregamento de veículos elétricos (VE) por veículo elétrico (VE) registrado', ods: '7, 11', unit: 'portas/VE', trendDirection: +1 },
+                    { name: 'Número de bicos de carregamento de veículos com células de combustível de hidrogênio por veículo pessoal com células de combustível de hidrogênio', ods: '7', unit: 'bicos/veículo', trendDirection: +1 },
+                    { name: 'Concentração de partículas finas (PM2,5)', ods: '3, 11', unit: 'μg/m³', trendDirection: -1 },
+                    { name: 'Porcentagem de áreas de proteção natural designadas', ods: '14, 15', unit: '%', trendDirection: +1 },
+                    { name: 'Emissões de gases com efeito de estufa (GEE) medidas em toneladas per capita', ods: '13', unit: 'tCO2e/hab', trendDirection: -1 },
+                    { name: 'Número de estações de monitoramento remoto da qualidade do ar em tempo real por quilômetro quadrado (km2)', ods: '3, 11', unit: 'estações/km²', trendDirection: +1 },
+                    { name: 'Porcentagem da área urbana coberta por copa de árvores', ods: '11, 15', unit: '%', trendDirection: +1 },
+                    { name: 'Despesa anual alocada para restauração de ecossistemas na cidade como uma porcentagem das despesas totais da cidade', ods: '15', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem da área da cidade impactada por incêndios florestais ou florestais, ou ambos', ods: '13, 15', unit: '%', trendDirection: -1 },
+                    { name: 'Porcentagem de domicílios com medidores de energia inteligentes', ods: '7, 9', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de domicílios com medidores de água inteligentes', ods: '6', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de resíduos sólidos reciclados', ods: '12', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de resíduos sólidos dispostos em aterro sanitário', ods: '12', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de resíduos sólidos tratados em usinas de geração de energia a partir de resíduos', ods: '7, 12', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de resíduos sólidos tratados biologicamente e utilizados como composto ou biogás', ods: '12', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de resíduos sólidos dispostos em lixão a céu aberto', ods: '12', unit: '%', trendDirection: -1 },
+                    { name: 'Percentagem de resíduos sólidos eliminados por outros meios', ods: '12', unit: '%', trendDirection: -1 },
+                    { name: 'Geração de resíduos domésticos perigosos per capita', ods: '12', unit: 'toneladas/hab', trendDirection: -1 },
+                    { name: 'Percentual de resíduos domésticos perigosos reciclados', ods: '12', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de passageiros que utilizam um meio de transporte para o trabalho diferente de um veículo pessoal', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de veículos de baixa emissão registrados', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual da frota de ônibus da cidade que não queima ou consome combustível', ods: '7, 11', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem anual de despesas atribuídas à agricultura urbana', ods: '2, 11', unit: '%', trendDirection: +1 },
+                    { name: 'Área verde de propriedade ou operada pela cidade (hectares) por 100.000 habitantes', ods: '11, 15', unit: 'ha/100k hab', trendDirection: +1 },
+                    { name: 'Despesa anual com prevenção de inundações como percentagem das despesas totais', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual de águas residuais que recebem tratamento centralizado', ods: '6', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de esgotos pluviais e sanitários separados', ods: '6', unit: '%', trendDirection: +1 },
+                    { name: 'Consumo total de água doméstica per capita', ods: '6', unit: 'litros/dia', trendDirection: -1 },
+                    { name: 'Consumo total de água per capita', ods: '6', unit: 'litros/dia', trendDirection: -1 },
+                    { name: 'Porcentagem de perda de água (água não contabilizada)', ods: '6', unit: '%', trendDirection: -1 }
+                ],
+                profileIndicators: [
+                    { name: 'Frequência anual de eventos de precipitação extrema', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Frequência anual de eventos extremos de queda de neve', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Frequência anual de eventos de calor extremo', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Frequência anual de eventos de frio extremo', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Frequência anual de eventos eólicos extremos', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Frequência anual de eventos de inundação', ods: '13', unit: 'eventos/ano', type: 'profile' },
+                    { name: 'Graus-dia de aquecimento', ods: '7', unit: 'graus-dia', type: 'profile' },
+                    { name: 'Graus-dia de resfriamento', ods: '7', unit: 'graus-dia', type: 'profile' },
+                    { name: 'Queda média anual de neve', ods: '13', unit: 'cm', type: 'profile' },
+                    { name: 'Precipitação média anual', ods: '13', unit: 'mm', type: 'profile' },
+                    { name: 'Temperatura média anual', ods: '13', unit: '°C', type: 'profile' },
+                    { name: 'Número de automóveis pessoais per capita', ods: '11', unit: 'veículos/hab', type: 'profile' },
+                    { name: 'Número de veículos motorizados de duas rodas per capita', ods: '11', unit: 'veículos/hab', type: 'profile' }
+                ]
+            },
+            'social': {
+                name: 'Social',
+                description: 'Indicadores sociais para cidades sustentáveis',
+                indicators: [
+                    { name: 'Taxa de desemprego', ods: '8', unit: '%', trendDirection: -1 },
+                    { name: 'Percentagem de pessoas empregadas a tempo inteiro', ods: '8', unit: '%', trendDirection: +1 },
+                    { name: 'Taxa de desemprego juvenil', ods: '8', unit: '%', trendDirection: -1 },
+                    { name: 'Nível de emprego', ods: '8', unit: '%', trendDirection: +1 },
+                    { name: 'Renda familiar média disponível', ods: '1, 8', unit: 'R$/mês', trendDirection: +1 },
+                    { name: 'Índice médio anual de preços ao consumidor', ods: '8', unit: 'índice', trendDirection: -1 },
+                    { name: 'Variação percentual anual na conta média anual total de energia elétrica para clientes residenciais por 500 kWh', ods: '7', unit: '%', trendDirection: -1 },
+                    { name: 'Variação percentual anual nos custos dos alimentos', ods: '2', unit: '%', trendDirection: -1 },
+                    { name: 'Percentagem de estudantes que concluem o ensino secundário — Taxa de coorte ajustada', ods: '4', unit: '%', trendDirection: +1 },
+                    { name: 'Proporção aluno-professor do ensino fundamental', ods: '4', unit: 'alunos/professor', trendDirection: -1 },
+                    { name: 'Número de diplomas de ensino superior por 100 000 habitantes', ods: '4', unit: 'diplomas/100k hab', trendDirection: +1 },
+                    { name: 'Número de leitos hospitalares de internação por 100.000 habitantes', ods: '3', unit: 'leitos/100k hab', trendDirection: +1 },
+                    { name: 'Número de médicos por 100 000 habitantes', ods: '3', unit: 'médicos/100k hab', trendDirection: +1 },
+                    { name: 'Número de pessoal de enfermagem por 100 000 habitantes', ods: '3', unit: 'enfermeiros/100k hab', trendDirection: +1 },
+                    { name: 'Tempo médio de espera no pronto-socorro para avaliação médica inicial', ods: '3', unit: 'minutos', trendDirection: -1 },
+                    { name: 'Número de surtos de doenças infecciosas por ano', ods: '3', unit: 'surtos/ano', trendDirection: -1 },
+                    { name: 'Porcentagem da população vivendo em moradias populares', ods: '11', unit: '%', trendDirection: -1 },
+                    { name: 'Unidades residenciais para aluguel como porcentagem do total de unidades residenciais', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Tempo médio de espera para unidades de habitação subsidiadas ou sociais, ou ambas', ods: '11', unit: 'meses', trendDirection: -1 },
+                    { name: 'Número de unidades habitacionais subsidiadas ou sociais, ou ambas, em % do total de unidades habitacionais na cidade', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Número de pessoas sem-abrigo por 100 000 habitantes', ods: '1, 11', unit: 'pessoas/100k hab', trendDirection: -1 },
+                    { name: 'Número médio anual de leitos de abrigo por 100 000 habitantes', ods: '1, 11', unit: 'leitos/100k hab', trendDirection: +1 },
+                    { name: 'Percentagem de imóveis residenciais localizados em zonas de alto risco', ods: '11', unit: '%', trendDirection: -1 },
+                    { name: 'Porcentagem de escolas em zonas de alto risco', ods: '4, 11', unit: '%', trendDirection: -1 },
+                    { name: 'Capacidade de abrigos de emergência designados por 100 000 habitantes', ods: '11', unit: 'pessoas/100k hab', trendDirection: +1 },
+                    { name: 'Porcentagem da população da cidade vivendo abaixo da linha nacional de pobreza', ods: '1', unit: '%', trendDirection: -1 },
+                    { name: 'Número de vagas licenciadas para educação e cuidados na primeira infância por 1 000 habitantes em idade pré-escolar obrigatória', ods: '4', unit: 'vagas/1k hab', trendDirection: +1 },
+                    { name: 'Percentagem de edifícios públicos acessíveis a pessoas com necessidades especiais', ods: '10, 11', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem de passagens de peões sinalizadas e equipadas com sinais de peões acessíveis', ods: '10, 11', unit: '%', trendDirection: +1 },
+                    { name: 'Percentual da população inscrita em programas de assistência social', ods: '1, 10', unit: '%', trendDirection: +1 },
+                    { name: 'Espaço público de recreação interna de propriedade ou operado pela cidade per capita', ods: '11', unit: 'm²/hab', trendDirection: +1 },
+                    { name: 'Espaço público de recreação ao ar livre, de propriedade ou operado pela cidade, per capita', ods: '11', unit: 'm²/hab', trendDirection: +1 },
+                    { name: 'Número de homicídios por 100 000 habitantes', ods: '16', unit: 'homicídios/100k hab', trendDirection: -1 },
+                    { name: 'Crimes contra a propriedade por 100 000 habitantes', ods: '16', unit: 'crimes/100k hab', trendDirection: -1 },
+                    { name: 'Tempo de resposta para serviços de resposta a emergências desde a chamada inicial', ods: '16', unit: 'minutos', trendDirection: -1 },
+                    { name: 'Número de crimes violentos contra mulheres relatados pela polícia por 100 000 habitantes', ods: '5, 16', unit: 'crimes/100k hab', trendDirection: -1 },
+                    { name: 'Porcentagem da população da cidade coberta pelo sistema de alerta precoce de múltiplos riscos', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem da área da cidade sob uma zona branca/ponto morto/não coberta por conectividade de telecomunicações', ods: '9', unit: '%', trendDirection: -1 },
+                    { name: 'quilômetros de transporte público por 100.000 habitantes', ods: '11', unit: 'km/100k hab', trendDirection: +1 },
+                    { name: 'quilômetros de ciclovias e ciclovias por 100.000 habitantes', ods: '11', unit: 'km/100k hab', trendDirection: +1 },
+                    { name: 'Número anual de viagens de transporte público per capita', ods: '11', unit: 'viagens/hab', trendDirection: +1 },
+                    { name: 'Número anual de viagens de transporte público em veículos designados para transporte acessível (paratrânsito) per capita', ods: '10, 11', unit: 'viagens/hab', trendDirection: +1 },
+                    { name: 'Porcentagem da população que vive a 0,5 km de transporte público que circula pelo menos a cada 20 minutos durante os horários de pico', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Número de bicicletas disponíveis através de serviços de partilha de bicicletas fornecidos pelo município por 100 000 habitantes', ods: '11', unit: 'bicicletas/100k hab', trendDirection: +1 },
+                    { name: 'Porcentagem da população da cidade que vive a menos de um quilômetro de um supermercado', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Taxa de conformidade da qualidade da água potável', ods: '6', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem da população da cidade que pode beber água potável por métodos alternativos nas primeiras 72 horas de uma emergência', ods: '6', unit: '%', trendDirection: +1 }
+                ],
+                profileIndicators: [
+                    { name: 'Número de pessoas por unidade habitacional', ods: '11', unit: 'pessoas/unidade', type: 'profile' },
+                    { name: 'Taxa de vacância (residencial)', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Taxa de residência secundária', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem da população nascida no exterior', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Demografia da população', ods: '10', unit: 'dados', type: 'profile' },
+                    { name: 'Porcentagem da nova população imigrante', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem da população não cidadã', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Número de estudantes universitários e de faculdade por 100.000 habitantes', ods: '4', unit: 'estudantes/100k hab', type: 'profile' },
+                    { name: 'Número anual de mortes na cidade decorrentes de intervenção legal', ods: '16', unit: 'mortes/ano', type: 'profile' }
+                ]
+            },
+            'governanca': {
+                name: 'Governança',
+                description: 'Indicadores de governança para cidades sustentáveis',
+                indicators: [
+                    { name: 'Taxa de sobrevivência de novos negócios', ods: '8, 9', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de propriedades de propriedade/operadas pela cidade com cobertura de seguro para riscos de alto risco', ods: '11', unit: '%', trendDirection: +1 },
+                    { name: 'Número de diplomas de ensino superior em ciências, tecnologia, engenharia e matemática (STEM) por 100 000 habitantes', ods: '4, 9', unit: 'diplomas/100k hab', trendDirection: +1 },
+                    { name: 'Taxa de serviço da dívida (despesa com serviço da dívida como uma porcentagem da receita própria de uma cidade)', ods: '17', unit: '%', trendDirection: -1 },
+                    { name: 'Despesas de capital como porcentagem das despesas totais', ods: '17', unit: '%', trendDirection: +1 },
+                    { name: 'Despesas anuais diretas ou em espécie da cidade em financiamento e subsídios para pesquisa e desenvolvimento como uma porcentagem das despesas totais da cidade', ods: '9', unit: '%', trendDirection: +1 },
+                    { name: 'Despesas anuais com monitoramento e controle de espécies invasoras ou exóticas como uma porcentagem das despesas totais da cidade', ods: '15', unit: '%', trendDirection: +1 },
+                    { name: 'Despesas anuais com melhorias e manutenção de ativos de serviços da cidade como uma porcentagem das despesas totais da cidade', ods: '9, 11', unit: '%', trendDirection: +1 },
+                    { name: 'Despesas anuais com melhorias e manutenção de infraestrutura de águas pluviais como uma porcentagem das despesas totais da cidade', ods: '6, 9', unit: '%', trendDirection: +1 },
+                    { name: 'Participação eleitoral nas últimas eleições municipais', ods: '16', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem de mulheres eleitas em cargos municipais', ods: '5, 16', unit: '%', trendDirection: +1 },
+                    { name: 'Número anual de consultas online com o portal municipal de dados abertos por 100 000 habitantes', ods: '16', unit: 'consultas/100k hab', trendDirection: +1 },
+                    { name: 'Tempo médio de resposta a consultas feitas através do sistema de consulta não emergencial da cidade', ods: '16', unit: 'dias', trendDirection: -1 },
+                    { name: 'Tempo médio de inatividade da infraestrutura de TI devido a incidente de segurança', ods: '9', unit: 'horas', trendDirection: -1 },
+                    { name: 'Porcentagem de dados eletrônicos da cidade com armazenamento de backup seguro e remoto', ods: '9', unit: '%', trendDirection: +1 },
+                    { name: 'Frequência das atualizações do plano de gestão de desastres', ods: '11, 13', unit: 'vezes/ano', trendDirection: +1 },
+                    { name: 'Porcentagem de socorristas com treinamento em resposta a desastres', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem da população da cidade que pode receber reservas alimentares da cidade durante as primeiras 72 horas em caso de emergência', ods: '2', unit: '%', trendDirection: +1 },
+                    { name: 'Tempo médio para aprovação da licença de construção', ods: '9, 11', unit: 'dias', trendDirection: -1 },
+                    { name: 'Porcentagem da área da cidade coberta por mapas de risco disponíveis ao público', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem da área urbana em zonas de alto risco onde foram implementadas medidas de redução de risco', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Percentagem de departamentos municipais e serviços públicos que realizam avaliações de risco no seu planeamento e investimento', ods: '11, 13', unit: '%', trendDirection: +1 },
+                    { name: 'Despesa anual com capacitação e treinamento de liderança de povos indígenas como porcentagem do total de despesas da cidade', ods: '10, 16', unit: '%', trendDirection: +1 },
+                    { name: 'Número de avaliações ambientais que incluem avaliação de impacto social, espiritual e cultural em terras e territórios como uma porcentagem do total de avaliações ambientais', ods: '10, 16', unit: '%', trendDirection: +1 },
+                    { name: 'Porcentagem de contratos de serviços avaliados quanto aos princípios de aquisição verde', ods: '12', unit: '%', trendDirection: +1 }
+                ],
+                profileIndicators: [
+                    { name: 'Orçamento operacional bruto per capita', ods: '17', unit: 'R$/hab', type: 'profile' },
+                    { name: 'Orçamento bruto de capital per capita', ods: '17', unit: 'R$/hab', type: 'profile' },
+                    { name: 'Variação populacional anual', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem da área total da cidade que está cinco ou mais metros abaixo do nível do mar (elevação)', ods: '11, 13', unit: '%', type: 'profile' }
+                ]
+            }
+        };
+
+        let currentYear = 2025;
+        let currentData = {};
+
+
+        // Initialize the application
+        function init() {
+            loadData();
+            renderCategoriesOverview();
+            populateFilterOptions();
+            loadStates();
+            // initial UI state
+            const defaults = document.getElementById('default-sections');
+            if (defaults) defaults.style.display = 'block';
+            const details = document.getElementById('municipality-details');
+            if (details) { details.style.display = 'none'; details.classList.remove('show'); }
+            const selDisplay = document.getElementById('selection-display'); if (selDisplay) selDisplay.classList.remove('show');
+            const clearBtn = document.getElementById('clear-selection'); if (clearBtn) clearBtn.style.display = 'none';
+        }
+
+        // Carregar estados do IBGE
+        let allStates = [];
+        let allMunicipalities = [];
+        let selectedState = null;
+        let selectedMunicipalityData = null;
+
+        async function loadStates() {
+            const ufSelect = document.getElementById('uf-select');
+            ufSelect.innerHTML = '<option value="">Carregando estados...</option>';
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome');
+                const states = await response.json();
+                allStates = states;
+                populateStatesDropdown(states);
+            } catch (error) {
+                ufSelect.innerHTML = '<option value="">Erro ao carregar estados</option>';
+            }
+        }
+
+        function populateStatesDropdown(states) {
+            const ufSelect = document.getElementById('uf-select');
+            ufSelect.innerHTML = '<option value="">Selecione o Estado</option>';
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.id;
+                option.textContent = `${state.nome} (${state.sigla})`;
+                ufSelect.appendChild(option);
+            });
+        }
+
+        async function selectUF() {
+            const ufSelect = document.getElementById('uf-select');
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedStateId = ufSelect.value;
+            if (!selectedStateId) {
+                municipalitySelect.innerHTML = '<option value="">Primeiro selecione o estado</option>';
+                municipalitySelect.disabled = true;
+                selectedState = null;
+                return;
+            }
+            selectedState = allStates.find(state => state.id == selectedStateId);
+            municipalitySelect.innerHTML = '<option value="">Carregando municípios...</option>';
+            municipalitySelect.disabled = true;
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedStateId}/municipios?orderBy=nome`);
+                const municipalities = await response.json();
+                municipalitySelect.innerHTML = '<option value="">Selecione o Município</option>';
+                municipalities.forEach(municipality => {
+                    const option = document.createElement('option');
+                    option.value = municipality.id;
+                    option.textContent = municipality.nome;
+                    option.dataset.municipalityData = JSON.stringify(municipality);
+                    municipalitySelect.appendChild(option);
+                });
+                municipalitySelect.disabled = false;
+            } catch (error) {
+                municipalitySelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
+            }
+        }
+
+        function selectMunicipality() {
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedOption = municipalitySelect.options[municipalitySelect.selectedIndex];
+            if (!selectedOption.value) {
+                selectedMunicipalityData = null;
+                document.getElementById('selection-display').classList.remove('show');
+                document.getElementById('clear-selection').style.display = 'none';
+                return;
+            }
+            selectedMunicipalityData = JSON.parse(selectedOption.dataset.municipalityData);
+            const state = selectedMunicipalityData.microrregiao.mesorregiao.UF;
+            document.getElementById('selection-text').innerHTML = `<strong>${selectedMunicipalityData.nome}</strong> - ${state.nome} (${state.sigla})`;
+            document.getElementById('selection-display').classList.add('show');
+            document.getElementById('clear-selection').style.display = 'block';
+
+
+            // Unlock the rest of the UI
+            _onMunicipalitySelected();
+        }
+
+        // Clear municipality selection and revert UI to default
+        function clearSelection() {
+            selectedMunicipalityData = null;
+            const municipalitySelect = document.getElementById('municipality-select');
+            if (municipalitySelect) {
+                municipalitySelect.selectedIndex = 0;
+            }
+            const selText = document.getElementById('selection-text');
+            if (selText) selText.innerHTML = '';
+            const selDisplay = document.getElementById('selection-display');
+            if (selDisplay) selDisplay.classList.remove('show');
+            const clearBtn = document.getElementById('clear-selection');
+            if (clearBtn) clearBtn.style.display = 'none';
+
+            // Hide municipality-details and show the default summary sections again
+            const details = document.getElementById('municipality-details');
+            if (details) {
+                details.classList.remove('show');
+                details.style.display = 'none';
+            }
+            const defaults = document.getElementById('default-sections');
+            if (defaults) defaults.style.display = 'block';
+
+            // Reset any page state and re-render overview
+            renderCategoriesOverview();
+            renderProfileIndicators();
+            renderTable();
+            updateProgress();
+        }
+
+        // When a municipality is selected, unlock the rest of the page and hide the default summary
+        function _onMunicipalitySelected() {
+            // hide the default overview and show detailed municipality sections
+            const defaults = document.getElementById('default-sections');
+            if (defaults) defaults.style.display = 'none';
+            const details = document.getElementById('municipality-details');
+            if (details) {
+                details.classList.add('show');
+                details.style.display = 'block';
+            }
+
+            // Load data from database for Londrina
+            if (selectedMunicipalityData &&
+                selectedMunicipalityData.nome.toLowerCase() === 'londrina' &&
+                selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla.toUpperCase() === 'PR') {
+                console.log('Loading data from database for Londrina...');
+                loadDataFromDatabase();
+            }
+
+            // render the dynamic content for the selected municipality
+            renderCategoriesOverview();
+            renderProfileIndicators();
+            renderTable();
+            updateProgress();
+            try { updateRadarChart(); } catch (e) { /* ignore if chart code not ready */ }
+        }
+
+
+        // Populate filter dropdown with categories
+        function populateFilterOptions() {
+            const filterSelect = document.getElementById('category-filter');
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                const option = document.createElement('option');
+                option.value = categoryKey;
+                option.textContent = category.name;
+                filterSelect.appendChild(option);
+            });
+        }
+
+
+        // Load data from memory
+        function loadData() {
+            if (!currentData) {
+                currentData = {};
+            }
+            initializeEmptyData();
+        }
+
+        // Initialize empty data structure
+        function initializeEmptyData() {
+            currentData = {};
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    [2022, 2023, 2024, 2025].forEach(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        currentData[dataKey] = {
+                            value: '',
+                            source: '',
+                            anexo: null
+                        };
+                    });
+                });
+            });
+        }
+
+        // Function to save individual field changes immediately
+        async function saveIndividualFieldToDatabase(key, field, value) {
+            try {
+                console.log('saveIndividualFieldToDatabase called:', { key, field, value });
+
+                // Parse the key to find the indicator
+                const keyParts = key.split('_');
+                const categoryKey = keyParts[0];
+                const indicatorIndex = parseInt(keyParts[1]);
+                const year = keyParts[2];
+
+                console.log('Parsed key parts:', { categoryKey, indicatorIndex, year });
+
+                const category = indicatorsData[categoryKey];
+                if (!category || !category.indicators[indicatorIndex]) {
+                    console.error('Category or indicator not found:', { categoryKey, indicatorIndex });
+                    return;
+                }
+
+                const indicator = category.indicators[indicatorIndex];
+                console.log('Found indicator:', indicator.name);
+
+                // Get existing data for this indicator to preserve other years
+                console.log('Getting existing data...');
+                const existingData = await getExistingIndicatorData(indicator.name);
+                console.log('Existing data:', existingData);
+
+                const data = {
+                    categoria: category.name,
+                    nome_indicador: indicator.name,
+                    tipo: 'core', // Default type for ISO37125
+                    ods: indicator.ods,
+                    unidade: indicator.unit,
+                    cidade: selectedMunicipalityData?.nome || 'Londrina',
+                    estado: selectedMunicipalityData?.microrregiao?.mesorregiao?.UF?.sigla || 'PR'
+                };
+
+                // Preserve existing data for all years
+                if (existingData) {
+                    data.dado_2022 = existingData.dado_2022;
+                    data.dado_2023 = existingData.dado_2023;
+                    data.dado_2024 = existingData.dado_2024;
+                    data.dado_2025 = existingData.dado_2025;
+                    data.fonte_2022 = existingData.fonte_2022;
+                    data.fonte_2023 = existingData.fonte_2023;
+                    data.fonte_2024 = existingData.fonte_2024;
+                    data.fonte_2025 = existingData.fonte_2025;
+                }
+
+                // Update the specific field being changed
+                if (field === 'value') {
+                    data[`dado_${year}`] = value;
+                } else if (field === 'source') {
+                    data[`fonte_${year}`] = value;
+                }
+
+                console.log('Data to save:', data);
+
+                const response = await fetch('/dashboard/api/iso37125/save/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                console.log('Save response:', result);
+
+                if (!result.success) {
+                    console.error('Failed to save:', result.message);
+                }
+
+            } catch (error) {
+                console.error('Erro ao salvar campo individual:', error);
+            }
+        }
+
+        // Helper function to get existing data for an indicator
+        async function getExistingIndicatorData(indicatorName) {
+            try {
+                const cidade = selectedMunicipalityData?.nome || 'Londrina';
+                const estado = selectedMunicipalityData?.microrregiao?.mesorregiao?.UF?.sigla || 'PR';
+
+                const response = await fetch(`/dashboard/api/iso37125/get/?cidade=${encodeURIComponent(cidade)}&estado=${encodeURIComponent(estado)}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    return result.data.find(record => record.nome_indicador === indicatorName);
+                }
+                return null;
+            } catch (error) {
+                console.error('Erro ao buscar dados existentes:', error);
+                return null;
+            }
+        }
+
+        // Load data from database
+        async function loadDataFromDatabase() {
+            try {
+                const cidade = selectedMunicipalityData?.nome || 'Londrina';
+                const estado = selectedMunicipalityData?.microrregiao?.mesorregiao?.UF?.sigla || 'PR';
+
+                console.log('Loading data from database for:', { cidade, estado });
+
+                const response = await fetch(`/dashboard/api/iso37125/get/?cidade=${encodeURIComponent(cidade)}&estado=${encodeURIComponent(estado)}`);
+                console.log('API response status:', response.status);
+
+                const result = await response.json();
+                console.log('API result:', result);
+
+                // Clear current data first
+                currentData = {};
+
+                if (result.success && result.data) {
+                    // Create a map of indicator names to database records
+                    const dbDataMap = {};
+                    result.data.forEach(record => {
+                        dbDataMap[record.nome_indicador] = record;
+                    });
+
+                    // Initialize all indicators with data from database or empty values
+                    Object.keys(indicatorsData).forEach(categoryKey => {
+                        const category = indicatorsData[categoryKey];
+                        category.indicators.forEach((indicator, index) => {
+                            [2022, 2023, 2024, 2025].forEach(year => {
+                                const dataKey = `${categoryKey}_${index}_${year}`;
+                                const dbRecord = dbDataMap[indicator.name];
+
+                                currentData[dataKey] = {
+                                    value: dbRecord ? (dbRecord[`dado_${year}`] || '') : '',
+                                    source: dbRecord ? (dbRecord[`fonte_${year}`] || '') : '',
+                                    anexo: dbRecord ? (dbRecord[`anexo_${year}`] || null) : null
+                                };
+                            });
+                        });
+                    });
+                } else {
+                    // Initialize empty data if no database records found
+                    initializeEmptyData();
+                }
+
+                console.log('Data loaded from database:', currentData);
+
+                // Re-render the table to show loaded data
+                renderTable();
+
+            } catch (error) {
+                console.error('Erro ao carregar dados do banco:', error);
+                // Initialize empty data on error
+                initializeEmptyData();
+            }
+        }
+
+        // Function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Save data to memory
+        function saveData() {
+            if (selectedMunicipalityData) {
+                updateProgress();
+            }
+        }
+
+        // Reset page
+        function resetPage() {
+            console.log('Voltando para página de normas...');
+        }
+
+        // Render categories overview
+        function renderCategoriesOverview() {
+            const grid = document.getElementById('categories-grid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                const totalCount = category.indicators.length;
+                const profileCount = category.profileIndicators ? category.profileIndicators.length : 0;
+
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <div class="category-title">${category.name}</div>
+                    <div class="category-description">${category.description}</div>
+                    <div class="category-stats">
+                        <div class="indicator-count">${totalCount} indicadores</div>
+                        <div class="core-info">+ ${profileCount} de perfil</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render profile indicators
+        function renderProfileIndicators() {
+            const profileContainer = document.getElementById('profile-indicators');
+            if (!profileContainer) return;
+            
+            profileContainer.innerHTML = '';
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                if (category.profileIndicators) {
+                    category.profileIndicators.forEach((indicator, index) => {
+                        const dataKey = `${categoryKey}_profile_${index}_${currentYear}`;
+                        const currentValue = currentData[dataKey] || { value: '', source: '' };
+                        
+                        const indicatorItem = document.createElement('div');
+                        indicatorItem.className = 'profile-indicator-item';
+                        indicatorItem.innerHTML = `
+                            <div class="profile-indicator-name">${indicator.name}</div>
+                            <div class="profile-indicator-value">
+                                <span>${indicator.unit}</span>
+                                <span>${currentValue.value || 'Não informado'}</span>
+                            </div>
+                        `;
+                        
+                        profileContainer.appendChild(indicatorItem);
+                    });
+                }
+            });
+        }
+
+        // Select year
+        function selectYear(year) {
+            currentYear = year;
+            document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable();
+            renderProfileIndicators();
+            updateProgress();
+            
+            // Update the radar chart
+            if (selectedMunicipalityData) {
+                updateRadarChart();
+                updateCategorySummary();
+            }
+        }
+
+        // Count filled indicators (excluding profile indicators)
+        function countFilledIndicators() {
+            const filter = document.getElementById('category-filter').value;
+            let totalCount = 0;
+            let filledCount = 0;
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (filter !== 'all' && filter !== categoryKey) return;
+                
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    totalCount++;
+                    const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                    if (currentData[dataKey] && currentData[dataKey].value && String(currentData[dataKey].value).trim() !== '') {
+                        filledCount++;
+                    }
+                });
+            });
+
+            return { filledCount, totalCount };
+        }
+
+        // Update progress bar (replaces certification levels)
+        function updateProgress() {
+            const counts = countFilledIndicators();
+            const { filledCount, totalCount } = counts;
+            
+            const progressPercentage = totalCount > 0 ? (filledCount / totalCount) * 100 : 0;
+            
+            // Update progress bar and counts
+            document.getElementById('overall-progress-bar').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-percentage').textContent = `${progressPercentage.toFixed(1)}%`;
+            document.getElementById('progress-count').textContent = `${filledCount}/${totalCount} indicadores preenchidos`;
+        }
+
+        // Render the indicators table
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            if (!tableBody) return;
+            
+            const filter = document.getElementById('category-filter').value;
+            
+            tableBody.innerHTML = '';
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (filter !== 'all' && filter !== categoryKey) return;
+                
+                const category = indicatorsData[categoryKey];
+                
+                // Add category divider
+                const divider = document.createElement('div');
+                divider.className = 'category-divider';
+                divider.textContent = `${category.name}`;
+                tableBody.appendChild(divider);
+
+                // Add regular indicators
+                category.indicators.forEach((indicator, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'table-row';
+                    
+                    const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                    const currentValue = currentData[dataKey] || { value: '', source: '' };
+                    
+                    row.innerHTML = `
+                        <div class="table-cell indicator-name">
+                            <span>${indicator.name}</span>
+                        </div>
+                        <div class="table-cell">
+                            <div class="input-container">
+                                <input type="text" class="data-input ${currentValue.value ? 'filled' : ''}"
+                                       value="${currentValue.value}"
+                                       data-key="${dataKey}"
+                                       onchange="updateData('${dataKey}', 'value', this.value)"
+                                       placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                       disabled>
+                                ${canEdit ? `<button class="edit-icon" title="Clique para editar" onclick="enableEdit(this)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                        <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                        <path d="m15 5 3 3"/>
+                                    </svg>
+                                </button>` : ''}
+                            </div>
+                        </div>
+                        <div class="table-cell unit-cell">${indicator.unit}</div>
+                        <div class="table-cell source-cell">
+                            ${currentValue.source && isValidUrl(currentValue.source) ?
+                                `<div class="input-container">
+                                    <a href="${currentValue.source}" target="_blank" class="source-link">${currentValue.source}</a>
+                                    ${canEdit ? `<button class="edit-icon" title="Clique para editar" onclick="enableSourceEdit(this, '${dataKey}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                            <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                            <path d="m15 5 3 3"/>
+                                        </svg>
+                                    </button>` : ''}
+                                </div>` :
+                                `<div class="input-container">
+                                    <input type="url" class="source-input"
+                                            value="${currentValue.source}"
+                                            onchange="updateData('${dataKey}', 'source', this.value)"
+                                            placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                            disabled>
+                                    ${canEdit ? `<button class="edit-icon" title="Clique para editar" onclick="enableSourceEdit(this, '${dataKey}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                            <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                            <path d="m15 5 3 3"/>
+                                        </svg>
+                                    </button>` : ''}
+                                </div>`
+                            }
+                            <div class="anexo-upload-container" id="anexo-container-${dataKey}">
+                                ${currentValue.anexo ?
+                                    `<div class="anexo-actions">
+                                        <a href="${currentValue.anexo}" target="_blank" class="anexo-link">
+                                            📄 Ver PDF
+                                        </a>
+                                        ${canEdit ? `<button class="anexo-delete-btn" onclick="deleteAnexo('${dataKey}')">
+                                            🗑️
+                                        </button>` : ''}
+                                    </div>` :
+                                    (canEdit ? `<input type="file"
+                                            id="anexo-input-${dataKey}"
+                                            class="anexo-input"
+                                            accept=".pdf"
+                                            onchange="uploadAnexo('${dataKey}', this)">
+                                    <button class="anexo-btn" onclick="document.getElementById('anexo-input-${dataKey}').click()">
+                                        📎 Anexar PDF
+                                    </button>` : '')
+                                }
+                                <div class="upload-progress" id="progress-${dataKey}">
+                                    <div class="upload-progress-bar" id="progress-bar-${dataKey}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+
+                // Add profile indicators if they exist
+                if (category.profileIndicators && category.profileIndicators.length > 0) {
+                    // Add profile indicators divider
+                    const profileDivider = document.createElement('div');
+                    profileDivider.className = 'category-divider';
+                    profileDivider.textContent = `${category.name} - Indicadores de Perfil`;
+                    profileDivider.style.background = '#8a2be2';
+                    tableBody.appendChild(profileDivider);
+
+                    // Add profile indicators
+                    category.profileIndicators.forEach((indicator, index) => {
+                        const row = document.createElement('div');
+                        row.className = 'table-row';
+                        
+                        const dataKey = `${categoryKey}_profile_${index}_${currentYear}`;
+                        const currentValue = currentData[dataKey] || { value: '', source: '' };
+                        
+                        row.innerHTML = `
+                            <div class="table-cell indicator-name">
+                                <span>${indicator.name}</span>
+                                <span class="indicator-type-text type-perfil">(PERFIL)</span>
+                            </div>
+                            <div class="table-cell">
+                                <div class="input-container">
+                                    <input type="text" class="data-input ${currentValue.value ? 'filled' : ''}"
+                                           value="${currentValue.value}"
+                                           onchange="updateData('${dataKey}', 'value', this.value)"
+                                           placeholder="Clique no lápis para editar"
+                                           disabled>
+                                    <button class="edit-icon" title="Clique para editar" onclick="enableEdit(this)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                            <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                            <path d="m15 5 3 3"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-cell unit-cell">${indicator.unit}</div>
+                            <div class="table-cell source-cell">
+                                ${currentValue.source && isValidUrl(currentValue.source) ?
+                                    `<div class="input-container">
+                                        <a href="${currentValue.source}" target="_blank" class="source-link">${currentValue.source}</a>
+                                        <button class="edit-icon" title="Clique para editar" onclick="enableSourceEdit(this, '${dataKey}')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                                <path d="m15 5 3 3"/>
+                                            </svg>
+                                        </button>
+                                    </div>` :
+                                    `<div class="input-container">
+                                        <input type="url" class="source-input"
+                                                value="${currentValue.source}"
+                                                onchange="updateData('${dataKey}', 'source', this.value)"
+                                                placeholder="Clique no lápis para editar"
+                                                disabled>
+                                        <button class="edit-icon" title="Clique para editar" onclick="enableSourceEdit(this, '${dataKey}')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                                <path d="m15 5 3 3"/>
+                                            </svg>
+                                        </button>
+                                    </div>`
+                                }
+                                <div class="anexo-upload-container" id="anexo-container-${dataKey}">
+                                    ${currentValue.anexo ?
+                                        `<div class="anexo-actions">
+                                            <a href="${currentValue.anexo}" target="_blank" class="anexo-link">
+                                                📄 Ver PDF
+                                            </a>
+                                            <button class="anexo-delete-btn" onclick="deleteAnexo('${dataKey}')">
+                                                🗑️
+                                            </button>
+                                        </div>` :
+                                        `<input type="file"
+                                                id="anexo-input-${dataKey}"
+                                                class="anexo-input"
+                                                accept=".pdf"
+                                                onchange="uploadAnexo('${dataKey}', this)">
+                                        <button class="anexo-btn" onclick="document.getElementById('anexo-input-${dataKey}').click()">
+                                            📎 Anexar PDF
+                                        </button>`
+                                    }
+                                    <div class="upload-progress" id="progress-${dataKey}">
+                                        <div class="upload-progress-bar" id="progress-bar-${dataKey}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        tableBody.appendChild(row);
+                    });
+                }
+            });
+        }
+
+        // Upload anexo PDF
+        function uploadAnexo(dataKey, inputElement) {
+            const file = inputElement.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.name.toLowerCase().endsWith('.pdf')) {
+                showToast('Apenas arquivos PDF são permitidos', 'warning', 'Formato inválido');
+                inputElement.value = '';
+                return;
+            }
+
+            // Validate file size (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('Arquivo muito grande. Máximo permitido: 10MB', 'warning', 'Arquivo grande');
+                inputElement.value = '';
+                return;
+            }
+
+            // Show progress bar
+            const progressContainer = document.getElementById(`progress-${dataKey}`);
+            const progressBar = document.getElementById(`progress-bar-${dataKey}`);
+            if (progressContainer) progressContainer.style.display = 'block';
+
+            // Parse dataKey to get indicator info
+            const keyParts = dataKey.split('_');
+            const categoryKey = keyParts[0];
+            const indicatorIndex = parseInt(keyParts[1]);
+            const year = keyParts[keyParts.length - 1];
+
+            const category = indicatorsData[categoryKey];
+            if (!category) {
+                showToast('Categoria não encontrada', 'error');
+                return;
+            }
+
+            // Check if it's a profile indicator
+            const isProfile = dataKey.includes('_profile_');
+            let indicator;
+            if (isProfile) {
+                const profileIndex = parseInt(keyParts[2]);
+                indicator = category.profileIndicators ? category.profileIndicators[profileIndex] : null;
+            } else {
+                indicator = category.indicators[indicatorIndex];
+            }
+
+            if (!indicator) {
+                showToast('Indicador não encontrado', 'error');
+                return;
+            }
+
+            // Create FormData
+            const formData = new FormData();
+            formData.append('anexo', file);
+            formData.append('indicator_id', indicator.name);
+            formData.append('year', year);
+            formData.append('categoria', category.name);
+            formData.append('nome_indicador', indicator.name);
+            formData.append('tipo', isProfile ? 'profile' : (indicator.type || 'core'));
+            formData.append('ods', indicator.ods || '');
+            formData.append('unidade', indicator.unit);
+            formData.append('cidade', selectedMunicipalityData ? selectedMunicipalityData.nome : 'Londrina');
+            formData.append('estado', selectedMunicipalityData ? selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla : 'PR');
+
+            // Upload via XMLHttpRequest for progress tracking
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/dashboard/api/iso37125/upload_anexo/', true);
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    if (progressBar) progressBar.style.width = percent + '%';
+                }
+            };
+
+            xhr.onload = function() {
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
+
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Save anexo URL to local data
+                        if (!currentData[dataKey]) {
+                            currentData[dataKey] = { value: '', source: '' };
+                        }
+                        currentData[dataKey].anexo = response.anexo_url;
+                        saveData();
+                        renderTable();
+                        showToast('Anexo enviado com sucesso!', 'success', 'Upload concluído');
+                    } else {
+                        showToast(response.message, 'error', 'Erro no upload');
+                    }
+                } else {
+                    showToast('Erro ao enviar anexo. Tente novamente.', 'error');
+                }
+            };
+
+            xhr.onerror = function() {
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
+                showToast('Erro de conexão. Tente novamente.', 'error');
+            };
+
+            xhr.send(formData);
+        }
+
+        // Delete anexo PDF
+        function deleteAnexo(dataKey) {
+            showConfirmModal(
+                'Remover Anexo PDF',
+                'Tem certeza que deseja remover este anexo PDF? Esta ação não pode ser desfeita.',
+                () => executeDeleteAnexo(dataKey),
+                '🗑️',
+                'Remover',
+                'danger'
+            );
+        }
+
+        // Execute delete anexo after confirmation
+        function executeDeleteAnexo(dataKey) {
+            // Parse dataKey to get indicator info
+            const keyParts = dataKey.split('_');
+            const categoryKey = keyParts[0];
+            const year = keyParts[keyParts.length - 1];
+
+            const category = indicatorsData[categoryKey];
+            if (!category) {
+                showToast('Categoria não encontrada', 'error');
+                return;
+            }
+
+            // Check if it's a profile indicator
+            const isProfile = dataKey.includes('_profile_');
+            let indicator;
+            if (isProfile) {
+                const profileIndex = parseInt(keyParts[2]);
+                indicator = category.profileIndicators ? category.profileIndicators[profileIndex] : null;
+            } else {
+                const indicatorIndex = parseInt(keyParts[1]);
+                indicator = category.indicators[indicatorIndex];
+            }
+
+            if (!indicator) {
+                showToast('Indicador não encontrado', 'error');
+                return;
+            }
+
+            fetch('/dashboard/api/iso37125/delete_anexo/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nome_indicador: indicator.name,
+                    year: year,
+                    cidade: selectedMunicipalityData ? selectedMunicipalityData.nome : 'Londrina',
+                    estado: selectedMunicipalityData ? selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla : 'PR'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove anexo from local data
+                    if (currentData[dataKey]) {
+                        delete currentData[dataKey].anexo;
+                    }
+                    saveData();
+                    renderTable();
+                    showToast('Anexo removido com sucesso!', 'success');
+                } else {
+                    showToast(data.message, 'error', 'Erro ao remover');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Erro ao remover anexo. Tente novamente.', 'error');
+            });
+        }
+
+        // Update data
+        function updateData(key, field, value) {
+            if (!currentData[key]) {
+                currentData[key] = { value: '', source: '' };
+            }
+            currentData[key][field] = value;
+
+            console.log('currentData updated:', currentData[key]);
+
+            // Save individual field to database immediately
+            console.log('Calling saveIndividualFieldToDatabase...');
+            saveIndividualFieldToDatabase(key, field, value);
+
+            // Update local display
+            saveData();
+
+            // Re-render to update visual state
+            renderTable();
+
+            // Update progress immediately
+            updateProgress();
+
+            // Update profile indicators if needed
+            if (key.includes('_profile_')) {
+                renderProfileIndicators();
+            }
+
+            // Update radar chart and category summary immediately
+            if (selectedMunicipalityData) {
+                updateRadarChart();
+                updateCategorySummary();
+            }
+            
+            // Update input visual state
+            const input = event.target;
+            if (input && input.classList.contains('data-input')) {
+                if (value && value.trim() !== '') {
+                    input.classList.add('filled');
+                } else {
+                    input.classList.remove('filled');
+                }
+            }
+        }
+
+        // Check if URL is valid
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Filter by category
+        function filterByCategory() {
+            renderTable();
+            updateProgress();
+        }
+
+        // Calculate category completion percentages (excluding profile indicators)
+        function calculateCategoryCompletion() {
+            const categoryData = {};
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                let filled = 0;
+                let total = category.indicators.length;
+                
+                category.indicators.forEach((indicator, index) => {
+                    const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                    if (currentData[dataKey] && currentData[dataKey].value) {
+                        filled++;
+                    }
+                });
+                
+                categoryData[categoryKey] = {
+                    name: category.name,
+                    percentage: total > 0 ? Math.round((filled / total) * 100) : 0,
+                    filled: filled,
+                    total: total
+                };
+            });
+            
+            return categoryData;
+        }
+
+        // Update radar chart
+        function updateRadarChart() {
+            const categoryData = calculateCategoryCompletion();
+            const categories = Object.values(categoryData).map(cat => cat.name);
+            const percentages = Object.values(categoryData).map(cat => cat.percentage);
+            
+            const ctx = document.getElementById('categoryRadarChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (radarChart) {
+                radarChart.destroy();
+            }
+            
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: percentages,
+                        backgroundColor: 'rgba(81, 60, 154, 0.2)',
+                        borderColor: 'rgba(81, 60, 154, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(81, 60, 154, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8,
+                        pointRadius: 5,
+                        pointHoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(81, 60, 154, 1)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const data = Object.values(categoryData)[context.dataIndex];
+                                    return [
+                                        `${data.name}: ${context.raw}%`,
+                                        `Preenchidos: ${data.filled}/${data.total}`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                display: true,
+                                color: 'rgba(81, 60, 154, 0.6)',
+                                backdropColor: 'transparent',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 11,
+                                    weight: '600'
+                                },
+                                color: '#513C9A',
+                                padding: 10
+                            },
+                            grid: {
+                                color: 'rgba(81, 60, 154, 0.2)',
+                                lineWidth: 1
+                            },
+                            angleLines: {
+                                color: 'rgba(81, 60, 154, 0.2)',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update category summary
+        function updateCategorySummary() {
+            const categoryData = calculateCategoryCompletion();
+            const progressList = document.getElementById('category-progress-list');
+            
+            if (!progressList) return;
+            
+            progressList.innerHTML = '';
+            
+            Object.values(categoryData).forEach(category => {
+                const progressItem = document.createElement('div');
+                progressItem.className = 'legend-popup-category';
+                progressItem.innerHTML = `${category.name}: <strong>${category.percentage}%</strong> (${category.filled}/${category.total})`;
+                progressList.appendChild(progressItem);
+            });
+        }
+
+        // Toggle legend popup
+        function toggleLegendPopup() {
+            const popup = document.getElementById('legend-popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('legend-popup');
+            const button = event.target.closest('.info-button');
+            
+            if (!button && popup && popup.style.display === 'block') {
+                popup.style.display = 'none';
+            }
+        });
+
+        // Calculate trend (improvement/worsening) for an indicator
+        function calculateTrend(dataPoints, trendDirection) {
+            if (dataPoints.length < 2) return 'neutral';
+            
+            // Apply trend direction to data points
+            const adjustedDataPoints = dataPoints.map(point => point * trendDirection);
+            
+            const firstValue = adjustedDataPoints[0];
+            const lastValue = adjustedDataPoints[adjustedDataPoints.length - 1];
+            
+            if (lastValue > firstValue) return 'improving';
+            else if (lastValue < firstValue) return 'worsening';
+            return 'neutral';
+        }
+
+        // Calculate trends for all indicators (excluding profile indicators)
+        function calculateAllTrends() {
+            const trends = {
+                improving: [],
+                worsening: [],
+                stable: [],
+                byYear: {
+                    2022: { improving: 0, worsening: 0, stable: 0 },
+                    2023: { improving: 0, worsening: 0, stable: 0 },
+                    2024: { improving: 0, worsening: 0, stable: 0 },
+                    2025: { improving: 0, worsening: 0, stable: 0 }
+                }
+            };
+
+            const years = [2022, 2023, 2024, 2025];
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    const dataPoints = [];
+                    let hasValidData = false;
+                    
+                    years.forEach(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        if (data && data.value && data.value.trim() !== '') {
+                            hasValidData = true;
+                            dataPoints.push(parseFloat(data.value) || 0);
+                        } else {
+                            dataPoints.push(null);
+                        }
+                    });
+                    
+                    if (hasValidData && dataPoints.length >= 2) {
+                        // Compare each consecutive year
+                        for (let i = 1; i < dataPoints.length; i++) {
+                            if (dataPoints[i-1] !== null && dataPoints[i] !== null) {
+                                const year = years[i];
+                                const previousAdjusted = dataPoints[i-1] * indicator.trendDirection;
+                                const currentAdjusted = dataPoints[i] * indicator.trendDirection;
+                                
+                                if (currentAdjusted > previousAdjusted) {
+                                    trends.byYear[year].improving++;
+                                } else if (currentAdjusted < previousAdjusted) {
+                                    trends.byYear[year].worsening++;
+                                } else {
+                                    trends.byYear[year].stable++;
+                                }
+                            }
+                        }
+                        
+                        // Overall trend (first vs last)
+                        const trend = calculateTrend(dataPoints.filter(p => p !== null), indicator.trendDirection);
+                        const indicatorInfo = {
+                            name: indicator.name,
+                            category: category.name
+                        };
+                        
+                        if (trend === 'improving') {
+                            trends.improving.push(indicatorInfo);
+                        } else if (trend === 'worsening') {
+                            trends.worsening.push(indicatorInfo);
+                        } else {
+                            trends.stable.push(indicatorInfo);
+                        }
+                    }
+                });
+            });
+            
+            return trends;
+        }
+
+        // Generate trends summary
+        function generateTrendsSummary() {
+            const trends = calculateAllTrends();
+            
+            const trendsHtml = `
+                <h3 class="trends-title">Resumo de Tendências dos Indicadores</h3>
+                <div class="trends-grid">
+                    <div class="trends-card improving">
+                        <div class="trends-icon">📈</div>
+                        <div class="trends-number">${trends.improving.length}</div>
+                        <div class="trends-label">Melhorando</div>
+                    </div>
+                    
+                    <div class="trends-card worsening">
+                        <div class="trends-icon">📉</div>
+                        <div class="trends-number">${trends.worsening.length}</div>
+                        <div class="trends-label">Piorando</div>
+                    </div>
+                    
+                    <div class="trends-card stable">
+                        <div class="trends-icon">➡️</div>
+                        <div class="trends-number">${trends.stable.length}</div>
+                        <div class="trends-label">Estáveis</div>
+                    </div>
+                </div>
+            `;
+            
+            return trendsHtml;
+        }
+
+        // Generate individual indicator charts organized by category sections
+        function generateIndicatorCharts() {
+            const chartsContainer = document.getElementById('indicator-charts-container');
+            chartsContainer.innerHTML = '';
+            
+            // Destroy existing modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+            
+            const years = [2022, 2023, 2024, 2025];
+            
+            // Process categories in order
+            const categoryOrder = Object.keys(indicatorsData);
+            
+            categoryOrder.forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                
+                // Check if category has any data (only regular indicators, not profile)
+                let hasDataInCategory = false;
+                const categoryIndicatorsWithData = [];
+                
+                category.indicators.forEach((indicator, index) => {
+                    const hasData = years.some(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        return data && data.value && data.value.trim() !== '';
+                    });
+                    
+                    if (hasData) {
+                        hasDataInCategory = true;
+                        categoryIndicatorsWithData.push({ indicator, index });
+                    }
+                });
+                
+                // Only create section if category has data
+                if (hasDataInCategory) {
+                    // Create category section with styled header
+                    const categorySection = document.createElement('div');
+                    categorySection.style.marginBottom = '32px';
+                    categorySection.innerHTML = `<h4 style="color:#513C9A;font-weight:700;margin-bottom:16px;">${category.name}</h4>`;
+                    
+                    // Create grid for charts with proper styling (denser layout)
+                    const grid = document.createElement('div');
+                    grid.style.display = 'grid';
+                    grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(240px, 1fr))';
+                    grid.style.gap = '16px';
+                    
+                    // Process indicators with data
+                    categoryIndicatorsWithData.forEach(({ indicator, index }) => {
+                        const dataPoints = [];
+                        
+                        years.forEach(year => {
+                            const dataKey = `${categoryKey}_${index}_${year}`;
+                            const data = currentData[dataKey];
+                            const value = data && data.value ? parseFloat(data.value) || 0 : 0;
+                            dataPoints.push(value);
+                        });
+                        
+                        // Calculate trend with trend direction
+                        const trend = calculateTrend(dataPoints, indicator.trendDirection);
+                        
+                        // Create chart card with proper styling
+                        const chartCard = document.createElement('div');
+                        chartCard.style.background = '#fff';
+                        chartCard.style.borderRadius = '12px';
+                        chartCard.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                        chartCard.style.padding = '24px';
+                        chartCard.style.marginBottom = '8px';
+                        
+                        const chartId = `chart_${categoryKey}_${index}`;
+                        
+                        // Determine colors based on trend
+                        let borderColor, backgroundColor, trendIcon, trendText;
+                        if (trend === 'improving') {
+                            borderColor = 'rgba(40, 167, 69, 1)';
+                            backgroundColor = 'rgba(40, 167, 69, 0.1)';
+                            trendIcon = '📈';
+                            trendText = 'Melhorando';
+                        } else if (trend === 'worsening') {
+                            borderColor = 'rgba(220, 53, 69, 1)';
+                            backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                            trendIcon = '📉';
+                            trendText = 'Piorando';
+                        } else {
+                            borderColor = 'rgba(108, 117, 125, 1)';
+                            backgroundColor = 'rgba(108, 117, 125, 0.1)';
+                            trendIcon = '➡️';
+                            trendText = 'Estável';
+                        }
+                        
+                        chartCard.innerHTML = `
+                            <div style="margin-bottom:16px;">
+                                <div style="font-weight:600;color:#513C9A;margin-bottom:6px;">
+                                    ${indicator.name}
+                                    <small style="color: ${borderColor}; margin-left: 10px; font-size:0.9em;">
+                                        ${trendIcon} ${trendText}
+                                    </small>
+                                </div>
+                            </div>
+                            <div style="height:180px;position:relative;">
+                                <canvas id="${chartId}"></canvas>
+                            </div>
+                        `;
+                        
+                        grid.appendChild(chartCard);
+                        
+                        // Create chart after DOM insertion
+                        setTimeout(() => {
+                            const ctx = document.getElementById(chartId);
+                            if (ctx) {
+                                const chart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: years,
+                                        datasets: [{
+                                            label: `${indicator.unit}`,
+                                            data: dataPoints,
+                                            backgroundColor: backgroundColor,
+                                            borderColor: borderColor,
+                                            borderWidth: 4,
+                                            pointBackgroundColor: borderColor,
+                                            pointBorderColor: '#fff',
+                                            pointBorderWidth: 3,
+                                            pointRadius: 8,
+                                            pointHoverRadius: 10,
+                                            fill: true,
+                                            tension: 0.4
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                labels: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                }
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                                titleColor: '#fff',
+                                                bodyColor: '#fff',
+                                                borderColor: borderColor,
+                                                borderWidth: 2,
+                                                titleFont: {
+                                                    size: 14,
+                                                    weight: 'bold'
+                                                },
+                                                bodyFont: {
+                                                    size: 13
+                                                },
+                                                callbacks: {
+                                                    afterLabel: function(context) {
+                                                        const year = context.label;
+                                                        const dataKey = `${categoryKey}_${index}_${year}`;
+                                                        const data = currentData[dataKey];
+                                                        return data && data.source ? `Fonte: ${data.source}` : '';
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            },
+                                            y: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                modalCharts.push(chart);
+                            }
+                        }, 100);
+                    });
+                    
+                    
+                    // Attach the grid of charts into the category section so canvases are in the DOM
+                    categorySection.appendChild(grid);
+
+                    chartsContainer.appendChild(categorySection);
+                }
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            
+            // Destroy modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            let csv = 'Eixo,Indicador,Tipo,ODS,Valor_2022,Valor_2023,Valor_2024,Valor_2025,Unidade,Fonte_2025\n';
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+
+                // Regular indicators
+                category.indicators.forEach((indicator, index) => {
+                    const data2022 = currentData[`${categoryKey}_${index}_2022`] || { value: '', source: '' };
+                    const data2023 = currentData[`${categoryKey}_${index}_2023`] || { value: '', source: '' };
+                    const data2024 = currentData[`${categoryKey}_${index}_2024`] || { value: '', source: '' };
+                    const data2025 = currentData[`${categoryKey}_${index}_2025`] || { value: '', source: '' };
+
+                    csv += `"${category.name}","${indicator.name}","Regular","${indicator.ods}","${data2022.value}","${data2023.value}","${data2024.value}","${data2025.value}","${indicator.unit}","${data2025.source}"\n`;
+                });
+
+                // Profile indicators
+                if (category.profileIndicators) {
+                    category.profileIndicators.forEach((indicator, index) => {
+                        const data2022 = currentData[`${categoryKey}_profile_${index}_2022`] || { value: '', source: '' };
+                        const data2023 = currentData[`${categoryKey}_profile_${index}_2023`] || { value: '', source: '' };
+                        const data2024 = currentData[`${categoryKey}_profile_${index}_2024`] || { value: '', source: '' };
+                        const data2025 = currentData[`${categoryKey}_profile_${index}_2025`] || { value: '', source: '' };
+                        
+                        csv += `"${category.name}","${indicator.name}","Perfil","${indicator.ods}","${data2022.value}","${data2023.value}","${data2024.value}","${data2025.value}","${indicator.unit}","${data2025.source}"\n`;
+                    });
+                }
+            });
+
+            const municipalityName = selectedMunicipalityData?.nome ? selectedMunicipalityData.nome.replace(/\s+/g, '_').toLowerCase() : 'municipality';
+            downloadFile(`indicadores_esg_${municipalityName}_completo.csv`, csv, 'text/csv');
+        }
+
+        // Export to JSON
+        function exportToJSON() {
+            const counts = countFilledIndicators();
+            const municipalityName = selectedMunicipalityData?.nome || 'Municipality';
+            const exportData = {
+                municipality: municipalityName.toUpperCase(),
+                exportDate: new Date().toISOString(),
+                summary: {
+                    totalIndicators: `${counts.filledCount}/${counts.totalCount}`,
+                    completionRate: `${((counts.filledCount/counts.totalCount)*100).toFixed(1)}%`
+                },
+                data: currentData,
+                metadata: indicatorsData
+            };
+            
+            const filenameMunicipality = selectedMunicipalityData?.nome ? selectedMunicipalityData.nome.replace(/\s+/g, '_').toLowerCase() : 'municipality';
+            downloadFile(`indicadores_esg_${filenameMunicipality}_completo.json`, JSON.stringify(exportData, null, 2), 'application/json');
+        }
+
+        // Download file
+        function downloadFile(filename, content, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Função de relatório histórico (Visualização histórica)
+        function generateReport() {
+            const counts = countFilledIndicators();
+            const totalFilled = counts.filledCount;
+            const totalIndicators = counts.totalCount;
+            const completionRate = ((totalFilled / totalIndicators) * 100).toFixed(1);
+
+            // Create summary
+            const reportMunicipality = selectedMunicipalityData?.nome || 'Municipality';
+            const summaryHtml = `
+                <strong>📈 Relatório Executivo - ${reportMunicipality.toUpperCase()}</strong><br><br>
+                <strong>Período:</strong> 2022-2024<br>
+                <strong>Data de Geração:</strong> ${new Date().toLocaleDateString('pt-BR')}<br><br>
+                <strong>📊 Resumo Geral de Preenchimento (${currentYear}):</strong><br>
+                • Indicadores Preenchidos: <strong>${counts.filledCount}/${counts.totalCount}</strong> (${completionRate}%)<br>
+                • Taxa de Completude Total: <strong>${completionRate}%</strong><br><br>
+                
+                <strong>📋 Este relatório apresenta a evolução temporal de todos os indicadores com dados disponíveis para os anos 2022, 2023 e 2024.</strong>
+            `;
+
+            document.getElementById('reportSummary').innerHTML = summaryHtml;
+
+            // Generate and show trends summary
+            const trendsHtml = generateTrendsSummary();
+            const trendsContainer = document.getElementById('trendsSummary');
+            trendsContainer.innerHTML = trendsHtml;
+            trendsContainer.style.display = 'block';
+
+            // Generate charts for indicators with data
+            generateIndicatorCharts();
+
+            // Show modal
+            document.getElementById('reportModal').style.display = 'block';
+        }
+
+
+        // [Manter todas as funções de seleção de município]
+        // ... (as funções de seleção de município permanecem iguais)
+
+        // Initialize when page loads
+        window.onload = init;
+
+        // Function to enable editing when edit icon is clicked
+        function enableEdit(editIcon) {
+            const inputContainer = editIcon.parentElement;
+            const input = inputContainer.querySelector('.data-input');
+
+            if (input) {
+                // Enable the input
+                input.disabled = false;
+                input.classList.add('editing');
+
+                // Focus and select text
+                input.focus();
+                input.select();
+
+                // Change icon and tooltip
+                editIcon.title = "Salvar";
+                editIcon.style.color = "#28a745"; // Green color when editing
+
+                // Change icon to check mark
+                editIcon.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="9,11 12,14 22,4"></polyline>
+                        <path d="M21,12v7a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5a2,2 0 0,1 2,-2h11"></path>
+                    </svg>
+                `;
+
+                // Change onclick to save function
+                editIcon.onclick = function() { saveEdit(this); };
+
+                // Add blur event to auto-save when clicking outside
+                input.onblur = function() {
+                    setTimeout(() => saveEdit(editIcon), 100);
+                };
+
+                // Add animation
+                input.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    input.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+
+        // Function to save edit and return to disabled state
+        function saveEdit(editIcon) {
+            const inputContainer = editIcon.parentElement;
+            const input = inputContainer.querySelector('.data-input');
+
+            if (input && !input.disabled) {
+                // Get the data key and value
+                const dataKey = input.dataset.key;
+                const value = input.value;
+
+                // Update data before disabling
+                if (dataKey) {
+                    updateData(dataKey, 'value', value);
+                }
+
+                // Disable the input
+                input.disabled = true;
+                input.classList.remove('editing');
+
+                // Reset icon and tooltip
+                editIcon.title = "Clique para editar";
+                editIcon.style.color = "#513C9A"; // Return to original color
+
+                // Change icon back to pencil
+                editIcon.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                        <path d="m15 5 3 3"/>
+                    </svg>
+                `;
+
+                // Change onclick back to enable function
+                editIcon.onclick = function() { enableEdit(this); };
+
+                // Remove blur event
+                input.onblur = null;
+
+                // Add save animation
+                input.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    input.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+
+        // Function to enable editing source fields
+        function enableSourceEdit(editIcon, dataKey) {
+            const inputContainer = editIcon.parentElement;
+            const link = inputContainer.querySelector('.source-link');
+            const input = inputContainer.querySelector('.source-input');
+
+            if (link) {
+                // Convert link to input
+                const currentUrl = link.href;
+                inputContainer.innerHTML = `
+                    <input type="url" class="source-input editing"
+                           value="${currentUrl}"
+                           onchange="updateData('${dataKey}', 'source', this.value)"
+                           placeholder="https://exemplo.com">
+                    <button class="edit-icon" title="Salvar" onclick="saveSourceEdit(this, '${dataKey}')" style="color: #28a745;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="9,11 12,14 22,4"></polyline>
+                            <path d="M21,12v7a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5a2,2 0 0,1 2,-2h11"></path>
+                        </svg>
+                    </button>
+                `;
+                const newInput = inputContainer.querySelector('.source-input');
+                newInput.focus();
+                newInput.select();
+            } else if (input) {
+                // Enable disabled input
+                input.disabled = false;
+                input.classList.add('editing');
+                input.focus();
+                input.select();
+
+                // Change icon
+                editIcon.title = "Salvar";
+                editIcon.style.color = "#28a745";
+                editIcon.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="9,11 12,14 22,4"></polyline>
+                        <path d="M21,12v7a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5a2,2 0 0,1 2,-2h11"></path>
+                    </svg>
+                `;
+                editIcon.onclick = function() { saveSourceEdit(this, dataKey); };
+
+                // Add blur event
+                input.onblur = function() {
+                    setTimeout(() => saveSourceEdit(editIcon, dataKey), 100);
+                };
+            }
+        }
+
+        // Function to save source edit
+        function saveSourceEdit(editIcon, dataKey) {
+            const inputContainer = editIcon.parentElement;
+            const input = inputContainer.querySelector('.source-input');
+
+            if (input && !input.disabled) {
+                const value = input.value.trim();
+
+                // Update data
+                updateData(dataKey, 'source', value);
+
+                if (value && isValidUrl(value)) {
+                    // Convert to link
+                    inputContainer.innerHTML = `
+                        <a href="${value}" target="_blank" class="source-link">${value}</a>
+                        ${canEdit ? `<button class="edit-icon" title="Clique para editar" onclick="enableSourceEdit(this, '${dataKey}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                                <path d="m15 5 3 3"/>
+                            </svg>
+                        </button>` : ''}
+                    `;
+                } else {
+                    // Keep as disabled input
+                    input.disabled = true;
+                    input.classList.remove('editing');
+                    input.onblur = null;
+
+                    // Reset icon
+                    editIcon.title = "Clique para editar";
+                    editIcon.style.color = "#513C9A";
+                    editIcon.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="m18.5 2.5-8.5 8.5v3h3l8.5-8.5z"/>
+                            <path d="m15 5 3 3"/>
+                        </svg>
+                    `;
+                    editIcon.onclick = function() { enableSourceEdit(this, dataKey); };
+                }
+            }
+        }
+
+        // Initialize the application when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStates();
+
+            // Auto-select Londrina for demonstration and load data
+            setTimeout(() => {
+                if (!selectedMunicipalityData) {
+                    // Auto-select Londrina if no municipality is selected
+                    selectedMunicipalityData = {
+                        id: 4113700,
+                        nome: 'Londrina',
+                        microrregiao: {
+                            mesorregiao: {
+                                UF: {
+                                    id: 41,
+                                    nome: 'Paraná',
+                                    sigla: 'PR'
+                                }
+                            }
+                        }
+                    };
+                    console.log('Auto-selected Londrina, loading data...');
+                    loadDataFromDatabase();
+                } else if (selectedMunicipalityData.nome.toLowerCase() === 'londrina' &&
+                           selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla.toUpperCase() === 'PR') {
+                    loadDataFromDatabase();
+                }
+            }, 1000);
+        });
+        
+        // === PDF export implementation using jsPDF and autotable ===
+        function ensurePdfLibraries(callback) {
+            if (window.jspdf && window.jspdf.jsPDF && window.jspdfAutoTable) return callback();
+            const head = document.getElementsByTagName('head')[0];
+            const s1 = document.createElement('script');
+            s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            s1.onload = () => {
+                const s2 = document.createElement('script');
+                s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
+                s2.onload = () => callback();
+                head.appendChild(s2);
+            };
+            head.appendChild(s1);
+        }
+
+        function exportToPDF() {
+            if (!selectedMunicipalityData) { alert('Selecione um município antes de exportar.'); return; }
+            const yearEls = Array.from(document.querySelectorAll('.export-year'));
+            const years = yearEls.filter(e => e.checked).map(e => e.value);
+            if (years.length === 0) { alert('Selecione ao menos um ano para exportar.'); return; }
+
+            ensurePdfLibraries(() => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('l', 'mm', 'a4');
+                const municipalityName = selectedMunicipalityData.nome;
+                const stateName = selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla;
+                const title = `ISO 37125 - ${municipalityName} - ${stateName}`;
+                doc.setFontSize(14);
+                doc.text(title, 14, 16);
+
+                const columns = [{ header: 'Indicador', dataKey: 'indicator' }, { header: 'ODS', dataKey: 'ods' }];
+                years.forEach(y => columns.push({ header: `Valor ${y}`, dataKey: `v_${y}` }));
+                years.forEach(y => columns.push({ header: `Fonte ${y}`, dataKey: `s_${y}` }));
+
+                const rows = [];
+                Object.keys(indicatorsData).forEach(categoryKey => {
+                    const category = indicatorsData[categoryKey];
+                    if (!category) return;
+
+                    // regular indicators
+                    if (category.indicators) {
+                        category.indicators.forEach((ind, index) => {
+                            const row = { indicator: ind.name || '', ods: ind.ods || '' };
+                            years.forEach(y => {
+                                const dataKey = `${categoryKey}_${index}_${y}`;
+                                const data = currentData[dataKey] || { value: '', source: '' };
+                                row[`v_${y}`] = (data.value === null || data.value === undefined) ? '' : String(data.value);
+                                row[`s_${y}`] = (data.source === null || data.source === undefined) ? '' : String(data.source);
+                            });
+                            rows.push(row);
+                        });
+                    }
+
+                    // profile indicators
+                    if (category.profileIndicators) {
+                        category.profileIndicators.forEach((ind, pIndex) => {
+                            const row = { indicator: ind.name || '', ods: ind.ods || '' };
+                            years.forEach(y => {
+                                const dataKey = `${categoryKey}_profile_${pIndex}_${y}`;
+                                const data = currentData[dataKey] || { value: '', source: '' };
+                                row[`v_${y}`] = (data.value === null || data.value === undefined) ? '' : String(data.value);
+                                row[`s_${y}`] = (data.source === null || data.source === undefined) ? '' : String(data.source);
+                            });
+                            rows.push(row);
+                        });
+                    }
+                });
+
+                // build columnStyles to enable wrapping on indicator and source columns
+                const columnStyles = {};
+                // indicator column (index 0)
+                columnStyles[0] = { cellWidth: 120, overflow: 'linebreak', halign: 'left' };
+                // ods column (index 1)
+                columnStyles[1] = { cellWidth: 24, halign: 'center' };
+
+                const vStart = 2;
+                const sStart = 2 + years.length;
+                for (let i = 0; i < years.length; i++) {
+                    columnStyles[vStart + i] = { cellWidth: 30, halign: 'center' };
+                    columnStyles[sStart + i] = { cellWidth: 60, overflow: 'linebreak', halign: 'left' };
+                }
+
+                doc.autoTable({
+                    head: [columns.map(c => c.header)],
+                    body: rows.map(r => columns.map(c => r[c.dataKey] || '')),
+                    startY: 22,
+                    styles: { fontSize: 8, cellPadding: 3 },
+                    headStyles: { fillColor: [41, 128, 185] },
+                    columnStyles: columnStyles,
+                    showHead: 'everyPage',
+                    margin: { left: 8, right: 8 }
+                });
+
+                const fname = `iso37125_${municipalityName}_${stateName}.pdf`.toLowerCase().replace(/\s+/g, '_');
+                doc.save(fname);
+            });
+        }
+    </script>
+</body>
+</html>

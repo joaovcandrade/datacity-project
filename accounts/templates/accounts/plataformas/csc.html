@@ -1,0 +1,2449 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSC - Connected Smart Cities</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafbfc;
+            min-height: 100vh;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .top-nav {
+            background: white;
+            border-bottom: 1px solid rgba(81, 60, 154, 0.1);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #fafbfc;
+            color: #513C9A;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-badge {
+            height: 50px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-badge img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #513C9A;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Purple Sections */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.15);
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9375rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        /* Municipality Selection */
+        .municipality-selection-fixed {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.15);
+        }
+
+        .municipality-dropdowns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .municipality-select-container {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #2c3e50;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            min-width: 200px;
+            transition: all 0.2s;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23513C9A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .municipality-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            min-width: 160px;
+        }
+
+        .action-button:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(81, 60, 154, 0.2);
+        }
+
+        .action-button.secondary {
+            background: white;
+            color: #513C9A;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .action-button.secondary:hover {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .action-button.danger {
+            background: rgba(220, 53, 69, 0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .action-button.danger:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+
+        /* City Header */
+        .city-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #513C9A, #6B4FB5);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(81, 60, 154, 0.15);
+        }
+
+        .city-name {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* City Ranking Info */
+        .city-ranking-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ranking-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 110px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .ranking-year {
+            font-size: 0.8125rem;
+            opacity: 0.85;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .ranking-position {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Axis Grid */
+        .axis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .axis-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 3px solid #513C9A;
+            transition: all 0.2s;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .axis-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.1);
+            border-left-width: 4px;
+        }
+
+        .axis-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #513C9A;
+            font-size: 1rem;
+        }
+
+        .axis-values {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .year-value {
+            text-align: center;
+            flex: 1;
+        }
+
+        .year {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .value {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #1a1a1a;
+        }
+
+        .out-of-range {
+            color: #ef4444;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Indicators Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .indicators-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .indicators-table th {
+            background: #513C9A;
+            color: white;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .indicators-table td {
+            padding: 0.875rem 0.75rem;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.8125rem;
+        }
+
+        .indicators-table tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .indicators-table tr:hover {
+            background-color: rgba(81, 60, 154, 0.03);
+        }
+
+        /* Eixo badges */
+        .eixo-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .eixo-SAU { background-color: #9b59b6; }
+        .eixo-GOV { background-color: #8e44ad; }
+        .eixo-MOB { background-color: #f1c40f; color: #333; }
+        .eixo-URB { background-color: #1abc9c; }
+        .eixo-MAM { background-color: #e74c3c; }
+        .eixo-EMP { background-color: #f39c12; }
+        .eixo-ECO { background-color: #e67e22; }
+        .eixo-EDU { background-color: #e74c3c; }
+        .eixo-TIC { background-color: #3498db; }
+        .eixo-SEG { background-color: #27ae60; }
+        .eixo-ENE { background-color: #f1c40f; color: #333; }
+    .eixo-POP { background-color: #6c5ce7; }
+    .eixo-RS { background-color: #00b894; }
+
+        /* Charts Section */
+        .charts-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Trends summary cards (improving / worsening / stable) */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin: 16px 0 24px 0;
+        }
+
+        .trends-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--trend-color);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .trends-card.improving { --trend-color: #28a745; }
+        .trends-card.worsening { --trend-color: #dc3545; }
+        .trends-card.stable { --trend-color: #6c757d; }
+
+        .trends-icon { font-size: 22px; margin-bottom: 8px; }
+        .trends-number { font-size: 26px; font-weight: 700; color: var(--trend-color); margin-bottom: 6px; }
+        .trends-label { color: #666; font-size: 13px; }
+
+        .charts-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #513C9A;
+            font-weight: bold;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h4 {
+            color: #513C9A;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .chart-card canvas {
+            max-height: 300px;
+        }
+
+        /* Ranking Section */
+        .ranking-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .ranking-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Selection Display */
+        .selection-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            text-align: center;
+            color: white;
+            display: none;
+        }
+
+        .selection-display.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* White Sections */
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        /* Gráficos por eixo */
+        .axis-charts-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .axis-charts-header {
+            background: #513C9A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .axis-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* Small highlight for selected summary/ranking toggle */
+        .summary-toggle .action-button.active {
+            box-shadow: 0 6px 20px rgba(81,60,154,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .top-nav {
+                padding: 0 1rem;
+                height: 60px;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .logo-badge {
+                height: 40px;
+            }
+
+            .logo-badge img {
+                max-width: 120px;
+            }
+
+            .logo-title {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .city-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .axis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .indicators-table {
+                font-size: 0.8rem;
+            }
+
+            .indicators-table th,
+            .indicators-table td {
+                padding: 8px 5px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-dropdowns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-select-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .axis-charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+        
+        <nav class="top-nav" role="navigation" aria-label="Navegação principal">
+            <div class="nav-left">
+                <a href="#" class="back-link" onclick="history.back(); return false;" aria-label="Voltar para página anterior">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Voltar
+                </a>
+                <div class="logo-area">
+                    <div class="logo-badge">
+                        <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+                    </div>
+                    <h1 class="logo-title">CSC - Connected Smart Cities</h1>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Fixed Municipality Selection (Always Visible) -->
+        <div class="municipality-selection-fixed">
+            <h2 class="section-title">Selecione um município</h2>
+            <p class="section-subtitle">Escolha o município para visualizar os indicadores CSC</p>
+            
+            <div class="municipality-dropdowns">
+                <div class="municipality-select-container">
+                    <select id="uf-select" class="municipality-select" onchange="selectUF()">
+                        <option value="">Carregando estados...</option>
+                    </select>
+                </div>
+                <div class="municipality-select-container">
+                    <select id="municipality-select" class="municipality-select" onchange="selectMunicipality()" disabled>
+                        <option value="">Primeiro selecione o estado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="selection-display" id="selection-display">
+                <h3>Município Selecionado:</h3>
+                <p id="selection-text"></p>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-button danger" onclick="clearSelection()">🗑️ Limpar Seleção</button>
+            </div>
+        </div>
+
+        <!-- CSC Summary (visible quando nenhum município estiver selecionado) -->
+        <div id="csc-summary" class="white-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                <div class="summary-toggle" style="display:flex; gap:10px;">
+                    <button id="btn-summary" class="action-button secondary active" onclick="showCSCSummaryView()" style="min-width:160px;">Resumo CSC</button>
+                    <button id="btn-ranking" class="action-button secondary" onclick="showCSCRankingView()" style="min-width:180px;">Visualizar Ranking CSC</button>
+                </div>
+            </div>
+            <p style="text-align:center; color:#666; margin-bottom:18px;"></p>
+            <div id="csc-summary-stats" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:flex-start;"></div>
+            <div id="csc-summary-axisgrid" class="axis-grid" style="margin-top:18px;"></div>
+        </div>
+
+        <!-- Municipality Dashboard -->
+        <div id="municipality-dashboard" class="hidden">
+            <!-- City Header -->
+            <div class="city-header">
+                <div>
+                    <div class="city-name" id="selected-municipality">Londrina - PR</div>
+                    <div class="city-ranking-info" id="city-ranking-info">
+                        <div class="ranking-item">
+                            <div class="ranking-year">Ranking CSC 2025</div>
+                            <div class="ranking-position">17°</div>
+                        </div>
+                        <div class="ranking-item">
+                            <div class="ranking-year">Ranking CSC 2024</div>
+                            <div class="ranking-position">24°</div>
+                        </div>
+                        <div class="ranking-item">
+                            <div class="ranking-year">Ranking CSC 2023</div>
+                            <div class="ranking-position">19°</div>
+                        </div>
+                        <div class="ranking-item">
+                            <div class="ranking-year">Ranking CSC 2022</div>
+                            <div class="ranking-position">24°</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Selection Dropdown -->
+                <div class="purple-section" style="margin-bottom: 10px;">
+                    <div class="section-content">
+                        <div class="municipality-dropdowns dashboard-view-dropdowns" style="justify-content: flex-start;">
+                            <div style="max-width:340px; width:100%;">
+                                <select id="municipality-view-selector" class="municipality-select" onchange="changeView()" style="min-width: 220px; max-width: 320px; width:100%;">
+                                    <option value="axes">Posição por Eixo até 2024</option>
+                                    <option value="axes-2025">Posição por Eixo — 2025</option>
+                                    <option value="indicators">Indicadores do Município</option>
+                                    <option value="charts">Gráficos e Análises</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Axes Tab -->
+            <div id="axes" class="tab-content active">
+                <div class="axis-grid">
+                    <!-- Eixos serão preenchidos via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Axes 2025 Tab -->
+            <div id="axes-2025" class="tab-content">
+                <div class="axis-grid">
+                    <!-- 2025 positions will be populated via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Indicators Tab -->
+            <div id="indicators" class="tab-content">
+                <div class="table-container">
+                    <div style="padding: 20px; background: #f8f9fa; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <select id="axis-filter" class="municipality-select" style="flex: 1; min-width: 200px;" onchange="filterIndicators()">
+                                <option value="">Filtrar por eixo</option>
+                                <option value="SAU">Saúde</option>
+                                <option value="GOV">Governança</option>
+                                <option value="MOB">Mobilidade</option>
+                                <option value="URB">Urbanismo</option>
+                                <option value="MAM">Meio Ambiente</option>
+                                <option value="EMP">Empreendedorismo</option>
+                                <option value="ECO">Economia</option>
+                                <option value="EDU">Educação</option>
+                                <option value="TIC">Tecnologia</option>
+                                <option value="SEG">Segurança</option>
+                                <option value="ENE">Energia</option>
+                            </select>
+                            <input type="text" id="indicator-search" class="municipality-select" style="flex: 2; min-width: 300px;" placeholder="Filtrar por indicador" oninput="filterIndicators()">
+                        </div>
+                    </div>
+                    <table class="indicators-table">
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Eixo</th>
+                                <th>2022</th>
+                                <th>2023</th>
+                                <th>2024</th>
+                                <th>2025</th>
+                                <th>Unidade</th>
+                                <th>Fonte</th>
+                            </tr>
+                        </thead>
+                        <tbody id="indicators-tbody">
+                            <!-- Indicators will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Charts Tab -->
+            <div id="charts" class="tab-content">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <select id="chart-axis-filter" class="municipality-select" onchange="filterChartsByAxis()" style="min-width: 200px; margin-right: 20px;" disabled>
+                        <option value="">Todos os Eixos</option>
+                        <option value="SAU">Saúde</option>
+                        <option value="GOV">Governança</option>
+                        <option value="MOB">Mobilidade</option>
+                        <option value="URB">Urbanismo</option>
+                        <option value="MAM">Meio Ambiente</option>
+                        <option value="EMP">Empreendedorismo</option>
+                        <option value="ECO">Economia</option>
+                        <option value="EDU">Educação</option>
+                        <option value="TIC">Tecnologia</option>
+                        <option value="SEG">Segurança</option>
+                        <option value="ENE">Energia</option>
+                    </select>
+                    <button class="action-button" onclick="generateCharts()">📊 Gerar Gráficos de Evolução</button>
+                </div>
+                <div class="charts-section" id="charts-section" style="display: none;">
+                    <h3 class="charts-title">📈 Evolução dos Indicadores CSC (2022-2025)</h3>
+                    <div id="charts-container">
+                        <!-- Charts will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Implementation Message -->
+        <div id="future-implementation-message" class="white-section hidden">
+            <h2 class="white-section-title">Implementação Futura</h2>
+            <p style="text-align: center; font-size: 16px; color: #666; margin: 20px 0;">
+                No momento, apenas a cidade de Londrina-PR possui dados disponíveis.<br>
+                Estamos trabalhando para incluir mais municípios em breve.
+            </p>
+        </div>
+
+    <!-- General Ranking Section (hidden by default; shown only when requested) -->
+    <div id="ranking-section" class="ranking-section hidden">
+            <h2 style="text-align: center; color: #513C9A; margin-bottom: 20px;">Ranking Geral CSC</h2>
+            
+            <div class="ranking-controls">
+                <select id="ranking-year" class="municipality-select" style="flex: 1;" onchange="filterRanking()">
+                    <option value="2025">Ranking Geral 2025</option>
+                    <option value="2024">Ranking Geral 2024</option>
+                    <option value="2023">Ranking Geral 2023</option>
+                    <option value="2022">Ranking Geral 2022</option>
+                </select>
+                <select id="ranking-region" class="municipality-select" style="flex: 1;" onchange="filterRankingByRegion()">
+                    <option value="">Todas as regiões</option>
+                    <option value="Sul">Sul</option>
+                    <option value="Sudeste">Sudeste</option>
+                    <option value="Centro-Oeste">Centro-Oeste</option>
+                    <option value="Nordeste">Nordeste</option>
+                    <option value="Norte">Norte</option>
+                </select>
+                <select id="ranking-uf" class="municipality-select" style="flex: 1;" onchange="filterRanking()">
+                    <option value="">Todos os estados</option>
+                    <!-- Estados serão preenchidos via JavaScript -->
+                </select>
+                <select id="ranking-size" class="municipality-select" style="flex: 1;" onchange="filterRanking()">
+                    <option value="">Todos os portes</option>
+                    <option value="Mais de 500 mil">Mais de 500 mil</option>
+                    <option value="100 a 500 mil">100 a 500 mil</option>
+                    <option value="50 a 100 mil">50 a 100 mil</option>
+                </select>
+            </div>
+            
+            <div class="table-container">
+                <table class="indicators-table">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>UF</th>
+                            <th>Município</th>
+                            <th>Nota</th>
+                            <th>Porte</th>
+                            <th>Região</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-tbody">
+                        <!-- Ranking data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete indicators data from both files
+        const indicatorsData = [
+            // Saúde (SAU)
+            { name: "Agendamento de consulta na rede pública de saúde", eixo: "SAU", values: ["Sim", "Sim", "Sim", ""], unit: "Sim/Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Leitos / Mil Habitantes", eixo: "SAU", values: [3.35, 3.47, 3.78, ""], unit: "leitos/1.000 habitantes", fonte: "Datasus" },
+            { name: "Despesa Municipal Per Capita Paga Com Saúde", eixo: "SAU", values: [1301.79, 1288.44, 1486.34, ""], unit: "R$/Habitante", fonte: "Siconfi" },
+            { name: "Médicos / 100 Mil Habitantes", eixo: "SAU", values: [349.13, 424.33, 416.96, 420], unit: "médicos/100 mil habitantes", fonte: "CNES" },
+            { name: "Mortes Em Acidente De Trânsito / 100 Mil Habitantes", eixo: "SAU", values: [23.1, 21.0, 21.0, 25], unit: "óbito/100 mil habitantes", fonte: "Datasus" },
+            { name: "Óbitos / Mil Nascidos Vivos (Local De Residência)", eixo: "SAU", values: [9.1, 8.1, 8.7, 13], unit: "óbito/1.000 nascido vivos", fonte: "Datasus" },
+            { name: "Percentual Da Cobertura Populacional Da Equipe De Saúde Da Família", eixo: "SAU", values: [58, 63, 67, ""], unit: "%", fonte: "NOVO" },
+            { name: "Número de leitos hospitalares por 100 000 habitantes", eixo: "SAU", values: ["", "", "", 367], unit: "leitos/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Porcentagem da população totalmente imunizada", eixo: "SAU", values: ["", "", "", 1], unit: "%", fonte: "ABNT ISO" },
+            { name: "Número de pessoas da equipe de enfermagem e obstetrícia por 100 000 habitantes", eixo: "SAU", values: ["", "", "", 305], unit: "pessoas/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Taxa de suicídio por 100 000 habitantes", eixo: "SAU", values: ["", "", "", 9], unit: "óbitos/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Porcentagem do orçamento municipal anual destinada a iniciativas de agricultura urbana", eixo: "SAU", values: ["", "", "", 0], unit: "%", fonte: "ABNT ISO" },
+            { name: "Total da área agrícola urbana por 100 000 habitantes", eixo: "SAU", values: ["", "", "", 11094078], unit: "hectares/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Porcentagem da população em domicílios em risco de insegurança alimentar", eixo: "SAU", values: ["", "", "", 2], unit: "%", fonte: "" },
+
+            // Governança (GOV)
+            { name: "Atendimento ao Cidadão - Aplicativo Criado pela Prefeitura", eixo: "GOV", values: ["Não", "Não", "Não", ""], unit: "Sim/Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Número De Conselhos", eixo: "GOV", values: [7, 6, 6, ""], unit: "#", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Escala Brasil Transparente", eixo: "GOV", values: [10.00, 10.00, 10.00, ""], unit: "NOTA", fonte: "CGU" },
+            { name: "Escolaridade Do Prefeito", eixo: "GOV", values: [10, 8, 8, ""], unit: "NOTA", fonte: "IBGE / TSE - Perfil do Candidato" },
+            { name: "Índice Firjan Of Desenvolvimento Municipal - IFDM", eixo: "GOV", values: [0.848, 0.848, 0.848, 1], unit: "NOTA", fonte: "Firjan" },
+            { name: "Porcentagem de mulheres eleitas em função do número total de eleitos na gestão da cidade", eixo: "GOV", values: ["", "", "", 24], unit: "%", fonte: "ABNT ISO" },
+            { name: "Desempenho na gestão de obras públicas", eixo: "GOV", values: ["", "", "", -1], unit: "NOTA", fonte: "" },
+            { name: "Participação dos eleitores nas últimas eleições municipais (como porcentagem dos eleitores registrados)", eixo: "GOV", values: ["", "", "", 71], unit: "%", fonte: "ABNT ISO" },
+            { name: "Despesas anuais com atualização e manutenção dos ativos de serviços urbanos como porcentagem do orçamento total da cidade", eixo: "URB", values: ["", "", "", 7], unit: "%", fonte: "ABNT ISO" },
+            { name: "Número de sem-teto por 100 000 habitantes", eixo: "URB", values: ["", "", "", 128], unit: "pessoas/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Despesas anuais com serviços sociais e comunitários como porcentagem do orçamento total da cidade", eixo: "POP", values: ["", "", "", 3], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem de edifícios públicos acessíveis por pessoas com necessidades especiais", eixo: "POP", values: ["", "", "", 47], unit: "%", fonte: "ABNT ISO" },
+            { name: "Atualização Cadastral - Cadastro Único", eixo: "POP", values: ["", "", "", 73], unit: "%", fonte: "" },
+
+            // Mobilidade (MOB)
+            { name: "Bilhete eletrônico transporte público", eixo: "MOB", values: ["Sim", "Sim", "Sim", ""], unit: "Sim/Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Ciclovias", eixo: "MOB", values: [6.95, 10.10, 12.05, ""], unit: "KMS / 100 MIL HABITANTES", fonte: "Pesquisa Urban Systems" },
+            { name: "Idade Média Da Frota De Veículos", eixo: "MOB", values: [16.8, 17.4, 18.11, ""], unit: "anos", fonte: "Senatran" },
+            { name: "Nº de aeroportos com voos regulares em raio de 100 km", eixo: "MOB", values: [2, 2, 2, ""], unit: "Aeroportos", fonte: "Horans" },
+            { name: "Ônibus / Automóveis", eixo: "MOB", values: [0.01, 0.01, 0.01, ""], unit: "bus / auto", fonte: "Senatran" },
+            { name: "Outros Modais De Transporte Coletivo (kms)", eixo: "MOB", values: [0.00, 0.01, 0.01, ""], unit: "KMS / 100 MIL HABITANTES", fonte: "Pesquisa Urban Systems" },
+            { name: "Proporção De Automóveis / Habitantes", eixo: "MOB", values: [0.42, 0.45, 0.45, 1], unit: "auto / habitantes", fonte: "Senatran" },
+            { name: "Transporte Rodoviário - Conexões Interestaduais", eixo: "MOB", values: [11, 47, 50, ""], unit: "Seções Interestaduais", fonte: "ANTT" },
+            { name: "Percentagem de veículos matriculados na cidade que são veículos de baixa emissão", eixo: "MOB", values: [12.53, 0.19, 0.34, 0], unit: "% do total", fonte: "Senatran" },
+            { name: "Número de automóveis privados per capita", eixo: "MOB", values: ["", "", "", 1], unit: "automóveis/habitante", fonte: "ABNT ISO" },
+
+            // Urbanismo (URB)
+            { name: "Cadastro Imobiliário", eixo: "URB", values: ["I - G - DC", "10", "10", ""], unit: "NOTA", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Lei De Plano Diretor Estratégico Municipal", eixo: "URB", values: [5, 10, 10, ""], unit: "NOTA", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Lei Sobre Operação Urbana Consorciada", eixo: "URB", values: [10, 10, 10, ""], unit: "NOTA", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Lei Sobre Zoneamento Ou Uso E Ocupação Do Solo", eixo: "URB", values: [10, 10, 10, ""], unit: "NOTA", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Emissão De Certidão Negativa Of Débito E Alvará No Site Da Prefeitura", eixo: "URB", values: ["Sim", "Sim", "Sim", ""], unit: "Sim ou Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Despesa Municipal Per Capta Paga Com Urbanismo", eixo: "URB", values: [256.29, 276.74, 330.75, ""], unit: "R$ por Habitante", fonte: "Siconfi" },
+            { name: "Percentagem Da População Da Cidade Que Vive Em Densidades Populacionais Médias A Altas", eixo: "URB", values: [97.4, 97.4, 97.4, ""], unit: "%", fonte: "IBGE - Urban Systems" },
+            { name: "Semáforos inteligentes", eixo: "URB", values: ["Sim", "Sim", "Sim", ""], unit: "Sim ou Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Áreas e espaços públicos permeáveis e pavimentos contruídos com materiais porosos e permeáveis como porcentagem da área total da cidade", eixo: "URB", values: ["", "", "", 16], unit: "%", fonte: "ABNT ISO" },
+            { name: "Áreas verdes (hectares) por 100 000 habitantes", eixo: "URB", values: ["", "", "", 697], unit: "hectares/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Número anual de propriedades residenciais inundadas como porcentagem do total de propriedades residenciais", eixo: "URB", values: ["", "", "", ""], unit: "%", fonte: "ABNT ISO" },
+            { name: "Despesas anuais com atualização e manutenção de infraestrutura de águas pluviais como porcentagem do orçamento total da cidade", eixo: "URB", values: ["", "", "", ""], unit: "%", fonte: "ABNT ISO" },
+
+            // Meio Ambiente (MAM)
+            { name: "Cobertura Do Serviço De Coleta De Resíduos", eixo: "RS", values: [99, 99, 89, 100], unit: "%", fonte: "SNIS" },
+            { name: "Monitoramento De Área De Risco", eixo: "MAM", values: ["Não", "Não", "Não", ""], unit: "S / N", fonte: "Cemaden" },
+            { name: "Índice De Atendimento Urbano Of Água - IN023_AE", eixo: "RS", values: [100.0, 100.0, 100.0, 98], unit: "%", fonte: "SNIS" },
+            { name: "Índice De Atendimento Urbano Of Esgoto - IN024_AE", eixo: "RS", values: [100.0, 100.0, 100.0, 98], unit: "%", fonte: "SNIS" },
+            { name: "Índice De Perdas Na Distribuição Of Água - IN049_AE", eixo: "RS", values: [34, 33, 34, 50], unit: "%", fonte: "SNIS" },
+            { name: "Índice De Recuperação Of Materiais Recicláveis - IN031RS", eixo: "RS", values: [6.0, 6.0, 4.7, 5], unit: "%", fonte: "SNIS" },
+            { name: "Índice De Tratamento De Esgoto - IN046_AE", eixo: "RS", values: [92.0, 89.7, 89.1, 100], unit: "%", fonte: "SNIS" },
+            { name: "Produção De Energia Em Usinas De Biomassa", eixo: "MAM", values: [0.000, 0.000, 0.000, ""], unit: "KW", fonte: "Aneel" },
+            { name: "Produção De Energia Em Usinas De Energia Eólica", eixo: "MAM", values: [0.000, 0.000, 0.000, ""], unit: "KW", fonte: "Aneel" },
+            { name: "Produção De Energia Em Usinas Foto Voltaicas", eixo: "MAM", values: [208.000, 208.000, 208.000, ""], unit: "KW", fonte: "Aneel" },
+            { name: "Percentual Da Quantidade Total De Resíduos Plásticos Recuperados Na Cidade", eixo: "RS", values: [0.29, 0.29, 5.53, 4], unit: "%", fonte: "SNIS / Urban Systems" },
+            { name: "Porcentagem de áreas designadas para proteção natural", eixo: "MAM", values: ["", "", "", 10], unit: "%", fonte: "ABNT ISO" },
+            { name: "Número de estações remotas de monitoramento da qualidade do ar em tempo real por 100 000 habitantes", eixo: "MAM", values: ["", "", "", 0], unit: "estações/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Emissão de gases de efeito de estufa medida em toneladas per capita", eixo: "MAM", values: ["", "", "", 2], unit: "toneladas/habitante", fonte: "ABNT ISO" },
+            { name: "Total de coleta de resíduos sólidos municipais per capita", eixo: "RS", values: ["", "", "", 0], unit: "kg/habitante", fonte: "ABNT ISO" },
+            { name: "Porcentagem de resíduos sólidos urbanos que são reciclados", eixo: "RS", values: ["", "", "", 5], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem da população da cidade atendida por sistemas de coleta e afastamento de esgoto", eixo: "RS", values: ["", "", "", 98], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem do esgoto da cidade que recebe tratamento centralizado", eixo: "RS", values: ["", "", "", 100], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem da população da cidade com serviço de abastecimento de água potável", eixo: "RS", values: ["", "", "", 98], unit: "%", fonte: "ABNT ISO" },
+            { name: "Consumo doméstico total de água per capita (litros/dia)", eixo: "RS", values: ["", "", "", 161], unit: "litros/dia", fonte: "ABNT ISO" },
+            { name: "Porcentagem de separação entre esgoto e drenagem pluvial no sistema de esgotamento", eixo: "RS", values: ["", "", "", 100], unit: "%", fonte: "" },
+
+            // Empreendedorismo (EMP)
+            { name: "Crescimento Das Empresas De Economia Criativa", eixo: "EMP", values: [-0.47, 9.42, 19.47, 17], unit: "%", fonte: "RAIS" },
+            { name: "Crescimento Das Empresas De Tecnologia", eixo: "EMP", values: [9.52, 4.35, 13.2, ""], unit: "%", fonte: "RAIS" },
+            { name: "Crescimento Do Número De Meis", eixo: "EMP", values: [18.62, 14.47, 8.2, ""], unit: "%", fonte: "Portal do Empreendedor" },
+            { name: "Número De Incubadoras De Empresas", eixo: "EMP", values: [2, 0, 3, ""], unit: "incubadoras", fonte: "Anprotec" },
+            { name: "Número De Parques Tecnológicos", eixo: "EMP", values: [2, 1, 1, ""], unit: "Parques", fonte: "MCTI - 2023 inovação" },
+            { name: "Número de startups", eixo: "EMP", values: ["", "", "", 13], unit: "startups", fonte: "" },
+
+            // Economia (ECO)
+            { name: "Crescimento Do Número De Empregos", eixo: "ECO", values: [5.1, 5.5, 4.2, 4], unit: "%", fonte: "CAGED" },
+            { name: "Crescimento Do Número De Empresas", eixo: "ECO", values: [-2.51, 3.18, 9.69, 12], unit: "%", fonte: "RAIS" },
+            { name: "C crescimento Do Pib Per Capta", eixo: "ECO", values: [7.15, -0.35, 7.7, ""], unit: "%", fonte: "IBGE" },
+            { name: "Empregabilidade (Empregos / PEA)", eixo: "ECO", values: [0.37, 0.39, 0.42, ""], unit: "pessoas / emprego", fonte: "RAIS / IBGE" },
+            { name: "Independência Do Setor Público", eixo: "ECO", values: [93.5, 93.3, 93.8, ""], unit: "%", fonte: "RAIS" },
+            { name: "Receita Total Não Oriunda De Transferências", eixo: "ECO", values: [58, 59, 59, ""], unit: "%", fonte: "Siconfi" },
+            { name: "Renda Média Dos Trabalhadores Formais", eixo: "ECO", values: [2744.93, 3112.39, 3232.02, 3476], unit: "R$", fonte: "RAIS" },
+            { name: "Perdas históricas por desastres como porcentagem do produto da cidade", eixo: "ECO", values: ["", "", "", 0], unit: "%", fonte: "ABNT ISO" },
+            { name: "Produto da cidade per capita (US$)", eixo: "ECO", values: ["", "", "", 7531], unit: "US$", fonte: "ABNT ISO" },
+            { name: "Despesas de capital como porcentagem de despesas totais", eixo: "ECO", values: ["", "", "", 8], unit: "%", fonte: "ABNT ISO" },
+            { name: "Despesas anuais com planejamento do gerenciamento de emergências como porcentagem do orçamento total da cidade", eixo: "ECO", values: ["", "", "", 0], unit: "%", fonte: "ABNT ISO" },
+            { name: "Alocação total de fundos de reserva para desastres como porcentagem do orçamento total da cidade", eixo: "ECO", values: ["", "", "", 0], unit: "%", fonte: "ABNT ISO" },
+            { name: "CAPAG - Capacidade de Pagamento", eixo: "ECO", values: ["", "", "", 6], unit: "NOTA", fonte: "" },
+            { name: "Concentração de empregos", eixo: "ECO", values: ["", "", "", 51], unit: "%", fonte: "ABNT ISO" },
+
+            // Educação (EDU)
+            { name: "Matrícula escolar na rede pública online", eixo: "EDU", values: ["Não", "Sim", "Sim", ""], unit: "Sim ou Não", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Média De Alunos Por Turma (9º ano público)", eixo: "EDU", values: [29.3, 31.1, 30.7, 30], unit: "Média", fonte: "INEP" },
+            { name: "Média De Hora-Aula Diária (Público - 9º Ano)", eixo: "EDU", values: [4.5, 4.8, 5.2, ""], unit: "horas", fonte: "INEP" },
+            { name: "Média Enem - Alunos Das Escolas Públicas", eixo: "EDU", values: [405.6, 447.4, 377.5, ""], unit: "Média", fonte: "INEP" },
+            { name: "Despesa Municipal Per Capta Paga Com Educação", eixo: "EDU", values: [680.08, 920.51, 1112.39, ""], unit: "R$/Habitante", fonte: "Siconfi" },
+            { name: "Ideb (Anos Finais) - Público", eixo: "EDU", values: [5.3, 5.3, 5.3, 6], unit: "NOTA", fonte: "INEP" },
+            { name: "Número De Computadores, Laptops, Tablets Ou Outros Dispositivos Digitais De Aprendizagem Disponíveis Por 1000 Alunos", eixo: "EDU", values: [2.3, 77.9, 59.4, 140], unit: "aparelhos / 1000 alunos", fonte: "INEP" },
+            { name: "Percentual Dos Docentes Do Ensino médio Que Possuem Ensino Superior", eixo: "EDU", values: [99.30, 97.90, 99.20, ""], unit: "%", fonte: "INEP" },
+            { name: "Percentual Dos Trabalhadores Formais Com Ensino Superior", eixo: "EDU", values: [26.5, 26.1, 25.3, ""], unit: "%", fonte: "RAIS" },
+            { name: "Percentual Da Força De Trabalho Ocupada No Setor Educação E P&D", eixo: "EMP", values: [8.55, 8.18, 8.59, 7], unit: "%", fonte: "RAIS" },
+            { name: "Taxa De Abandono (1º Colegial - Público)", eixo: "EDU", values: [1.30, 5.30, 5.30, ""], unit: "%", fonte: "INEP" },
+            { name: "Vagas Em Universidade Pública 2022", eixo: "EDU", values: [10.50, 10.61, 11.55, ""], unit: "", fonte: "INEP / IBGE" },
+            { name: "Porcentagem da população feminina em idade escolar matriculada em escolas", eixo: "EDU", values: ["", "", "", 102], unit: "%", fonte: "ABNT ISO" },
+            { name: "Relação estudante/professor no ensino primário", eixo: "EDU", values: ["", "", "", 13], unit: "alunos/professor", fonte: "ABNT ISO" },
+            { name: "Porcentagem de população em idade escolar matriculada em escolas", eixo: "EDU", values: ["", "", "", 102], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem das escolas com acesso à internet banda larga", eixo: "EDU", values: ["", "", "", 89], unit: "%", fonte: "" },
+            { name: "Número de vagas licenciadas para educação infantil por 1 000 crianças em idade pré-escolar", eixo: "EDU", values: ["", "", "", 454], unit: "vagas/1.000 crianças", fonte: "" },
+
+            // Tecnologia e Inovação (TIC)
+            { name: "Densidade de Banda Larga Fixa", eixo: "TIC", values: [34.47, 38.08, 36.41, ""], unit: "%", fonte: "Anatel" },
+            { name: "Grandes Operadoras De Fibra Ótica", eixo: "TIC", values: [6, 6, 6, ""], unit: "", fonte: "Anatel" },
+            { name: "Percentual dos Moradores Cobertos por Cobertura 5G no município", eixo: "TIC", values: ["", 95.09, 96.13, 97], unit: "%", fonte: "Anatel" },
+            { name: "Percentual Da Força De Trabalho Ocupada No Setor Tic", eixo: "TIC", values: [4.03, 4.32, 4.44, 5], unit: "%", fonte: "RAIS" },
+            { name: "Sistema de iluminação inteligente", eixo: "TIC", values: ["Sim", "Sim", "Sim", ""], unit: "", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Velocidade Média das Conexões contratadas", eixo: "TIC", values: [170.0, 222.2, 323.4, ""], unit: "Mbps", fonte: "Anatel" },
+            { name: "Porcentagem da força de trabalho empregada em ocupações no setor de tecnologia da informação e comunicação", eixo: "EMP", values: ["", "", "", 5], unit: "%", fonte: "ABNT ISO" },
+            { name: "Tempo médio de abertura de empresas", eixo: "EMP", values: ["", "", "", 0], unit: "dias", fonte: "" },
+            { name: "Número de acessos à telefonia móvel por 100 000 habitantes", eixo: "TIC", values: ["", "", "", 122238], unit: "acessos/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Número de acessos à Internet por 100 000 habitantes", eixo: "TIC", values: ["", "", "", 35669], unit: "acessos/100.000 habitantes", fonte: "ABNT ISO" },
+            { name: "Porcentagem de área da cidade sob uma zona branca/ponto morto/não coberta por operadoras de telecomunicações", eixo: "TIC", values: ["", "", "", 24], unit: "%", fonte: "ABNT ISO" },
+            { name: "Porcentagem da população da cidade com prontuário eletrônico unificado, acessível on-line por meio de um portal", eixo: "SAU", values: ["", "", "", 4], unit: "%", fonte: "ABNT ISO" },
+
+            // Segurança (SEG)
+            { name: "Centro de controle e operações", eixo: "SEG", values: ["Sim", "Sim", "Sim", ""], unit: "", fonte: "IBGE - Perfil de Municípios" },
+            { name: "Despesa Municipal Per Capta Paga Com Segurança", eixo: "SEG", values: [34.42, 45.50, 59.56, ""], unit: "", fonte: "Siconfi" },
+            { name: "Homicídios / 100 Mil Habitantes", eixo: "SEG", values: [28.6, 21.2, 104.0, 18], unit: "óbito / 100 mil habitantes", fonte: "Datasus" },
+            { name: "Policiais, Guardas-Civis Municipais E Agentes De Trânsito Por 100 Mil Habitantea", eixo: "SEG", values: [18.4, 19.1, 19.1, ""], unit: "policiais / 100 mil habitantes", fonte: "RAIS" },
+            { name: "Número de feminicídios por 100 000 habitantes", eixo: "SEG", values: ["", "", "", 1], unit: "feminicídios/100.000 habitantes", fonte: "" },
+
+            // Energia (ENE) - Novo eixo
+            { name: "Número de estações de carregamento de veículos elétricos por veículo elétrico registrado", eixo: "ENE", values: ["", "", "", 0], unit: "estações/veículo", fonte: "ABNT ISO" },
+            { name: "Consumo final total de energia per capita (GJ/ano)", eixo: "ENE", values: ["", "", "", 30], unit: "GJ/ano", fonte: "ABNT ISO" },
+            { name: "Porcentagem da energia elétrica consumida na cidade produzida por meio de sistemas de energia renovável", eixo: "ENE", values: ["", "", "", 3], unit: "%", fonte: "ABNT ISO" }
+        ];
+
+        // Eixos data
+        const eixosData = [
+            { name: "🏥 Saúde", eixo: "SAU", positions: [23, 22, 21] },
+            { name: "🚌 Mobilidade", eixo: "MOB", positions: [44, 38, 45] },
+            { name: "🌱 Meio Ambiente", eixo: "MAM", positions: [58, 71, 58] },
+            { name: "🏛️ Governança", eixo: "GOV", positions: ["Fora 100+", "Fora 100+", "Fora 100+"] },
+            { name: "💼 Empreendedorismo", eixo: "EMP", positions: [13, "Fora 100+", 25] },
+            { name: "🎓 Educação", eixo: "EDU", positions: ["Fora 100+", 29, 50] },
+            { name: "💰 Economia", eixo: "ECO", positions: [32, 38, 56] },
+            { name: "🏗️ Urbanismo", eixo: "URB", positions: [34, 6, 13] },
+            { name: "💻 Tecnologia e Inovação", eixo: "TIC", positions: [13, 11, 17] },
+            { name: "🛡️ Segurança", eixo: "SEG", positions: ["Fora 100+", "Fora 100+", "Fora 100+"] },
+            { name: "👥 População e Condições Sociais", eixo: "POP", positions: ["Fora 100+", "Fora 100+", "Fora 100+"] },
+            { name: "🗑️ Resíduos, Esgotos e Água", eixo: "RS", positions: ["Fora 100+", "Fora 100+", "Fora 100+"] },
+            { name: "⚡ Energia", eixo: "ENE", positions: ["Fora 100+", "Fora 100+", "Fora 100+"] }
+        ];
+
+        // Eixos 2025 data (provided by user)
+        // This list is shown when the user selects the "Posição por Eixo — 2025" view.
+        const eixos2025Data = [
+            { name: "Meio Ambiente e Mudanças Climáticas", position: 30 },
+            { name: "Economia, Finanças", position: 31 },
+            { name: "Habitação e Planejamento Urbano", position: 34 },
+            { name: "População, Condições Sociais", position: 36 },
+            { name: "Mobilidade", position: 38 },
+            { name: "Inovação e Empreendedorismo", position: 48 },
+            { name: "Energia", position: 49 },
+            { name: "Governança", position: 55 },
+            { name: "Agricultura Local/Urbana e Segurança Alimentar", position: 57 },
+            { name: "Educação", position: 62 },
+            { name: "Telecomunicações", position: 72 },
+            { name: "Resíduos Sólidos, Esgotos e Água", position: 74 },
+            { name: "Segurança", position: 78 }
+        ];
+
+        // Ranking data por ano - COMPLETO COM TODOS OS 100 REGISTROS
+        const rankingDataByYear = {
+            2025: [
+                { position: 1, uf: "ES", municipio: "Vitória", nota: 61.27, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 2, uf: "SC", municipio: "Florianópolis", nota: 59.63, porte: "Mais de 500 mil", regiao: "Sul" },
+                { position: 3, uf: "RJ", municipio: "Niterói", nota: 59.07, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 4, uf: "SP", municipio: "São Paulo", nota: 57.76, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 5, uf: "PR", municipio: "Curitiba", nota: 57.46, porte: "Mais de 500 mil", regiao: "Sul" },
+                { position: 6, uf: "PE", municipio: "Recife", nota: 57.20, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 7, uf: "SP", municipio: "Barueri", nota: 56.93, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 8, uf: "SP", municipio: "Santos", nota: 56.81, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 9, uf: "BA", municipio: "Salvador", nota: 56.64, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 10, uf: "RJ", municipio: "Rio de Janeiro", nota: 55.97, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 11, uf: "SP", municipio: "Santana de Parnaíba", nota: 55.93, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 12, uf: "SP", municipio: "Sorocaba", nota: 55.90, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 13, uf: "SP", municipio: "Campinas", nota: 55.88, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 14, uf: "SP", municipio: "São Caetano do Sul", nota: 55.59, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 15, uf: "PR", municipio: "Pato Branco", nota: 55.45, porte: "50 a 100 mil", regiao: "Sul" },
+                { position: 16, uf: "SC", municipio: "Criciúma", nota: 55.31, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 17, uf: "PR", municipio: "Londrina", nota: 55.25, porte: "Mais de 500 mil", regiao: "Sul" },
+                { position: 18, uf: "DF", municipio: "Brasília", nota: 55.07, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+                { position: 19, uf: "PR", municipio: "Maringá", nota: 55.03, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 20, uf: "AL", municipio: "Maceió", nota: 54.90, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 21, uf: "SC", municipio: "Blumenau", nota: 54.77, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 22, uf: "SC", municipio: "Chapecó", nota: 54.73, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 23, uf: "ES", municipio: "Vila Velha", nota: 54.63, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 24, uf: "GO", municipio: "Goiânia", nota: 54.54, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+                { position: 25, uf: "CE", municipio: "Fortaleza", nota: 53.80, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 26, uf: "SP", municipio: "Ribeirão Preto", nota: 53.78, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 27, uf: "PR", municipio: "Ponta Grossa", nota: 53.65, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 28, uf: "RS", municipio: "Porto Alegre", nota: 53.58, porte: "Mais de 500 mil", regiao: "Sul" },
+                { position: 29, uf: "SP", municipio: "Jaguariúna", nota: 53.34, porte: "50 a 100 mil", regiao: "Sudeste" },
+                { position: 30, uf: "SP", municipio: "Pindamonhangaba", nota: 53.33, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 31, uf: "SC", municipio: "Jaraguá do Sul", nota: 53.09, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 32, uf: "SE", municipio: "Aracaju", nota: 52.98, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 33, uf: "SP", municipio: "Barretos", nota: 52.94, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 34, uf: "MG", municipio: "Belo Horizonte", nota: 52.59, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 35, uf: "SP", municipio: "Praia Grande", nota: 52.56, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 36, uf: "RJ", municipio: "Petrópolis", nota: 52.51, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 37, uf: "SC", municipio: "Itajaí", nota: 52.43, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 38, uf: "MA", municipio: "São Luís", nota: 52.40, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 39, uf: "MG", municipio: "Uberlândia", nota: 52.29, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 40, uf: "RJ", municipio: "Angra dos Reis", nota: 52.05, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 41, uf: "SC", municipio: "Balneário Camboriú", nota: 52.00, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 42, uf: "PR", municipio: "Guarapuava", nota: 51.98, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 43, uf: "MG", municipio: "Itajubá", nota: 51.82, porte: "50 a 100 mil", regiao: "Sudeste" },
+                { position: 44, uf: "RS", municipio: "Caxias do Sul", nota: 51.68, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 45, uf: "PR", municipio: "Foz do Iguaçu", nota: 51.35, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 46, uf: "SP", municipio: "São José do Rio Preto", nota: 51.20, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 47, uf: "SP", municipio: "Mogi das Cruzes", nota: 51.19, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 48, uf: "SP", municipio: "Presidente Prudente", nota: 51.19, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 49, uf: "SP", municipio: "Santo André", nota: 51.18, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 50, uf: "SP", municipio: "São Bernardo do Campo", nota: 51.10, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 51, uf: "SP", municipio: "Taboão da Serra", nota: 51.08, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 52, uf: "PR", municipio: "Campo Largo", nota: 51.04, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 53, uf: "PR", municipio: "São José dos Pinhais", nota: 51.03, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 54, uf: "SC", municipio: "Joinville", nota: 50.87, porte: "Mais de 500 mil", regiao: "Sul" },
+                { position: 55, uf: "RS", municipio: "Lajeado", nota: 50.86, porte: "50 a 100 mil", regiao: "Sul" },
+                { position: 56, uf: "SC", municipio: "Brusque", nota: 50.82, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 57, uf: "PR", municipio: "Cascavel", nota: 50.81, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 58, uf: "SP", municipio: "Botucatu", nota: 50.72, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 59, uf: "SP", municipio: "Atibaia", nota: 50.63, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 60, uf: "MG", municipio: "Ipatinga", nota: 50.51, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 61, uf: "MG", municipio: "Itabirito", nota: 50.47, porte: "50 a 100 mil", regiao: "Sudeste" },
+                { position: 62, uf: "MG", municipio: "Pouso Alegre", nota: 50.31, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 63, uf: "ES", municipio: "Cariacica", nota: 50.30, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 64, uf: "PR", municipio: "Pinhais", nota: 50.19, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 65, uf: "MG", municipio: "Betim", nota: 50.09, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 66, uf: "SC", municipio: "São José", nota: 50.06, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 67, uf: "PB", municipio: "João Pessoa", nota: 50.00, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 68, uf: "SP", municipio: "Valinhos", nota: 50.00, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 69, uf: "PR", municipio: "Colombo", nota: 49.91, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 70, uf: "ES", municipio: "Serra", nota: 49.90, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 71, uf: "SP", municipio: "Osasco", nota: 49.77, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 72, uf: "PE", municipio: "Paulista", nota: 49.42, porte: "100 a 500 mil", regiao: "Nordeste" },
+                { position: 73, uf: "MG", municipio: "Lavras", nota: 49.21, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 74, uf: "SC", municipio: "Tubarão", nota: 49.18, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 75, uf: "SP", municipio: "Bauru", nota: 49.03, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 76, uf: "MG", municipio: "Ouro Preto", nota: 49.02, porte: "50 a 100 mil", regiao: "Sudeste" },
+                { position: 77, uf: "MG", municipio: "Juiz de Fora", nota: 49.01, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 78, uf: "PB", municipio: "Campina Grande", nota: 48.95, porte: "100 a 500 mil", regiao: "Nordeste" },
+                { position: 79, uf: "SP", municipio: "Suzano", nota: 48.91, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 80, uf: "PR", municipio: "Francisco Beltrão", nota: 48.77, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 81, uf: "RJ", municipio: "Macaé", nota: 48.72, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 82, uf: "MG", municipio: "Nova Lima", nota: 48.68, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 83, uf: "RN", municipio: "Natal", nota: 48.67, porte: "Mais de 500 mil", regiao: "Nordeste" },
+                { position: 84, uf: "RN", municipio: "Mossoró", nota: 48.52, porte: "100 a 500 mil", regiao: "Nordeste" },
+                { position: 85, uf: "ES", municipio: "Cachoeiro de Itapemirim", nota: 48.46, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 86, uf: "RJ", municipio: "Campos dos Goytacazes", nota: 48.43, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 87, uf: "SP", municipio: "Araraquara", nota: 48.41, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 88, uf: "CE", municipio: "Eusébio", nota: 48.40, porte: "50 a 100 mil", regiao: "Nordeste" },
+                { position: 89, uf: "CE", municipio: "Sobral", nota: 48.40, porte: "100 a 500 mil", regiao: "Nordeste" },
+                { position: 90, uf: "PR", municipio: "Araucária", nota: 48.39, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 91, uf: "SP", municipio: "São José dos Campos", nota: 48.39, porte: "Mais de 500 mil", regiao: "Sudeste" },
+                { position: 92, uf: "MG", municipio: "Montes Claros", nota: 48.37, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 93, uf: "RJ", municipio: "Saquarema", nota: 48.33, porte: "50 a 100 mil", regiao: "Sudeste" },
+                { position: 94, uf: "SP", municipio: "Piracicaba", nota: 48.30, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 95, uf: "MG", municipio: "Itabira", nota: 48.26, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 96, uf: "RJ", municipio: "Maricá", nota: 48.21, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 97, uf: "RJ", municipio: "Teresópolis", nota: 48.17, porte: "100 a 500 mil", regiao: "Sudeste" },
+                { position: 98, uf: "RS", municipio: "Pelotas", nota: 48.12, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 99, uf: "PR", municipio: "Umuarama", nota: 48.11, porte: "100 a 500 mil", regiao: "Sul" },
+                { position: 100, uf: "SC", municipio: "Rio do Sul", nota: 47.87, porte: "50 a 100 mil", regiao: "Sul" }
+            ],
+            2024: [
+                
+  { position: 1, uf: "PR", municipio: "Curitiba", nota: 38.571, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 2, uf: "SC", municipio: "Florianópolis", nota: 37.925, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 3, uf: "SP", municipio: "São Paulo", nota: 36.877, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 4, uf: "SP", municipio: "São Caetano do Sul", nota: 36.365, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 5, uf: "SP", municipio: "Campinas", nota: 35.778, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 6, uf: "PR", municipio: "Maringá", nota: 35.699, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 7, uf: "RS", municipio: "Porto Alegre", nota: 35.583, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 8, uf: "SC", municipio: "Blumenau", nota: 35.432, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 9, uf: "SP", municipio: "Sorocaba", nota: 35.365, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 10, uf: "SP", municipio: "Jundiaí", nota: 35.215, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 11, uf: "SP", municipio: "Barueri", nota: 35.516, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 12, uf: "MG", municipio: "Belo Horizonte", nota: 35.496, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 13, uf: "SP", municipio: "Santos", nota: 35.479, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 14, uf: "MS", municipio: "Campo Grande", nota: 35.192, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 15, uf: "SC", municipio: "Balneário Camboriú", nota: 35.145, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 16, uf: "SP", municipio: "Jaguariúna", nota: 34.395, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 17, uf: "CE", municipio: "Fortaleza", nota: 34.353, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 18, uf: "SP", municipio: "Jundiaí", nota: 34.250, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 19, uf: "RS", municipio: "Porto Alegre", nota: 34.238, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 20, uf: "PR", municipio: "Maringá", nota: 34.165, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 21, uf: "SC", municipio: "Blumenau", nota: 33.923, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 22, uf: "SP", municipio: "Santana de Parnaíba", nota: 33.923, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 23, uf: "PE", municipio: "Recife", nota: 33.692, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 24, uf: "PR", municipio: "Londrina", nota: 33.577, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 25, uf: "GO", municipio: "Goiânia", nota: 33.554, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 26, uf: "SP", municipio: "Sorocaba", nota: 33.441, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 27, uf: "SP", municipio: "São Bernardo do Campo", nota: 33.266, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 28, uf: "SC", municipio: "Jaraguá do Sul", nota: 33.206, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 29, uf: "SP", municipio: "Ribeirão Preto", nota: 32.612, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 30, uf: "MT", municipio: "Cuiabá", nota: 32.608, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 31, uf: "SP", municipio: "São José dos Campos", nota: 32.442, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 32, uf: "MG", municipio: "Uberlândia", nota: 32.355, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 33, uf: "ES", municipio: "Vila Velha", nota: 32.234, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 34, uf: "SC", municipio: "Itajaí", nota: 32.239, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 35, uf: "PR", municipio: "Foz do Iguaçu", nota: 32.139, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 36, uf: "SP", municipio: "Santo André", nota: 32.180, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 37, uf: "ES", municipio: "Cachoeiro de Itapemirim", nota: 31.991, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 38, uf: "SP", municipio: "Guarulhos", nota: 31.983, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 39, uf: "TO", municipio: "Palmas", nota: 31.938, porte: "100 a 500 mil", regiao: "Norte" },
+  { position: 40, uf: "SC", municipio: "Joinville", nota: 31.638, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 41, uf: "SP", municipio: "Vinhedo", nota: 31.602, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 42, uf: "RJ", municipio: "Petrópolis", nota: 31.599, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 43, uf: "SP", municipio: "Diadema", nota: 31.590, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 44, uf: "SP", municipio: "Limeira", nota: 31.573, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 45, uf: "SP", municipio: "Osasco", nota: 31.551, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 46, uf: "SP", municipio: "Itu", nota: 31.519, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 47, uf: "SP", municipio: "Itatiba", nota: 31.469, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 48, uf: "MG", municipio: "Varginha", nota: 31.389, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 49, uf: "SP", municipio: "Indaiatuba", nota: 31.359, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 50, uf: "PR", municipio: "Cascavel", nota: 30.993, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 51, uf: "PR", municipio: "Apucarana", nota: 30.971, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 52, uf: "SC", municipio: "Criciúma", nota: 30.970, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 53, uf: "SP", municipio: "Taubaté", nota: 30.928, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 54, uf: "SP", municipio: "Mogi das Cruzes", nota: 30.710, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 55, uf: "GO", municipio: "Anápolis", nota: 30.680, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 56, uf: "MG", municipio: "Betim", nota: 30.641, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 57, uf: "PB", municipio: "João Pessoa", nota: 30.614, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 58, uf: "SE", municipio: "Aracaju", nota: 30.556, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 59, uf: "MG", municipio: "Uberaba", nota: 30.547, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 60, uf: "PR", municipio: "Ponta Grossa", nota: 30.426, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 61, uf: "SP", municipio: "Guarujá", nota: 30.412, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 62, uf: "PR", municipio: "Pinhais", nota: 30.406, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 63, uf: "PI", municipio: "Teresina", nota: 30.362, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 64, uf: "SP", municipio: "Paulínia", nota: 30.307, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 65, uf: "SP", municipio: "Jacareí", nota: 30.306, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 66, uf: "SC", municipio: "Chapecó", nota: 30.278, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 67, uf: "AM", municipio: "Manaus", nota: 30.257, porte: "Mais de 500 mil", regiao: "Norte" },
+  { position: 68, uf: "ES", municipio: "Linhares", nota: 30.224, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 69, uf: "PE", municipio: "Petrolina", nota: 30.222, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 70, uf: "SP", municipio: "Praia Grande", nota: 30.215, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 71, uf: "SP", municipio: "Catanduva", nota: 30.206, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 72, uf: "SP", municipio: "Valinhos", nota: 30.136, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 73, uf: "SP", municipio: "São Carlos", nota: 30.066, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 74, uf: "SP", municipio: "Boituva", nota: 30.043, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 75, uf: "RS", municipio: "Lajeado", nota: 30.039, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 76, uf: "RS", municipio: "Canoas", nota: 30.021, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 77, uf: "PR", municipio: "Pato Branco", nota: 29.998, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 78, uf: "SP", municipio: "Caraguatatuba", nota: 29.946, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 79, uf: "SP", municipio: "Lençóis Paulista", nota: 29.924, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 80, uf: "RJ", municipio: "Saquarema", nota: 29.923, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 81, uf: "SP", municipio: "São José do Rio Preto", nota: 29.891, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 82, uf: "MT", municipio: "Lucas do Rio Verde", nota: 29.873, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 83, uf: "SP", municipio: "Barretos", nota: 29.869, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 84, uf: "PR", municipio: "Guarapuava", nota: 29.808, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 85, uf: "MG", municipio: "Juiz de Fora", nota: 29.804, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 86, uf: "SP", municipio: "Suzano", nota: 29.788, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 87, uf: "PB", municipio: "Cabedelo", nota: 29.785, porte: "até 100 mil", regiao: "Nordeste" },
+  { position: 88, uf: "SP", municipio: "Itupeva", nota: 29.753, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 89, uf: "ES", municipio: "Serra", nota: 29.733, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 90, uf: "SP", municipio: "Piracicaba", nota: 29.733, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 91, uf: "RS", municipio: "Caxias do Sul", nota: 29.694, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 92, uf: "RS", municipio: "Bento Gonçalves", nota: 29.630, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 93, uf: "SP", municipio: "Presidente Prudente", nota: 29.625, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 94, uf: "SP", municipio: "Bragança Paulista", nota: 29.621, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 95, uf: "GO", municipio: "Aparecida de Goiânia", nota: 29.572, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 96, uf: "SP", municipio: "Itanhaém", nota: 29.572, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 97, uf: "CE", municipio: "Eusébio", nota: 29.556, porte: "até 100 mil", regiao: "Nordeste" },
+  { position: 98, uf: "SP", municipio: "Hortolândia", nota: 29.552, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 99, uf: "SP", municipio: "Araraquara", nota: 29.525, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 100, uf: "BA", municipio: "Vitória da Conquista", nota: 29.509, porte: "Mais de 500 mil", regiao: "Nordeste" }
+
+            ],
+            2023: [
+  { position: 1, uf: "SC", municipio: "Florianópolis", nota: 36.762, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 2, uf: "PR", municipio: "Curitiba", nota: 35.789, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 3, uf: "SP", municipio: "São Paulo", nota: 35.604, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 4, uf: "MG", municipio: "Belo Horizonte", nota: 35.540, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 5, uf: "RJ", municipio: "Niterói", nota: 35.492, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 6, uf: "SP", municipio: "Barueri", nota: 35.477, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 7, uf: "ES", municipio: "Vitória", nota: 35.468, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 8, uf: "SP", municipio: "Santos", nota: 35.429, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 9, uf: "BA", municipio: "Salvador", nota: 34.308, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 10, uf: "RJ", municipio: "Rio de Janeiro", nota: 34.307, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 11, uf: "SC", municipio: "Balneário Camboriú", nota: 34.302, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 12, uf: "SP", municipio: "Jaguariúna", nota: 34.272, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 13, uf: "SP", municipio: "Campinas", nota: 34.195, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 14, uf: "DF", municipio: "Brasília", nota: 34.183, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 15, uf: "SP", municipio: "São Caetano do Sul", nota: 34.118, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 16, uf: "SC", municipio: "Jaraguá do Sul", nota: 33.716, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 17, uf: "SP", municipio: "Jundiaí", nota: 33.684, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 18, uf: "CE", municipio: "Fortaleza", nota: 33.636, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 19, uf: "PR", municipio: "Londrina", nota: 33.614, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 20, uf: "MS", municipio: "Campo Grande", nota: 33.606, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 21, uf: "PE", municipio: "Recife", nota: 33.453, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 22, uf: "SP", municipio: "Santana de Parnaíba", nota: 33.419, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 23, uf: "GO", municipio: "Goiânia", nota: 33.376, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 24, uf: "SP", municipio: "Sorocaba", nota: 32.787, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 25, uf: "MT", municipio: "Cuiabá", nota: 32.631, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 26, uf: "SP", municipio: "Ribeirão Preto", nota: 32.441, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 27, uf: "SP", municipio: "São José dos Campos", nota: 32.313, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 28, uf: "SC", municipio: "Joinville", nota: 32.285, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 29, uf: "ES", municipio: "Vila Velha", nota: 32.153, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 30, uf: "MG", municipio: "Uberlândia", nota: 32.130, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 31, uf: "SC", municipio: "Blumenau", nota: 31.927, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 32, uf: "RS", municipio: "Porto Alegre", nota: 31.853, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 33, uf: "SP", municipio: "São Bernardo do Campo", nota: 31.823, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 34, uf: "PR", municipio: "Pato Branco", nota: 31.594, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 35, uf: "ES", municipio: "Cachoeiro de Itapemirim", nota: 31.349, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 36, uf: "SP", municipio: "Santo André", nota: 31.335, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 37, uf: "SP", municipio: "Indaiatuba", nota: 31.311, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 38, uf: "TO", municipio: "Palmas", nota: 31.261, porte: "Mais de 500 mil", regiao: "Norte" },
+  { position: 39, uf: "RJ", municipio: "Petrópolis", nota: 31.183, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 40, uf: "SP", municipio: "Praia Grande", nota: 31.029, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 41, uf: "MG", municipio: "Varginha", nota: 31.003, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 42, uf: "SP", municipio: "Lençóis Paulista", nota: 30.987, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 43, uf: "PR", municipio: "Maringá", nota: 30.942, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 44, uf: "SP", municipio: "Osasco", nota: 30.909, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 45, uf: "SP", municipio: "Paulínia", nota: 30.842, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 46, uf: "SP", municipio: "Vinhedo", nota: 30.755, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 47, uf: "SC", municipio: "Itajaí", nota: 30.700, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 48, uf: "PR", municipio: "Pinhais", nota: 30.667, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 49, uf: "MG", municipio: "Uberaba", nota: 30.608, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 50, uf: "MS", municipio: "Três Lagoas", nota: 30.521, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 51, uf: "SP", municipio: "Mogi das Cruzes", nota: 30.430, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 52, uf: "SP", municipio: "Diadema", nota: 30.424, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 53, uf: "SE", municipio: "Aracaju", nota: 30.407, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 54, uf: "SP", municipio: "Limeira", nota: 30.394, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 55, uf: "PR", municipio: "Ponta Grossa", nota: 30.221, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 56, uf: "PR", municipio: "Cascavel", nota: 30.174, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 57, uf: "PB", municipio: "João Pessoa", nota: 30.081, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 58, uf: "GO", municipio: "Anápolis", nota: 29.903, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 59, uf: "SP", municipio: "Itu", nota: 29.809, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 60, uf: "SP", municipio: "Itatiba", nota: 29.808, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 61, uf: "PI", municipio: "Teresina", nota: 29.783, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 62, uf: "SP", municipio: "São Sebastião", nota: 29.766, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 63, uf: "SP", municipio: "Jacareí", nota: 29.762, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 64, uf: "MG", municipio: "Betim", nota: 29.661, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 65, uf: "ES", municipio: "Linhares", nota: 29.567, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 66, uf: "ES", municipio: "Serra", nota: 29.553, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 67, uf: "SP", municipio: "Piracicaba", nota: 29.472, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 68, uf: "RS", municipio: "Bento Gonçalves", nota: 29.464, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 69, uf: "SP", municipio: "Valinhos", nota: 29.455, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 70, uf: "GO", municipio: "Rio Verde", nota: 29.433, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 71, uf: "SP", municipio: "São José do Rio Preto", nota: 29.428, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 72, uf: "SP", municipio: "Guarujá", nota: 29.380, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 73, uf: "SP", municipio: "Hortolândia", nota: 29.302, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 74, uf: "RS", municipio: "Caxias do Sul", nota: 29.282, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 75, uf: "RS", municipio: "Canoas", nota: 29.208, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 76, uf: "AL", municipio: "Maceió", nota: 29.200, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 77, uf: "AM", municipio: "Manaus", nota: 29.164, porte: "Mais de 500 mil", regiao: "Norte" },
+  { position: 78, uf: "MG", municipio: "Araxá", nota: 29.095, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 79, uf: "SP", municipio: "Louveira", nota: 29.069, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 80, uf: "SC", municipio: "Chapecó", nota: 29.056, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 81, uf: "MG", municipio: "Juiz de Fora", nota: 29.052, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 82, uf: "PR", municipio: "Foz do Iguaçu", nota: 29.047, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 83, uf: "MG", municipio: "Contagem", nota: 29.037, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 84, uf: "CE", municipio: "Eusébio", nota: 29.980, porte: "100 a 500 mil", regiao: "Nordeste" },
+  { position: 85, uf: "SP", municipio: "Pindamonhangaba", nota: 29.964, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 86, uf: "PR", municipio: "Apucarana", nota: 29.958, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 87, uf: "SP", municipio: "Registro", nota: 29.921, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 88, uf: "MT", municipio: "Lucas do Rio Verde", nota: 29.714, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 89, uf: "SP", municipio: "Boituva", nota: 29.694, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 90, uf: "SP", municipio: "Atibaia", nota: 29.663, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 91, uf: "RJ", municipio: "Saquarema", nota: 29.636, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 92, uf: "SP", municipio: "Itupeva", nota: 29.602, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 93, uf: "PA", municipio: "Parauapebas", nota: 29.581, porte: "100 a 500 mil", regiao: "Norte" },
+  { position: 94, uf: "MG", municipio: "Itabirito", nota: 29.506, porte: "50 a 100 mil", regiao: "Sudeste" },
+  { position: 95, uf: "PR", municipio: "São José dos Pinhais", nota: 29.448, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 96, uf: "SP", municipio: "Taubaté", nota: 29.442, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 97, uf: "PE", municipio: "Jaboatão dos Guararapes", nota: 29.426, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 98, uf: "SP", municipio: "Barretos", nota: 29.413, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 99, uf: "MT", municipio: "Primavera do Leste", nota: 29.395, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 100, uf: "SP", municipio: "Caraguatatuba", nota: 29.381, porte: "100 a 500 mil", regiao: "Sudeste" }
+
+            ],
+            2022: [
+  { position: 1, uf: "PR", municipio: "Curitiba", nota: 38.571, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 2, uf: "SC", municipio: "Florianópolis", nota: 37.925, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 3, uf: "SP", municipio: "São Paulo", nota: 36.877, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 4, uf: "SP", municipio: "São Caetano do Sul", nota: 36.365, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 5, uf: "SP", municipio: "Campinas", nota: 35.778, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 6, uf: "DF", municipio: "Brasília", nota: 35.731, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 7, uf: "ES", municipio: "Vitória", nota: 35.604, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 8, uf: "RJ", municipio: "Niterói", nota: 35.574, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 9, uf: "BA", municipio: "Salvador", nota: 35.570, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 10, uf: "RJ", municipio: "Rio de Janeiro", nota: 35.536, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 11, uf: "SP", municipio: "Barueri", nota: 35.516, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 12, uf: "MG", municipio: "Belo Horizonte", nota: 35.496, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 13, uf: "SP", municipio: "Santos", nota: 35.479, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 14, uf: "MS", municipio: "Campo Grande", nota: 35.192, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 15, uf: "SC", municipio: "Balneário Camboriú", nota: 35.145, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 16, uf: "SP", municipio: "Jaguariúna", nota: 34.395, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 17, uf: "CE", municipio: "Fortaleza", nota: 34.353, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 18, uf: "SP", municipio: "Jundiaí", nota: 34.250, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 19, uf: "RS", municipio: "Porto Alegre", nota: 34.238, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 20, uf: "PR", municipio: "Maringá", nota: 34.165, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 21, uf: "SC", municipio: "Blumenau", nota: 33.923, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 22, uf: "SP", municipio: "Santana de Parnaíba", nota: 33.923, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 23, uf: "PE", municipio: "Recife", nota: 33.692, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 24, uf: "PR", municipio: "Londrina", nota: 33.577, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 25, uf: "GO", municipio: "Goiânia", nota: 33.554, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 26, uf: "SP", municipio: "Sorocaba", nota: 33.441, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 27, uf: "SP", municipio: "São Bernardo do Campo", nota: 33.266, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 28, uf: "SC", municipio: "Jaraguá do Sul", nota: 32.819, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 29, uf: "SP", municipio: "Ribeirão Preto", nota: 32.612, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 30, uf: "MT", municipio: "Cuiabá", nota: 32.508, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 31, uf: "SP", municipio: "São José dos Campos", nota: 32.368, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 32, uf: "MG", municipio: "Uberlândia", nota: 32.226, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 33, uf: "ES", municipio: "Vila Velha", nota: 32.148, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 34, uf: "SC", municipio: "Itajaí", nota: 32.090, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 35, uf: "PR", municipio: "Foz do Iguaçu", nota: 32.039, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 36, uf: "SP", municipio: "Santo André", nota: 32.180, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 37, uf: "ES", municipio: "Cachoeiro de Itapemirim", nota: 31.998, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 38, uf: "SP", municipio: "Guarulhos", nota: 31.938, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 39, uf: "TO", municipio: "Palmas", nota: 31.938, porte: "Mais de 500 mil", regiao: "Norte" },
+  { position: 40, uf: "SC", municipio: "Joinville", nota: 31.638, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 41, uf: "SP", municipio: "Vinhedo", nota: 31.602, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 42, uf: "RJ", municipio: "Petrópolis", nota: 31.599, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 43, uf: "SP", municipio: "Diadema", nota: 31.590, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 44, uf: "SP", municipio: "Limeira", nota: 31.573, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 45, uf: "SP", municipio: "Osasco", nota: 31.551, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 46, uf: "SP", municipio: "Itu", nota: 31.519, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 47, uf: "SP", municipio: "Itatiba", nota: 31.469, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 48, uf: "MG", municipio: "Varginha", nota: 31.389, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 49, uf: "SP", municipio: "Indaiatuba", nota: 31.389, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 50, uf: "PR", municipio: "Cascavel", nota: 30.993, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 51, uf: "PR", municipio: "Apucarana", nota: 30.971, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 52, uf: "SC", municipio: "Criciúma", nota: 30.970, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 53, uf: "SP", municipio: "Taubaté", nota: 30.970, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 54, uf: "SP", municipio: "Mogi das Cruzes", nota: 30.710, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 55, uf: "GO", municipio: "Anápolis", nota: 30.680, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 56, uf: "MG", municipio: "Betim", nota: 30.641, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 57, uf: "PB", municipio: "João Pessoa", nota: 30.614, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 58, uf: "SE", municipio: "Aracaju", nota: 30.556, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 59, uf: "MG", municipio: "Uberaba", nota: 30.547, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 60, uf: "PR", municipio: "Ponta Grossa", nota: 30.426, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 61, uf: "SP", municipio: "Guarujá", nota: 30.417, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 62, uf: "PR", municipio: "Pinhais", nota: 30.406, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 63, uf: "PI", municipio: "Teresina", nota: 30.362, porte: "Mais de 500 mil", regiao: "Nordeste" },
+  { position: 64, uf: "SP", municipio: "Paulínia", nota: 30.307, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 65, uf: "SP", municipio: "Jacareí", nota: 30.306, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 66, uf: "SC", municipio: "Chapecó", nota: 30.278, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 67, uf: "AM", municipio: "Manaus", nota: 30.257, porte: "Mais de 500 mil", regiao: "Norte" },
+  { position: 68, uf: "ES", municipio: "Linhares", nota: 30.222, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 69, uf: "PE", municipio: "Petrolina", nota: 30.222, porte: "100 a 500 mil", regiao: "Nordeste" },
+  { position: 70, uf: "SP", municipio: "Praia Grande", nota: 30.215, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 71, uf: "SP", municipio: "Catanduva", nota: 30.206, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 72, uf: "SP", municipio: "Valinhos", nota: 30.136, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 73, uf: "SP", municipio: "São Carlos", nota: 30.066, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 74, uf: "SP", municipio: "Boituva", nota: 30.043, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 75, uf: "RS", municipio: "Lajeado", nota: 30.038, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 76, uf: "RS", municipio: "Canoas", nota: 30.034, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 77, uf: "PR", municipio: "Pato Branco", nota: 29.998, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 78, uf: "SP", municipio: "Caraguatatuba", nota: 29.946, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 79, uf: "SP", municipio: "Lençóis Paulista", nota: 29.924, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 80, uf: "RJ", municipio: "Saquarema", nota: 29.924, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 81, uf: "SP", municipio: "São José do Rio Preto", nota: 29.891, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 82, uf: "MT", municipio: "Lucas do Rio Verde", nota: 29.863, porte: "100 a 500 mil", regiao: "Centro-Oeste" },
+  { position: 83, uf: "SP", municipio: "Barretos", nota: 29.843, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 84, uf: "PR", municipio: "Guarapuava", nota: 29.808, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 85, uf: "MG", municipio: "Juiz de Fora", nota: 29.804, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 86, uf: "SP", municipio: "Suzano", nota: 29.788, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 87, uf: "PB", municipio: "Cabedelo", nota: 29.783, porte: "até 100 mil", regiao: "Nordeste" },
+  { position: 88, uf: "SP", municipio: "Itupeva", nota: 29.753, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 89, uf: "ES", municipio: "Serra", nota: 29.733, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 90, uf: "SP", municipio: "Piracicaba", nota: 29.733, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 91, uf: "RS", municipio: "Caxias do Sul", nota: 29.693, porte: "Mais de 500 mil", regiao: "Sul" },
+  { position: 92, uf: "RS", municipio: "Bento Gonçalves", nota: 29.630, porte: "100 a 500 mil", regiao: "Sul" },
+  { position: 93, uf: "SP", municipio: "Presidente Prudente", nota: 29.625, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 94, uf: "SP", municipio: "Bragança Paulista", nota: 29.621, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 95, uf: "GO", municipio: "Aparecida de Goiânia", nota: 29.612, porte: "Mais de 500 mil", regiao: "Centro-Oeste" },
+  { position: 96, uf: "SP", municipio: "Itanhaém", nota: 29.572, porte: "até 100 mil", regiao: "Sudeste" },
+  { position: 97, uf: "CE", municipio: "Eusébio", nota: 29.556, porte: "até 100 mil", regiao: "Nordeste" },
+  { position: 98, uf: "SP", municipio: "Hortolândia", nota: 29.552, porte: "Mais de 500 mil", regiao: "Sudeste" },
+  { position: 99, uf: "SP", municipio: "Araraquara", nota: 29.525, porte: "100 a 500 mil", regiao: "Sudeste" },
+  { position: 100, uf: "BA", municipio: "Vitória da Conquista", nota: 29.519, porte: "Mais de 500 mil", regiao: "Nordeste" }
+]
+
+
+        };
+
+        // Direção de melhoria para cada indicador
+        const indicatorDirections = {
+            // Saúde (SAU)
+            "Agendamento de consulta na rede pública de saúde": 1,
+            "Leitos / Mil Habitantes": 1,
+            "Despesa Municipal Per Capita Paga Com Saúde": 1,
+            "Médicos / 100 Mil Habitantes": 1,
+            "Mortes Em Acidente De Trânsito / 100 Mil Habitantes": -1,
+            "Óbitos / Mil Nascidos Vivos (Local De Residência)": -1,
+            "Percentual Da Cobertura Populacional Da Equipe De Saúde Da Família": 1,
+            "Número de leitos hospitalares por 100 000 habitantes": 1,
+            "Porcentagem da população totalmente imunizada": 1,
+            "Número de pessoas da equipe de enfermagem e obstetrícia por 100 000 habitantes": 1,
+            "Taxa de suicídio por 100 000 habitantes": -1,
+            "Porcentagem do orçamento municipal anual destinada a iniciativas de agricultura urbana": 1,
+            "Total da área agrícola urbana por 100 000 habitantes": 1,
+            "Porcentagem da população em domicílios em risco de insegurança alimentar": -1,
+
+            // Governança (GOV)
+            "Atendimento ao Cidadão - Aplicativo Criado pela Prefeitura": 1,
+            "Número De Conselhos": 1,
+            "Escala Brasil Transparente": 1,
+            "Escolaridade Do Prefeito": 1,
+            "Índice Firjan Of Desenvolvimento Municipal - IFDM": 1,
+            "Porcentagem de mulheres eleitas em função do número total de eleitos na gestão da cidade": 1,
+            "Desempenho na gestão de obras públicas": 1,
+            "Participação dos eleitores nas últimas eleições municipais (como porcentagem dos eleitores registrados)": 1,
+            "Despesas anuais com atualização e manutenção dos ativos de serviços urbanos como porcentagem do orçamento total da cidade": 1,
+            "Número de sem-teto por 100 000 habitantes": -1,
+            "Despesas anuais com serviços sociais e comunitários como porcentagem do orçamento total da cidade": 1,
+            "Porcentagem de edifícios públicos acessíveis por pessoas com necessidades especiais": 1,
+            "Atualização Cadastral - Cadastro Único": 1,
+
+            // Mobilidade (MOB)
+            "Bilhete eletrônico transporte público": 1,
+            "Ciclovias": 1,
+            "Idade Média Da Frota De Veículos": -1,
+            "Nº de aeroportos com voos regulares em raio de 100 km": 1,
+            "Ônibus / Automóveis": 1,
+            "Outros Modais De Transporte Coletivo (kms)": 1,
+            "Proporção De Automóveis / Habitantes": -1,
+            "Transporte Rodoviário - Conexões Interestaduais": 1,
+            "Percentagem de veículos matriculados na cidade que são veículos de baixa emissão": 1,
+            "Número de automóveis privados per capita": -1,
+
+            // Urbanismo (URB)
+            "Cadastro Imobiliário": 1,
+            "Lei De Plano Diretor Estratégico Municipal": 1,
+            "Lei Sobre Operação Urbana Consorciada": 1,
+            "Lei Sobre Zoneamento Ou Uso E Ocupação Do Solo": 1,
+            "Emissão De Certidão Negativa Of Débito E Alvará No Site Da Prefeitura": 1,
+            "Despesa Municipal Per Capta Paga Com Urbanismo": 1,
+            "Percentagem Da População Da Cidade Que Vive Em Densidades Populacionais Médias A Altas": 1,
+            "Semáforos inteligentes": 1,
+            "Áreas e espaços públicos permeáveis e pavimentos contruídos com materiais porosos e permeáveis como porcentagem da área total da cidade": 1,
+            "Áreas verdes (hectares) por 100 000 habitantes": 1,
+
+            // Meio Ambiente (MAM)
+            "Cobertura Do Serviço De Coleta De Resíduos": 1,
+            "Monitoramento De Área De Risco": 1,
+            "Índice De Atendimento Urbano Of Água - IN023_AE": 1,
+            "Índice De Atendimento Urbano Of Esgoto - IN024_AE": 1,
+            "Índice De Perdas Na Distribuição Of Água - IN049_AE": -1,
+            "Índice De Recuperação Of Materiais Recicláveis - IN031RS": 1,
+            "Índice De Tratamento De Esgoto - IN046_AE": 1,
+            "Produção De Energia Em Usinas De Biomassa": 1,
+            "Produção De Energia Em Usinas De Energia Eólica": 1,
+            "Produção De Energia Em Usinas Foto Voltaicas": 1,
+            "Percentual Da Quantidade Total De Resíduos Plásticos Recuperados Na Cidade": 1,
+            "Porcentagem de áreas designadas para proteção natural": 1,
+            "Número de estações remotas de monitoramento da qualidade do ar em tempo real por 100 000 habitantes": 1,
+            "Emissão de gases de efeito de estufa medida em toneladas per capita": -1,
+            "Total de coleta de resíduos sólidos municipais per capita": 1,
+            "Porcentagem de resíduos sólidos urbanos que são reciclados": 1,
+            "Porcentagem da população da cidade atendida por sistemas de coleta e afastamento de esgoto": 1,
+            "Porcentagem do esgoto da cidade que recebe tratamento centralizado": 1,
+            "Porcentagem da população da cidade com serviço de abastecimento de água potável": 1,
+            "Consumo doméstico total de água per capita (litros/dia)": -1,
+            "Porcentagem de separação entre esgoto e drenagem pluvial no sistema de esgotamento": 1,
+
+            // Empreendedorismo (EMP)
+            "Crescimento Das Empresas De Economia Criativa": 1,
+            "Crescimento Das Empresas De Tecnologia": 1,
+            "Crescimento Do Número De Meis": 1,
+            "Número De Incubadoras De Empresas": 1,
+            "Número De Parques Tecnológicos": 1,
+            "Número de startups": 1,
+
+            // Economia (ECO)
+            "Crescimento Do Número De Empregos": 1,
+            "Crescimento Do Número De Empresas": 1,
+            "C crescimento Do Pib Per Capta": 1,
+            "Empregabilidade (Empregos / PEA)": 1,
+            "Independência Do Setor Público": 1,
+            "Receita Total Não Oriunda De Transferências": 1,
+            "Renda Média Dos Trabalhadores Formais": 1,
+            "Perdas históricas por desastres como porcentagem do produto da cidade": -1,
+            "Produto da cidade per capita (US$)": 1,
+            "Despesas de capital como porcentagem de despesas totais": 1,
+            "Despesas anuais com planejamento do gerenciamento de emergências como porcentagem do orçamento total da cidade": 1,
+            "Alocação total de fundos de reserva para desastres como porcentagem do orçamento total da cidade": 1,
+            "CAPAG - Capacidade de Pagamento": 1,
+            "Concentração de empregos": -1,
+
+            // Educação (EDU)
+            "Matrícula escolar na rede pública online": 1,
+            "Média De Alunos Por Turma (9º ano público)": -1,
+            "Média De Hora-Aula Diária (Público - 9º Ano)": 1,
+            "Média Enem - Alunos Das Escolas Públicas": 1,
+            "Despesa Municipal Per Capta Paga Com Educação": 1,
+            "Ideb (Anos Finais) - Público": 1,
+            "Número De Computadores, Laptops, Tablets Ou Outros Dispositivos Digitais De Aprendizagem Disponíveis Por 1000 Alunos": 1,
+            "Percentual Dos Docentes Do Ensino médio Que Possuem Ensino Superior": 1,
+            "Percentual Dos Trabalhadores Formais Com Ensino Superior": 1,
+            "Percentual Da Força De Trabalho Ocupada No Setor Educação E P&D": 1,
+            "Taxa De Abandono (1º Colegial - Público)": -1,
+            "Vagas Em Universidade Pública 2022": 1,
+            "Porcentagem da população feminina em idade escolar matriculada em escolas": 1,
+            "Relação estudante/professor no ensino primário": -1,
+            "Porcentagem de população em idade escolar matriculada em escolas": 1,
+            "Porcentagem das escolas com acesso à internet banda larga": 1,
+            "Número de vagas licenciadas para educação infantil por 1 000 crianças em idade pré-escolar": 1,
+
+            // Tecnologia e Inovação (TIC)
+            "Densidade de Banda Larga Fixa": 1,
+            "Grandes Operadoras De Fibra Ótica": 1,
+            "Percentual dos Moradores Cobertos por Cobertura 5G no município": 1,
+            "Percentual Da Força De Trabalho Ocupada No Setor Tic": 1,
+            "Sistema de iluminação inteligente": 1,
+            "Velocidade Média das Conexões contratadas": 1,
+            "Porcentagem da força de trabalho empregada em ocupações no setor de tecnologia da informação e comunicação": 1,
+            "Tempo médio de abertura de empresas": -1,
+            "Número de acessos à telefonia móvel por 100 000 habitantes": 1,
+            "Número de acessos à Internet por 100 000 habitantes": 1,
+            "Porcentagem de área da cidade sob uma zona branca/ponto morto/não coberta por operadoras de telecomunicações": -1,
+            "Porcentagem da população da cidade com prontuário eletrônico unificado, acessível on-line por meio de um portal": 1,
+
+            // Segurança (SEG)
+            "Centro de controle e operações": 1,
+            "Despesa Municipal Per Capta Paga Com Segurança": 1,
+            "Homicídios / 100 Mil Habitantes": -1,
+            "Policiais, Guardas-Civis Municipais E Agentes De Trânsito Por 100 Mil Habitantea": 1,
+            "Número de feminicídios por 100 000 habitantes": -1,
+
+            // Energia (ENE)
+            "Número de estações de carregamento de veículos elétricos por veículo elétrico registrado": 1,
+            "Consumo final total de energia per capita (GJ/ano)": -1,
+            "Porcentagem da energia elétrica consumida na cidade produzida por meio de sistemas de energia renovável": 1
+        };
+
+        let currentView = 'initial';
+        let currentDashboardView = 'axes';
+        let filteredData = [...indicatorsData];
+        let chartInstances = {};
+
+        // Variáveis globais para a seleção de município
+        let allStates = [];
+        let selectedState = null;
+        let selectedMunicipalityData = null;
+
+        // Mapeamento de regiões por UF
+        const regionByUF = {
+            'AC': 'Norte', 'AL': 'Nordeste', 'AP': 'Norte', 'AM': 'Norte', 'BA': 'Nordeste',
+            'CE': 'Nordeste', 'DF': 'Centro-Oeste', 'ES': 'Sudeste', 'GO': 'Centro-Oeste',
+            'MA': 'Nordeste', 'MT': 'Centro-Oeste', 'MS': 'Centro-Oeste', 'MG': 'Sudeste',
+            'PA': 'Norte', 'PB': 'Nordeste', 'PR': 'Sul', 'PE': 'Nordeste', 'PI': 'Nordeste',
+            'RJ': 'Sudeste', 'RN': 'Nordeste', 'RS': 'Sul', 'RO': 'Norte', 'RR': 'Norte',
+            'SC': 'Sul', 'SP': 'Sudeste', 'SE': 'Nordeste', 'TO': 'Norte'
+        };
+
+        // Initialize the page
+        function init() {
+            populateIndicatorsTable();
+            renderAxisCards();
+            loadStates();
+            filterRanking();
+            populateUFDropdowns();
+            renderCSCSummary();
+        }
+
+        // Carregar estados da API do IBGE
+        async function loadStates() {
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome');
+                const states = await response.json();
+                
+                allStates = states;
+                populateStatesDropdown(states);
+                populateUFDropdowns();
+            } catch (error) {
+                console.error('Erro ao carregar estados:', error);
+                document.getElementById('uf-select').innerHTML = '<option value="">Erro ao carregar estados</option>';
+            }
+        }
+
+        // Popular dropdown de estados
+        function populateStatesDropdown(states) {
+            const ufSelect = document.getElementById('uf-select');
+            ufSelect.innerHTML = '<option value="">Selecione o Estado</option>';
+            
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.id;
+                option.textContent = `${state.nome} (${state.sigla})`;
+                ufSelect.appendChild(option);
+            });
+        }
+
+        // Popular dropdowns de UF para o ranking
+        function populateUFDropdowns() {
+            const ufSelectRanking = document.getElementById('ranking-uf');
+            
+            ufSelectRanking.innerHTML = '<option value="">Todos os estados</option>';
+            
+            allStates.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.sigla;
+                option.textContent = state.sigla;
+                ufSelectRanking.appendChild(option);
+            });
+        }
+
+        // Filtrar estados por região
+        function filterRankingByRegion() {
+            const regionFilter = document.getElementById('ranking-region').value;
+            const ufSelect = document.getElementById('ranking-uf');
+            
+            ufSelect.innerHTML = '<option value="">Todos os estados</option>';
+            
+            if (regionFilter) {
+                // Filtrar estados pela região selecionada
+                const filteredStates = allStates.filter(state => 
+                    regionByUF[state.sigla] === regionFilter
+                );
+                
+                filteredStates.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.sigla;
+                    option.textContent = state.sigla;
+                    ufSelect.appendChild(option);
+                });
+            } else {
+                // Mostrar todos os estados se nenhuma região for selecionada
+                allStates.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.sigla;
+                    option.textContent = state.sigla;
+                    ufSelect.appendChild(option);
+                });
+            }
+            
+            filterRanking();
+        }
+
+        // Selecionar UF e carregar municípios
+        async function selectUF() {
+            const ufSelect = document.getElementById('uf-select');
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedStateId = ufSelect.value;
+
+            if (!selectedStateId) {
+                municipalitySelect.innerHTML = '<option value="">Primeiro selecione o estado</option>';
+                municipalitySelect.disabled = true;
+                selectedState = null;
+                hideSelection();
+                return;
+            }
+
+            selectedState = allStates.find(state => state.id == selectedStateId);
+            
+            municipalitySelect.innerHTML = '<option value="">Carregando municípios...</option>';
+            municipalitySelect.disabled = true;
+
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedStateId}/municipios?orderBy=nome`);
+                const municipalities = await response.json();
+                
+                municipalitySelect.innerHTML = '<option value="">Selecione o Município</option>';
+                municipalities.forEach(municipality => {
+                    const option = document.createElement('option');
+                    option.value = municipality.id;
+                    option.textContent = municipality.nome;
+                    option.dataset.municipalityData = JSON.stringify(municipality);
+                    municipalitySelect.appendChild(option);
+                });
+                
+                municipalitySelect.disabled = false;
+                
+            } catch (error) {
+                console.error('Erro ao carregar municípios:', error);
+                municipalitySelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
+            }
+        }
+
+        // Selecionar município do dropdown
+        function selectMunicipality() {
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedOption = municipalitySelect.options[municipalitySelect.selectedIndex];
+            
+            if (!selectedOption.value) {
+                hideSelection();
+                return;
+            }
+
+            selectedMunicipalityData = JSON.parse(selectedOption.dataset.municipalityData);
+            showSelection();
+            
+            if (selectedMunicipalityData.nome.toLowerCase() === 'londrina' && 
+                selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla.toUpperCase() === 'PR') {
+                unlockContent();
+            } else {
+                showFutureImplementation();
+            }
+        }
+
+        // Mostrar seleção
+        function showSelection() {
+            if (!selectedMunicipalityData) return;
+
+            const selectionDisplay = document.getElementById('selection-display');
+            const selectionText = document.getElementById('selection-text');
+            const state = selectedMunicipalityData.microrregiao.mesorregiao.UF;
+            
+            selectionText.innerHTML = `<strong>${selectedMunicipalityData.nome}</strong> - ${state.nome} (${state.sigla})`;
+            selectionDisplay.classList.add('show');
+            const summary = document.getElementById('csc-summary');
+            if (summary) summary.classList.add('hidden');
+
+            const globalRanking = document.getElementById('ranking-section');
+            if (globalRanking) globalRanking.classList.add('hidden');
+
+            const muniViewSelector = document.getElementById('municipality-view-selector');
+            if (muniViewSelector) {
+                muniViewSelector.value = 'axes';
+                changeView();
+            }
+        }
+
+        // Esconder seleção
+        function hideSelection() {
+            document.getElementById('selection-display').classList.remove('show');
+            selectedMunicipalityData = null;
+            const summary = document.getElementById('csc-summary');
+            if (summary) summary.classList.remove('hidden');
+        }
+
+        // Desbloquear conteúdo para Londrina
+        function unlockContent() {
+            document.getElementById('municipality-dashboard').classList.remove('hidden');
+            document.getElementById('future-implementation-message').classList.add('hidden');
+            
+            document.getElementById('selected-municipality').textContent = 'Londrina - PR';
+            
+            document.getElementById('city-ranking-info').classList.remove('hidden');
+            const summary = document.getElementById('csc-summary');
+            if (summary) summary.classList.add('hidden');
+        }
+
+        // Mostrar mensagem de implementação futura
+        function showFutureImplementation() {
+            document.getElementById('municipality-dashboard').classList.add('hidden');
+            document.getElementById('future-implementation-message').classList.remove('hidden');
+            
+            document.getElementById('city-ranking-info').classList.add('hidden');
+            const summary = document.getElementById('csc-summary');
+            if (summary) summary.classList.add('hidden');
+        }
+
+        // Limpar seleção
+        function clearSelection() {
+            selectedMunicipalityData = null;
+            selectedState = null;
+            
+            document.getElementById('uf-select').value = '';
+            document.getElementById('municipality-select').value = '';
+            document.getElementById('municipality-select').innerHTML = '<option value="">Primeiro selecione o estado</option>';
+            document.getElementById('municipality-select').disabled = true;
+            
+            hideSelection();
+            
+            document.getElementById('municipality-dashboard').classList.add('hidden');
+            document.getElementById('future-implementation-message').classList.add('hidden');
+            
+            document.getElementById('city-ranking-info').classList.add('hidden');
+            const summary = document.getElementById('csc-summary');
+            if (summary) summary.classList.remove('hidden');
+        }
+
+        // Mostrar a própria seção de resumo CSC (local) e garantir ranking escondido
+        function showCSCSummaryView() {
+            const btnSummary = document.getElementById('btn-summary');
+            const btnRanking = document.getElementById('btn-ranking');
+            if (btnSummary) btnSummary.classList.add('active');
+            if (btnRanking) btnRanking.classList.remove('active');
+
+            const rankingSection = document.getElementById('ranking-section');
+            if (rankingSection) rankingSection.classList.add('hidden');
+        }
+
+        // Abrir a visualização do ranking CSC (leva o usuário para a seção de ranking)
+        function showCSCRankingView() {
+            const btnSummary = document.getElementById('btn-summary');
+            const btnRanking = document.getElementById('btn-ranking');
+            if (btnSummary) btnSummary.classList.remove('active');
+            if (btnRanking) btnRanking.classList.add('active');
+
+            const rankingSection = document.getElementById('ranking-section');
+            if (rankingSection) {
+                rankingSection.classList.remove('hidden');
+                rankingSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Render CSC summary (totais e por eixo)
+        function renderCSCSummary() {
+            const total = indicatorsData.length;
+            const grouped = indicatorsData.reduce((acc, cur) => {
+                const eixo = cur.eixo || 'OUTROS';
+                acc[eixo] = (acc[eixo] || 0) + 1;
+                return acc;
+            }, {});
+
+            const statsEl = document.getElementById('csc-summary-stats');
+            const axisGrid = document.getElementById('csc-summary-axisgrid');
+            if (!statsEl || !axisGrid) return;
+
+            statsEl.innerHTML = '';
+            axisGrid.innerHTML = '';
+
+            // Two summary cards: total up to 2024 and new indicators for 2025
+            const cardLeft = document.createElement('div');
+            cardLeft.style.minWidth = '260px';
+            cardLeft.style.padding = '18px';
+            cardLeft.style.borderRadius = '12px';
+            cardLeft.style.background = 'linear-gradient(90deg, #513C9A, #6B4FB5)';
+            cardLeft.style.color = 'white';
+            cardLeft.style.textAlign = 'center';
+            // fixed label and value as requested
+            cardLeft.innerHTML = `<div style="font-size:16px;font-weight:700;margin-bottom:6px;">Indicadores CSC até 2024</div><div style="font-size:32px;font-weight:800;">74</div>`;
+            statsEl.appendChild(cardLeft);
+
+            const cardRight = document.createElement('div');
+            cardRight.style.minWidth = '260px';
+            cardRight.style.padding = '18px';
+            cardRight.style.borderRadius = '12px';
+            cardRight.style.background = 'linear-gradient(90deg, #513C9A, #6B4FB5)';
+            cardRight.style.color = 'white';
+            cardRight.style.textAlign = 'center';
+            cardRight.innerHTML = `<div style="font-size:16px;font-weight:700;margin-bottom:6px;">Novos indicadores 2025</div><div style="font-size:32px;font-weight:800;">53</div>`;
+            statsEl.appendChild(cardRight);
+
+            // Use eixosData order when possible
+            // Order axis summary cards by axis code/name for consistent display
+            const axesList = (eixosData || Object.keys(grouped).map(k=>({eixo:k, name:k}))).slice();
+            axesList.sort((a,b)=>{
+                const ac = (a.eixo || a).toString();
+                const bc = (b.eixo || b).toString();
+                return ac.localeCompare(bc, 'pt');
+            });
+
+            axesList.forEach(e => {
+                const code = e.eixo || e;
+                const name = e.name || getAxisName(code) || code;
+                const count = grouped[code] || 0;
+
+                const card = document.createElement('div');
+                card.className = 'axis-card';
+                card.style.minWidth = '220px';
+                card.title = `${code} ${getAxisName(code)}`;
+                card.innerHTML = `
+                    <div class="axis-title">${name}</div>
+                    <div style="font-size:24px; font-weight:800; color:#513C9A; text-align:center;">${count}</div>
+                `;
+                axisGrid.appendChild(card);
+            });
+        }
+
+        // Render axis cards
+        function renderAxisCards() {
+            let axisGrid = document.querySelector('#axes .axis-grid');
+            if (!axisGrid) axisGrid = document.getElementById('csc-summary-axisgrid') || document.querySelector('.axis-grid');
+            if (!axisGrid) return;
+
+            axisGrid.innerHTML = '';
+            // Sort axes by code to keep display stable
+            const sorted = [...eixosData].sort((a,b)=>{
+                const ac = (a.eixo||'').toString();
+                const bc = (b.eixo||'').toString();
+                return ac.localeCompare(bc, 'pt');
+            });
+
+            sorted.forEach(eixo => {
+                const card = document.createElement('div');
+                card.className = 'axis-card';
+                card.title = `${eixo.eixo} ${getAxisName(eixo.eixo)}`;
+                card.innerHTML = `
+                    <div class="axis-title">${eixo.name}</div>
+                    <div class="axis-values">
+                        <div class="year-value">
+                            <div class="year">2022</div>
+                            <div class="${typeof eixo.positions[0] === 'string' ? 'out-of-range' : 'value'}">${eixo.positions[0]}</div>
+                        </div>
+                        <div class="year-value">
+                            <div class="year">2023</div>
+                            <div class="${typeof eixo.positions[1] === 'string' ? 'out-of-range' : 'value'}">${eixo.positions[1]}</div>
+                        </div>
+                        <div class="year-value">
+                            <div class="year">2024</div>
+                            <div class="${typeof eixo.positions[2] === 'string' ? 'out-of-range' : 'value'}">${eixo.positions[2]}</div>
+                        </div>
+                    </div>
+                `;
+                axisGrid.appendChild(card);
+            });
+        }
+
+        // Render axis cards for 2025 (single-position view)
+        function renderAxisCards2025() {
+            const axisGrid = document.querySelector('#axes-2025 .axis-grid');
+            if (!axisGrid) return;
+
+            axisGrid.innerHTML = '';
+            // infer axis code for tooltip when possible
+            function inferAxisCode(name) {
+                const n = name.toLowerCase();
+                if (n.includes('meio') || n.includes('ambiente') || n.includes('clima')) return 'MAM';
+                if (n.includes('econom') || n.includes('finan')) return 'ECO';
+                if (n.includes('habita') || n.includes('planej') || n.includes('urban')) return 'URB';
+                if (n.includes('popula') || n.includes('condi')) return 'POP';
+                if (n.includes('mobil')) return 'MOB';
+                if (n.includes('inov') || n.includes('empreend')) return 'EMP';
+                if (n.includes('energia')) return 'ENE';
+                if (n.includes('govern')) return 'GOV';
+                if (n.includes('agricul') || n.includes('alimentar')) return 'MAM';
+                if (n.includes('resídu') || n.includes('esgoto') || n.includes('água')) return 'RS';
+                return null;
+            }
+
+            eixos2025Data.forEach(eixo => {
+                const card = document.createElement('div');
+                card.className = 'axis-card';
+                const code = inferAxisCode(eixo.name) || '';
+                card.title = code ? `${code} ${getAxisName(code)}` : eixo.name;
+                card.innerHTML = `
+                    <div class="axis-title">${eixo.name}</div>
+                    <div class="axis-values">
+                        <div class="year-value" style="flex:1; text-align:center;">
+                            <div class="year">2025</div>
+                            <div class="value">${eixo.position}°</div>
+                        </div>
+                    </div>
+                `;
+                axisGrid.appendChild(card);
+            });
+        }
+
+        // Populate indicators table
+        function populateIndicatorsTable() {
+            const tbody = document.getElementById('indicators-tbody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+
+            // Sort by eixo code then by indicator name for stable ordering
+            const displayData = [...filteredData].sort((a,b)=>{
+                const ax = (a.eixo||'').toString();
+                const bx = (b.eixo||'').toString();
+                const cmp = ax.localeCompare(bx, 'pt');
+                if (cmp !== 0) return cmp;
+                return (a.name||'').localeCompare(b.name||'', 'pt');
+            });
+
+            displayData.forEach(item => {
+                const row = document.createElement('tr');
+                const axisName = getAxisName(item.eixo || '');
+                // badge shows code and has tooltip with full name
+                const badge = `<span class="eixo-badge eixo-${item.eixo}" title="${(item.eixo||'').toUpperCase()} ${axisName}">${item.eixo}</span>`;
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${badge}</td>
+                    <td>${item.values[0]}</td>
+                    <td>${item.values[1]}</td>
+                    <td>${item.values[2]}</td>
+                    <td>${item.values[3]}</td>
+                    <td>${item.unit}</td>
+                    <td>${item.fonte}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filter indicators
+        function filterIndicators() {
+            const axisFilter = document.getElementById('axis-filter').value;
+            const searchTerm = document.getElementById('indicator-search').value.toLowerCase();
+            
+            filteredData = indicatorsData.filter(item => {
+                const matchesAxis = !axisFilter || item.eixo === axisFilter;
+                const matchesSearch = !searchTerm || item.name.toLowerCase().includes(searchTerm);
+                return matchesAxis && matchesSearch;
+            });
+            
+            populateIndicatorsTable();
+        }
+
+        // Filter ranking
+        function filterRanking() {
+            const yearFilter = document.getElementById('ranking-year').value;
+            const regionFilter = document.getElementById('ranking-region').value;
+            const ufFilter = document.getElementById('ranking-uf').value;
+            const sizeFilter = document.getElementById('ranking-size').value;
+            
+            let filteredRanking = [...(rankingDataByYear[yearFilter] || [])];
+            
+            if (regionFilter) {
+                filteredRanking = filteredRanking.filter(item => item.regiao === regionFilter);
+            }
+            
+            if (ufFilter) {
+                filteredRanking = filteredRanking.filter(item => item.uf === ufFilter);
+            }
+            
+            if (sizeFilter) {
+                filteredRanking = filteredRanking.filter(item => item.porte === sizeFilter);
+            }
+            
+            const tbody = document.getElementById('ranking-tbody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            filteredRanking.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.position}°</td>
+                    <td>${item.uf}</td>
+                    <td>${item.municipio}</td>
+                    <td>${item.nota}</td>
+                    <td>${item.porte}</td>
+                    <td>${item.regiao}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Change view based on dropdown selection
+        function changeView() {
+            const viewSelector = document.getElementById('municipality-view-selector');
+            const selectedView = viewSelector.value;
+            currentDashboardView = selectedView;
+            
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const rankingSection = document.getElementById('ranking-section');
+            if (rankingSection) rankingSection.classList.add('hidden');
+            
+            const targetView = document.getElementById(selectedView);
+            if (targetView) targetView.classList.add('active');
+
+            if (selectedView === 'charts') {
+                const chartsSection = document.getElementById('charts-section');
+                if (chartsSection) chartsSection.style.display = 'none';
+            }
+
+            if (selectedView === 'axes') {
+                renderAxisCards();
+            } else if (selectedView === 'axes-2025') {
+                renderAxisCards2025();
+            }
+        }
+
+        // Open tab (keeping for backward compatibility, but now controlled by dropdown)
+        function openTab(tabName) {
+            document.getElementById('view-selector').value = tabName;
+            changeView();
+        }
+
+        // Get axis name from code
+        function getAxisName(eixoCode) {
+            const eixoNames = {
+                'SAU': 'Saúde',
+                'GOV': 'Governança',
+                'MOB': 'Mobilidade',
+                'URB': 'Urbanismo',
+                    'MAM': 'Meio Ambiente',
+                'EMP': 'Empreendedorismo',
+                    'ECO': 'Economia e Finanças',
+                'EDU': 'Educação',
+                'TIC': 'Tecnologia',
+                'SEG': 'Segurança',
+                'ENE': 'Energia',
+                'POP': 'População e Condições Sociais',
+                'RS': 'Resíduos Sólidos, Esgotos e Água'
+            };
+            return eixoNames[eixoCode] || eixoCode;
+        }
+
+        // Create charts for a given list of indicators into a container element
+        function createChartsForIndicators(indicators, containerEl) {
+            Object.values(chartInstances).forEach(chartArray => {
+                chartArray.forEach(chart => chart.destroy());
+            });
+            chartInstances = {};
+
+            const grouped = {};
+            indicators.forEach(ind => {
+                const eixo = ind.eixo || 'OUTROS';
+                if (!grouped[eixo]) grouped[eixo] = [];
+                grouped[eixo].push(ind);
+            });
+
+            Object.keys(grouped).forEach(eixo => {
+                const axisSection = document.createElement('div');
+                axisSection.className = 'axis-charts-section';
+                axisSection.id = `axis-${eixo}`;
+
+                const axisName = getAxisName(eixo);
+                axisSection.innerHTML = `<div class="axis-charts-header">${axisName}</div>`;
+
+                const axisChartsGrid = document.createElement('div');
+                axisChartsGrid.className = 'axis-charts-grid';
+
+                grouped[eixo].forEach((indicator, idx) => {
+                    const chartCard = document.createElement('div');
+                    chartCard.className = 'chart-card';
+                    const chartId = `sel_chart_${eixo}_${idx}_${Math.floor(Math.random()*10000)}`;
+                    chartCard.innerHTML = `<h4>${indicator.name}</h4><canvas id="${chartId}"></canvas>`;
+                    axisChartsGrid.appendChild(chartCard);
+
+                    setTimeout(() => {
+                        const ctx = document.getElementById(chartId);
+                        if (!ctx) return;
+
+                        const raw = indicator.values || [];
+                        const hasNumber = raw.some(v => v !== '' && !isNaN(Number(v)));
+                        const hasBoolean = raw.some(v => typeof v === 'string' && /^(sim|não|nao)$/i.test(v));
+
+                        let dataValues = [];
+                        let isBooleanSeries = false;
+
+                        if (hasBoolean && !hasNumber) {
+                            isBooleanSeries = true;
+                            dataValues = raw.map(v => {
+                                if (typeof v === 'string' && /^(sim)$/i.test(v)) return 1;
+                                if (typeof v === 'string' && /^(não|nao)$/i.test(v)) return 0;
+                                return null;
+                            });
+                        } else {
+                            dataValues = raw.map(v => {
+                                const n = Number(v);
+                                return (v === '' || isNaN(n)) ? null : n;
+                            });
+                        }
+
+                        // Determinar tendência com base na direção de melhoria
+                        const direction = indicatorDirections[indicator.name] || 1;
+                        const firstIdx = dataValues.findIndex(v => v !== null && v !== undefined);
+                        const lastIdx = dataValues.length - 1 - [...dataValues].reverse().findIndex(v => v !== null && v !== undefined);
+                        let trend = 'stable';
+                        
+                        if (firstIdx === -1 || lastIdx === -1 || firstIdx === lastIdx) {
+                            trend = 'stable';
+                        } else {
+                            const firstVal = dataValues[firstIdx];
+                            const lastVal = dataValues[lastIdx];
+                            if (firstVal === null || lastVal === null) {
+                                trend = 'stable';
+                            } else {
+                                const diff = lastVal - firstVal;
+                                const eps = Math.max(1e-6, Math.abs(firstVal) * 1e-6);
+                                
+                                if (Math.abs(diff) <= eps) {
+                                    trend = 'stable';
+                                } else if (direction === 1) {
+                                    // Subir é bom
+                                    trend = diff > 0 ? 'improving' : 'worsening';
+                                } else {
+                                    // Diminuir é bom
+                                    trend = diff < 0 ? 'improving' : 'worsening';
+                                }
+                            }
+                        }
+
+                        const colors = {
+                            improving: {border: '#28a745', bg: 'rgba(40,167,69,0.12)', point: '#28a745'},
+                            worsening: {border: '#dc3545', bg: 'rgba(220,53,69,0.12)', point: '#dc3545'},
+                            stable: {border: '#6c757d', bg: 'rgba(108,117,125,0.12)', point: '#6c757d'}
+                        };
+                        const colorSet = colors[trend] || colors.stable;
+
+                        const dataset = {
+                            label: indicator.unit || indicator.name,
+                            data: dataValues,
+                            backgroundColor: colorSet.bg,
+                            borderColor: colorSet.border,
+                            borderWidth: 3,
+                            pointBackgroundColor: colorSet.point,
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            fill: true,
+                            tension: 0.4,
+                            spanGaps: true
+                        };
+
+                        const chartConfig = {
+                            type: 'line',
+                            data: { labels: ['2022','2023','2024','2025'], datasets: [dataset] },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: true, position: 'top' } },
+                                scales: { x: { ticks: { color: '#513C9A', font: { size:12, weight:'bold' } }, grid: { color: 'rgba(81, 60, 154, 0.05)' } }, y: { ticks: { color: '#513C9A' }, grid: { color: 'rgba(81, 60, 154, 0.05)' } } },
+                                interaction: { mode: 'index', intersect: false },
+                                elements: { point: { hoverRadius: 8 } }
+                            }
+                        };
+
+                        if (isBooleanSeries) {
+                            chartConfig.options.scales.y = { min:0, max:1, ticks:{ stepSize:1, callback: v=> v===1? 'Sim':'Não', color:'#513C9A', font:{size:12} }, grid:{ color: 'rgba(81, 60, 154, 0.05)' } };
+                            chartConfig.options.plugins.tooltip = { callbacks: { label: ctx => { const v = ctx.raw; return v===1? 'Sim': v===0? 'Não':'N/A'; } } };
+                        } else {
+                            chartConfig.options.plugins = chartConfig.options.plugins || {};
+                            chartConfig.options.plugins.tooltip = { callbacks: { label: ctx => ctx.formattedValue } };
+                        }
+
+                        try {
+                            const chartInstance = new Chart(ctx, chartConfig);
+                            if (!chartInstances[eixo]) chartInstances[eixo] = [];
+                            chartInstances[eixo][idx] = chartInstance;
+                        } catch (e) { console.error('Chart error', e); }
+                    }, 80);
+                });
+
+                axisSection.appendChild(axisChartsGrid);
+                containerEl.appendChild(axisSection);
+            });
+        }
+
+        // Calculate trends (improving / worsening / stable) based on first vs last available values
+        function calculateTrends(indicators) {
+            const trends = { improving: [], worsening: [], stable: [] };
+
+            indicators.forEach(ind => {
+                const vals = (ind.values || []).map(v => {
+                    const n = parseFloat(v);
+                    return isNaN(n) ? null : n;
+                }).filter(v => v !== null);
+
+                if (vals.length >= 2) {
+                    const first = vals[0];
+                    const last = vals[vals.length - 1];
+                    const direction = indicatorDirections[ind.name] || 1;
+                    const change = last - first;
+                    const threshold = Math.abs(first) * 0.01;
+
+                    if (Math.abs(change) < threshold) {
+                        trends.stable.push(ind);
+                    } else if (direction === 1) {
+                        // Subir é bom
+                        trends[change > 0 ? 'improving' : 'worsening'].push(ind);
+                    } else {
+                        // Diminuir é bom
+                        trends[change < 0 ? 'improving' : 'worsening'].push(ind);
+                    }
+                } else {
+                    trends.stable.push(ind);
+                }
+            });
+
+            return trends;
+        }
+
+        // Existing generateCharts now uses all indicators
+        function generateCharts() {
+            const container = document.getElementById('charts-container');
+            container.innerHTML = '';
+            const chartsSection = document.getElementById('charts-section');
+            if (chartsSection) {
+                chartsSection.style.display = 'block';
+
+                const trends = calculateTrends(indicatorsData);
+                const trendsHtml = `
+                    <div class="trends-grid">
+                        <div class="trends-card improving">
+                            <div class="trends-icon">📈</div>
+                            <div class="trends-number">${trends.improving.length}</div>
+                            <div class="trends-label">Melhorando</div>
+                        </div>
+                        <div class="trends-card worsening">
+                            <div class="trends-icon">📉</div>
+                            <div class="trends-number">${trends.worsening.length}</div>
+                            <div class="trends-label">Piorando</div>
+                        </div>
+                        <div class="trends-card stable">
+                            <div class="trends-icon">➡️</div>
+                            <div class="trends-number">${trends.stable.length}</div>
+                            <div class="trends-label">Estáveis</div>
+                        </div>
+                    </div>
+                `;
+
+                chartsSection.querySelectorAll('.trends-grid').forEach(n => n.remove());
+                chartsSection.insertAdjacentHTML('afterbegin', trendsHtml);
+            }
+
+            createChartsForIndicators(indicatorsData, container);
+
+            const chartAxisFilter = document.getElementById('chart-axis-filter');
+            if (chartAxisFilter) chartAxisFilter.disabled = false;
+        }
+
+        // Generate charts for currently filtered indicators in the Indicators tab
+        function generateChartsFromFiltered() {
+            const container = document.getElementById('charts-container');
+            container.innerHTML = '';
+            document.getElementById('charts-section').style.display = 'block';
+            createChartsForIndicators(filteredData, container);
+        }
+
+        // Filter charts by axis
+        function filterChartsByAxis() {
+            const chartAxisFilter = document.getElementById('chart-axis-filter');
+            if (!chartAxisFilter || chartAxisFilter.disabled) return;
+            const selectedAxis = chartAxisFilter.value;
+            const allAxisSections = document.querySelectorAll('.axis-charts-section');
+            
+            allAxisSections.forEach(section => {
+                if (selectedAxis === '' || section.id === `axis-${selectedAxis}`) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function resetPage() {
+            window.location.href = '#';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

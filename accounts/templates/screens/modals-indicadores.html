@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Modais de Indicadores</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Modal Adicionar Indicador -->
+    <div id="adicionar-indicador-modal" class="modal">
+        <div class="modal-content">
+            <h2>Adicionar Indicador</h2>
+            <form id="adicionar-indicador-form">
+                <div class="form-group">
+                    <label for="nome-indicador">Nome do indicador</label>
+                    <input type="text" id="nome-indicador" name="nome-indicador" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ods-indicador">ODS (ONU)</label>
+                    <input type="text" id="ods-indicador" name="ods-indicador">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dado-indicador">Dado</label>
+                    <input type="text" id="dado-indicador" name="dado-indicador" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fonte-indicador">Fonte</label>
+                    <input type="text" id="fonte-indicador" name="fonte-indicador">
+                </div>
+                
+                <div class="form-group">
+                    <label for="iso-indicador">ISO</label>
+                    <input type="text" id="iso-indicador" name="iso-indicador">
+                </div>
+                
+                <button type="submit" class="submit-btn">Adicionar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Indicador -->
+    <div id="editar-indicador-modal" class="modal">
+        <div class="modal-content">
+            <h2>Editar Indicador</h2>
+            <form id="editar-indicador-form">
+                <div class="form-group">
+                    <label for="editar-select-indicador">Selecione o indicador</label>
+                    <select id="editar-select-indicador" name="editar-select-indicador" required>
+                        <option value="">Selecione...</option>
+                        <!-- Opções adicionadas via JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-nome-indicador">Nome do indicador</label>
+                    <input type="text" id="editar-nome-indicador" name="editar-nome-indicador" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-ods-indicador">ODS (ONU)</label>
+                    <input type="text" id="editar-ods-indicador" name="editar-ods-indicador">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-dado-indicador">Dado</label>
+                    <input type="text" id="editar-dado-indicador" name="editar-dado-indicador" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-fonte-indicador">Fonte</label>
+                    <input type="text" id="editar-fonte-indicador" name="editar-fonte-indicador">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-iso-indicador">ISO</label>
+                    <input type="text" id="editar-iso-indicador" name="editar-iso-indicador">
+                </div>
+                
+                <button type="submit" class="submit-btn">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Indicador -->
+    <div id="excluir-indicador-modal" class="modal">
+        <div class="modal-content">
+            <h2>Excluir Indicador</h2>
+            <form id="excluir-indicador-form">
+                <div class="form-group">
+                    <label for="excluir-select-indicador">Selecione o indicador a ser excluído</label>
+                    <select id="excluir-select-indicador" name="excluir-select-indicador" required>
+                        <option value="">Selecione...</option>
+                        <!-- Opções adicionadas via JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="confirmation-message">
+                    <p>Tem certeza que deseja excluir este indicador? Esta ação não poderá ser desfeita.</p>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" id="cancelar-excluir-indicador">Cancelar</button>
+                    <button type="submit" class="danger-btn">Excluir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/unified.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Menu de Administração</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-image: url('{% static "img/Fundo (1).png" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logo Section */
+        .logo-container {
+            margin-top: 20px;
+            width: 180px;
+            height: 126px;
+            z-index: 3;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Content Section */
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            max-width: 700px;
+            padding: 0 20px;
+            margin-top: 20px;
+        }
+
+        .main-title {
+            color: #513C9A;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: #333;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            width: 200px;
+            height: 50px;
+            background: #513C9A;
+            border: none;
+            border-radius: 8px;
+            color: #F5F5F5;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 60, 154, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-back {
+            background: #666;
+            width: 150px;
+        }
+
+        .btn-back:hover {
+            background: #777;
+        }
+
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-header {
+            width: 120px;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        .btn-logout {
+            background: #9e1220 !important;
+        }
+
+        .btn-logout:hover {
+            background: #bd2130 !important;
+        }
+
+        /* Admin badge */
+        .admin-badge {
+            background: #513C9A;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-container {
+                width: 140px;
+                height: 98px;
+                margin-top: 15px;
+            }
+
+            .content {
+                margin-top: 15px;
+                max-width: 90%;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .description {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+
+            .buttons-container {
+                gap: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+                height: 45px;
+                font-size: 15px;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-container {
+                width: 120px;
+                height: 84px;
+            }
+
+            .main-title {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+
+            .btn {
+                width: 180px;
+                height: 42px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-buttons">
+            <a href="{% url 'menu' %}" class="btn btn-header btn-back">Voltar</a>
+            <a href="{% url 'logout' %}" class="btn btn-header btn-logout">Sair</a>
+        </div>
+
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+        </div>
+
+        <div class="content">
+            <div class="admin-badge">ADMINISTRADOR</div>
+            <h1 class="main-title">Menu de Administração</h1>
+            <p class="subtitle">Bem-vindo, {{ username }}</p>
+            <p class="description">
+                Gerencie usuários do sistema, modifique permissões e controle o acesso à plataforma.
+            </p>
+            <div class="buttons-container">
+                <a href="{% url 'list_users' %}" class="btn">Gerenciar Usuários</a>
+                <a href="{% url 'add_user' %}" class="btn">Adicionar Usuário</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

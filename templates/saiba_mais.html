@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saiba Mais - DataCity</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 1rem;
+        }
+
+        .logo-container img {
+            width: 200px;
+            height: auto;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #513C9A;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #513C9A;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: #6B4FB5;
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #513C9A20 0%, #6B4FB520 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #513C9A;
+            margin: 1.5rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 1.8rem;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .feature-card h4 {
+            color: #513C9A;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .dimensions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .dimension-item {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-item {
+            background: #513C9A;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: #6B4FB5;
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            display: inline-block;
+            background: #513C9A;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background: #6B4FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 60, 154, 0.3);
+        }
+
+        .team-info {
+            text-align: center;
+            background: linear-gradient(135deg, #513C9A10 0%, #6B4FB510 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: #f9f9fb;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 280px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .team-member img {
+            width: 100%;
+            max-width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            background: #ddd;
+        }
+
+        .team-member h4 {
+            color: #513C9A;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dimensions-list {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'img/Logo.png' %}" alt="DataCity Logo" />
+            </div>
+            <p>Plataforma Inteligente para Gestão de Dados Urbanos</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <!-- Sobre o Projeto -->
+            <div class="section">
+                <h2>Sobre o DataCity</h2>
+                <p>
+                    O DataCity é uma plataforma desenvolvida por estudantes de Ciência da Computação da Unifil, em parceria com o <strong>Núcleo de Práticas em Informática (NPI)</strong> da instituição, com o objetivo de revolucionar a gestão e análise de dados urbanos.
+                </p>
+
+                <div class="highlight">
+                    <p>
+                        <strong>Nossa missão:</strong> Fornecer uma solução centralizada e inteligente para que gestores
+                        públicos, pesquisadores e cidadãos possam acessar, analisar e compreender os dados que moldam
+                        nossas cidades.
+                    </p>
+                </div>
+
+                <p>
+                    A plataforma foi concebida para atender às crescentes demandas por transparência, eficiência e
+                    tomada de decisão baseada em dados no contexto urbano. Com uma interface intuitiva e ferramentas
+                    avançadas de análise, o DataCity democratiza o acesso à informação urbana.
+                </p>
+            </div>
+
+            <!-- Funcionalidades -->
+            <div class="section">
+                <h2>Principais Funcionalidades</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🌍 Análise Multidimensional</h4>
+                        <p>Explore dados urbanos nas principais dimensões, estendendo desde mobilidade até governança.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📊 Indicadores Inteligentes</h4>
+                        <p>Acompanhe indicadores-chave baseados em normas ISO e ODS da ONU.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔍 Coleta Automatizada</h4>
+                        <p>Sistema avançado de web scraping para coleta automática de dados públicos.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📈 Relatórios Dinâmicos</h4>
+                        <p>Geração automática de relatórios personalizados e visualizações interativas.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🏛️ Gestão de Normas</h4>
+                        <p>Integração com normas ISO 37120, 37122, 37123 e 37125 voltadas a cidades inteligentes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔐 Segurança Avançada</h4>
+                        <p>Sistema de autenticação robusto com diferentes níveis de acesso.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dimensões -->
+            <div class="section">
+                <h2>Dimensões de Análise</h2>
+                <p>
+                    O DataCity organiza os dados urbanos nas principais dimensões, permitindo uma visão
+                    holística e integrada da cidade:
+                </p>
+                <div class="dimensions-list">
+                    <div class="dimension-item">Mobilidade</div>
+                    <div class="dimension-item">Urbanismo</div>
+                    <div class="dimension-item">Educação</div>
+                    <div class="dimension-item">Segurança</div>
+                    <div class="dimension-item">Governança</div>
+                    <div class="dimension-item">Economia</div>
+                    <div class="dimension-item">Energia</div>
+                    <div class="dimension-item">Meio Ambiente</div>
+                    <div class="dimension-item">Tecnologia e Inovação</div>
+                    <div class="dimension-item">Empreendedorismo</div>
+                    <div class="dimension-item">Saúde</div>
+                </div>
+            </div>
+
+            <!-- Tecnologia -->
+            <div class="section">
+                <h2>Tecnologia e Inovação</h2>
+                <h3>Stack Tecnológico</h3>
+                <div class="tech-stack">
+                    <a href="https://www.python.org/" class="tech-item" target="_blank">Python</a>
+                    <a href="https://www.djangoproject.com/" class="tech-item" target="_blank">Django</a>
+                    <a href="https://www.postgresql.org/" class="tech-item" target="_blank">PostgreSQL</a>
+                    <a href="https://www.crummy.com/software/BeautifulSoup/" class="tech-item" target="_blank">BeautifulSoup4</a>
+                    <a href="https://www.selenium.dev/" class="tech-item" target="_blank">Selenium</a>
+                    <a href="https://pandas.pydata.org/" class="tech-item" target="_blank">Pandas</a>
+                    <a href="https://numpy.org/" class="tech-item" target="_blank">NumPy</a>
+                    <a href="https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5" class="tech-item" target="_blank">HTML5</a>
+                    <a href="https://developer.mozilla.org/docs/Web/CSS" class="tech-item" target="_blank">CSS3</a>
+                    <a href="https://developer.mozilla.org/docs/Web/JavaScript" class="tech-item" target="_blank">JavaScript</a>
+                    <a href="https://nginx.org/" class="tech-item" target="_blank">Nginx</a>
+                    <a href="https://gunicorn.org/" class="tech-item" target="_blank">Gunicorn</a>
+                </div>
+
+                <h3>Arquitetura do Sistema</h3>
+                <p>
+                    A plataforma foi desenvolvida seguindo as melhores práticas de engenharia de software,
+                    utilizando o framework Django para garantir escalabilidade, segurança e manutenibilidade.
+                    A arquitetura modular permite fácil extensão e integração com outras plataformas.
+                </p>
+
+                <div class="highlight">
+                    <p>
+                        <strong>Diferenciais do projeto:</strong> Integra conceitos de desenvolvimento web, análise de dados e engenharia de software.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Equipe -->
+            <div class="section">
+                <h2>Nossa Equipe</h2>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="{% static 'img/luigi.jpg' %}" alt="Foto de Luigi Castoldi Picchi">
+                        <h4>Luigi Castoldi Picchi</h4>
+                        <p>Aluno do 3° ano de Ciência da Computação.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="{% static 'img/raphael.jpeg' %}" alt="Foto de Raphael Garcia Palma">
+                        <h4>Raphael Garcia Palma</h4>
+                        <p>Aluno do 3° ano de Ciência da Computação.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="{% static 'img/sergio.png' %}" alt="Foto de Sergio Akio Tanaka">
+                        <h4>Prof. Sergio Akio Tanaka</h4>
+                        <p>Coordenador dos cursos de Computação da Unifil e orientador do projeto.</p>
+                    </div>
+                </div>
+
+                <h3>Valores e Compromissos</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🎯 Excelência Técnica</h4>
+                        <p>Código limpo, documentado e seguindo as melhores práticas de desenvolvimento.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🌍 Impacto Social</h4>
+                        <p>Tecnologia a serviço da sociedade e do desenvolvimento urbano sustentável.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📚 Aprendizado Contínuo</h4>
+                        <p>Constante evolução e incorporação de novas tecnologias e metodologias.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🤝 Colaboração</h4>
+                        <p>Trabalho em equipe e compartilhamento de conhecimento como pilares fundamentais.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visão Futura -->
+            <div class="section">
+                <h2>Nossa Visão</h2>
+<p>
+    Transformar o <strong>DataCity</strong> em muito mais do que uma simples plataforma: queremos criar
+    um ecossistema completo de soluções voltadas para o desenvolvimento de cidades inteligentes. Buscamos ser a
+    principal referência em plataformas de dados urbanos no Brasil, promovendo cidades mais inteligentes,
+    sustentáveis e eficientes, que utilizem a tecnologia como ferramenta para melhorar a qualidade de vida das pessoas.
+</p>
+                </div>
+            </div>
+
+            <!-- Botão de Volta -->
+            <div style="text-align: center;">
+                <a href="{% url 'landing' %}" class="back-button">← Voltar à Página Inicial</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

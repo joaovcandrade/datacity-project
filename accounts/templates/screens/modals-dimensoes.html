@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Modais de Dimensões</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Modal Nova Dimensão -->
+    <div id="nova-dimensao-modal" class="modal">
+        <div class="modal-content">
+            <h2>Criando uma nova dimensão</h2>
+            <form id="nova-dimensao-form">
+                <div class="form-group">
+                    <label for="nome-dimensao">Nome da dimensão</label>
+                    <input type="text" id="nome-dimensao" name="nome-dimensao" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ods-dimensao">Quais ODS (ONU) contemplam esta dimensão?</label>
+                    <input type="text" id="ods-dimensao" name="ods-dimensao">
+                </div>
+                
+                <div class="form-group">
+                    <label for="iso-dimensao">Quais ISOs contemplam esta dimensão?</label>
+                    <input type="text" id="iso-dimensao" name="iso-dimensao">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group logo-upload">
+                        <label>Logotipo</label>
+                        <div class="logo-placeholder"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Criar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Dimensão -->
+    <div id="editar-dimensao-modal" class="modal">
+        <div class="modal-content">
+            <h2>Editar dimensão</h2>
+            <form id="editar-dimensao-form">
+                <div class="form-group">
+                    <label for="editar-select-dimensao">Selecione a dimensão</label>
+                    <select id="editar-select-dimensao" name="editar-select-dimensao" required>
+                        <option value="">Selecione...</option>
+                        <option value="mobilidade">Mobilidade</option>
+                        <option value="urbanismo">Urbanismo</option>
+                        <option value="educacao">Educação</option>
+                        <!-- Outras dimensões adicionadas via JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-nome-dimensao">Nome da dimensão</label>
+                    <input type="text" id="editar-nome-dimensao" name="editar-nome-dimensao" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-ods-dimensao">Quais ODS (ONU) contemplam esta dimensão?</label>
+                    <input type="text" id="editar-ods-dimensao" name="editar-ods-dimensao">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-iso-dimensao">Quais ISOs contemplam esta dimensão?</label>
+                    <input type="text" id="editar-iso-dimensao" name="editar-iso-dimensao">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group logo-upload">
+                        <label>Logotipo</label>
+                        <div class="logo-placeholder"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Remover Dimensão -->
+    <div id="remover-dimensao-modal" class="modal">
+        <div class="modal-content">
+            <h2>Remover dimensão</h2>
+            <form id="remover-dimensao-form">
+                <div class="form-group">
+                    <label for="remover-select-dimensao">Selecione a dimensão a ser removida</label>
+                    <select id="remover-select-dimensao" name="remover-select-dimensao" required>
+                        <option value="">Selecione...</option>
+                        <option value="mobilidade">Mobilidade</option>
+                        <option value="urbanismo">Urbanismo</option>
+                        <option value="educacao">Educação</option>
+                        <!-- Outras dimensões adicionadas via JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="confirmation-message">
+                    <p>Tem certeza que deseja remover esta dimensão? Esta ação não poderá ser desfeita.</p>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" id="cancelar-remover">Cancelar</button>
+                    <button type="submit" class="danger-btn">Remover</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/unified.js' %}"></script>
+</body>
+</html>

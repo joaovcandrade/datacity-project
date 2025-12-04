@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - ISO 37120</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #513C9A;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 40px;
+        }
+
+        .back-button:hover {
+            color: #6B4FB5;
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .logo-text {
+            color: #513C9A;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            color: #513C9A;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Purple Sections */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Municipality Selection */
+        .municipality-dropdowns {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #333;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(81, 60, 154, 0.15);
+        }
+
+        .category-title {
+            color: #513C9A;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .indicator-count {
+            background: #513C9A;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .core-info {
+            color: #513C9A;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Progress Section */
+        .progress-section {
+  border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-title {
+    color: #513C9A;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.progress-content {
+    display: grid;
+    grid-template-columns: 300px 1fr; 
+    gap: 40px;
+    align-items: flex-start;
+}
+
+        /* Profile Indicators */
+        .profile-indicators-container {
+    background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+    border-radius: 12px;
+    padding: 15px; 
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%; 
+}
+
+        .profile-indicators-container h3 {
+    color: white;
+    margin-bottom: 15px; /* MUDANÇA: era 20px, agora 15px */
+    font-size: 16px; /* MUDANÇA: era 18px, agora 16px */
+    font-weight: 600;
+}
+
+        .profile-indicator-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px; 
+    border-radius: 6px; 
+    margin-bottom: 8px; 
+    border-left: 3px solid rgba(255, 255, 255, 0.3); 
+}
+
+        .profile-indicator-name {
+    font-size: 12px; /* MUDANÇA: era 14px, agora 12px */
+    margin-bottom: 4px; /* MUDANÇA: era 5px, agora 4px */
+    font-weight: 500;
+    color: white;
+    line-height: 1.2; /* ADICIONAR para quebra de linha */
+    word-wrap: break-word; /* ADICIONAR para quebra de palavras longas */
+}
+
+       .profile-indicator-value {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px; /* MUDANÇA: era 12px, agora 11px */
+    color: rgba(255, 255, 255, 0.8);
+}
+
+        /* Radar Chart */
+        .radar-container {
+
+    position: relative;
+    width: 100%; /* MUDANÇA: era "400px", agora "100%" */
+    height: 500px; /* MUDANÇA: era "400px", agora "500px" */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+       .chart-container {
+    width: 100%; /* MUDANÇA: era "max-width: 400px", agora "width: 100%" */
+    height: 500px; /* MUDANÇA: era "400px", agora "500px" */
+    margin: 0 auto;
+    position: relative;
+}
+        /* White Sections */
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        /* Certification Grid */
+        .certification-grid {
+     display: grid;
+        grid-template-columns: repeat(2, 1fr);
+     grid-template-rows: repeat(2, 1fr);
+     gap: 24px;
+     max-width: 800px;
+     margin: 0 auto;
+}
+
+        .certification-card {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .certification-card:nth-child(1) { /* Bronze */
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.certification-card:nth-child(2) { /* Prata */
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.certification-card:nth-child(3) { /* Ouro */
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.certification-card:nth-child(4) { /* Platina */
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* Barra de progresso maior */
+.certification-progress {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    height: 12px; /* Era 8px antes */
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.certification-progress-bar,
+.certification-progress-bar-bronze,
+.certification-progress-bar-prata,
+.certification-progress-bar-ouro,
+.certification-progress-bar-platina {
+    height: 100%;
+    border-radius: 12px; /* Era 10px antes */
+    transition: width 0.3s ease;
+}
+
+/* Responsivo - volta para coluna única no mobile */
+@media (max-width: 768px) {
+    .certification-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .certification-card:nth-child(1),
+    .certification-card:nth-child(2),
+    .certification-card:nth-child(3),
+    .certification-card:nth-child(4) {
+        grid-column: 1;
+        grid-row: auto;
+    }
+}
+        .certification-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(81, 60, 154, 0.3);
+        }
+
+        .certification-level {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .certification-requirements {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .certification-progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .certification-progress-bar {
+            background: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .certification-progress-bar-bronze {
+            background: #Cd7f32;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .certification-progress-bar-prata {
+            background: #949494;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .certification-progress-bar-ouro {
+            background: #ffd700;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .certification-progress-bar-platina {
+            background: #B9f2ff;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .certification-details {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Controls */
+        .controls-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .year-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .year-selector label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .year-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .year-btn {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .year-btn:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .year-btn.active {
+            background: #513C9A;
+            color: white;
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .filter-section label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .category-filter {
+            background: white;
+            color: #333;
+            border: 2px solid #513C9A;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        .generate-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Legend */
+        .legend-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .legend-title {
+            font-size: 16px;
+            color: #513C9A;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-core {
+            background: #ff8c00;
+        }
+
+        .legend-supporting {
+            background: #ffd700;
+        }
+
+        /* Table styles */
+        .indicators-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .table-header {
+            background: #513C9A;
+            display: grid;
+            grid-template-columns: 3fr 0.8fr 1.2fr 1fr 2fr;
+            gap: 1px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table-header > div {
+            padding: 16px 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .table-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 3fr 0.8fr 1.2fr 1fr 2fr;
+            gap: 1px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .table-row:hover {
+            background-color: rgba(81, 60, 154, 0.05);
+        }
+
+        .table-cell {
+            padding: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            min-height: 50px;
+            font-size: 14px;
+        }
+
+        .indicator-name {
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .ods-cell, .unit-cell {
+            text-align: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .data-input, .source-input {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .data-input:focus, .source-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        .data-input.filled {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .source-link {
+            color: #513C9A;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 12px;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        .category-divider {
+            background: #513C9A;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Indicator type styling */
+        .indicator-type-text {
+            font-weight: 600;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .type-principal {
+            color: #ff8c00 !important;
+        }
+
+        .type-apoio {
+            color: #ffd700 !important;
+        }
+
+        .type-perfil {
+            color: #8a2be2 !important;
+        }
+
+        /* Export buttons */
+        .export-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Chart info */
+        .chart-info-container {
+            position: relative;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .info-button {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .info-button:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .legend-popup {
+            display: none;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 2px solid #513C9A;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 250px;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .legend-popup h4 {
+            color: #513C9A;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .legend-popup-category {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #513C9A;
+            font-weight: 500;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-button {
+            color: #999;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close-button:hover {
+            color: #513C9A;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #513C9A;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            padding-right: 60px;
+        }
+
+        .modal-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .modal-summary strong {
+            color: #513C9A;
+        }
+
+        /* Charts section */
+        .indicator-charts-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #513C9A;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h4 {
+            color: #513C9A;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .chart-card canvas {
+            max-height: 300px;
+        }
+
+        /* Category charts sections */
+        .category-charts-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-charts-header {
+            background: #513C9A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .category-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* Trends summary */
+        .trends-summary {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .trends-title {
+            font-size: 20px;
+            color: #513C9A;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .trends-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--trend-color);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .trends-card.improving {
+            --trend-color: #28a745;
+        }
+
+        .trends-card.worsening {
+            --trend-color: #dc3545;
+        }
+
+        .trends-card.stable {
+            --trend-color: #6c757d;
+        }
+
+        .trends-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .trends-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--trend-color);
+            margin-bottom: 5px;
+        }
+
+        .trends-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .modal-export-buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Hidden sections */
+        .hidden-sections {
+            display: none;
+        }
+
+        .detailed-view {
+            display: none;
+        }
+
+        .municipality-details {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .municipality-details.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+       @media (max-width: 992px) {
+    .progress-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .radar-container {
+        width: 100%;
+        height: 400px; /* MUDANÇA: era 350px, agora 400px */
+    }
+    
+    .chart-container {
+        width: 100%;
+        height: 400px; /* MUDANÇA: era 350px, agora 400px */
+    }
+    
+    .profile-indicators-container {
+        max-height: 300px; /* ADICIONAR para mobile */
+    }
+}
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .back-button {
+                left: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 36px;
+            }
+
+            .purple-section, .white-section, .progress-section {
+                padding: 24px;
+            }
+
+            .section-title, .white-section-title, .progress-title {
+                font-size: 24px;
+            }
+
+            .municipality-select {
+                width: 100%;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certification-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 2fr 0.5fr 1fr 0.8fr 1.5fr;
+                font-size: 12px;
+            }
+            
+            .table-cell {
+                padding: 8px;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+                padding: 20px;
+                max-height: 95vh;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+                padding-right: 40px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="#" class="back-button" onclick="resetPage()">
+                ← Voltar para Normas
+            </a>
+           <div class="logo-header">
+            <img src="img/logo.png" alt="DataCity Logo" />
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1>ISO 37120</h1>
+                <p>Indicadores para serviços urbanos e qualidade de vida</p>
+            </div>
+
+            <!-- Municipality Selection -->
+            <div class="purple-section municipality-section-header" id="municipality-section">
+                <div class="section-content">
+                    <h2 class="section-title" id="municipality-title">Selecione um município</h2>
+                    <p class="section-subtitle">Escolha o município ou UF para visualizar os indicadores ISO 37120</p>
+                    <div class="municipality-dropdowns">
+                        <select class="municipality-select" id="municipality-select" onchange="selectMunicipality()">
+                            <option value="">Município</option>
+                            <option value="londrina">Londrina</option>
+                            <option value="curitiba">Curitiba</option>
+                            <option value="maringa">Maringá</option>
+                            <option value="sao-paulo">São Paulo</option>
+                            <option value="rio-de-janeiro">Rio de Janeiro</option>
+                        </select>
+                        <select class="municipality-select" id="uf-select" onchange="selectUF()">
+                            <option value="">UF</option>
+                            <option value="pr">PR</option>
+                            <option value="sp">SP</option>
+                            <option value="rj">RJ</option>
+                            <option value="mg">MG</option>
+                            <option value="rs">RS</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections to hide when municipality is selected -->
+            <div id="default-sections">
+                <!-- Summary Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Resumo dos indicadores</h2>
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">104</div>
+                                <div class="stat-label">Indicadores Principais</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">46</div>
+                                <div class="stat-label">Indicadores Obrigatórios</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">58</div>
+                                <div class="stat-label">Indicadores de Apoio</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Indicadores de Perfil</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">19</div>
+                                <div class="stat-label">Categorias</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">17</div>
+                                <div class="stat-label">ODS Relacionados</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Categorias de indicadores</h2>
+                        <div class="categories-grid" id="categories-grid">
+                            <!-- Categories will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Municipality Details (Hidden by default) -->
+            <div id="municipality-details" class="municipality-details">
+                <!-- Progress Mapping -->
+                <div class="progress-section" id="radar-section">
+                    <h2 class="progress-title">Progresso de Mapeamento</h2>
+                    <div class="progress-content">
+                        <div class="profile-indicators-container">
+                            <h3>Indicadores de Perfil do município</h3>
+                            <div class="profile-indicators-grid" id="profile-indicators">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                        <div class="radar-container">
+                            <div class="chart-container">
+                                <canvas id="categoryRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-info-container">
+                        <button class="info-button" onclick="toggleLegendPopup()">ℹ️ Ver Progresso por Categoria</button>
+                        <div class="legend-popup" id="legend-popup">
+                            <h4>📊 Progresso por Categoria</h4>
+                            <div id="category-progress-list">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certification Levels -->
+                
+                    <h2 class="white-section-title">Níveis de Certificação</h2>
+                    <div class="certification-grid">
+    <!-- Bronze - posição 1 (cima esquerda) -->
+    <div class="certification-card">
+        <div class="certification-level">Bronze</div>
+        <div class="certification-requirements">45 indicadores principais + 0 a 14 de apoio</div>
+        <div class="certification-progress">
+            <div class="certification-progress-bar-bronze" id="bronze-progress" style="width: 0%;"></div>
+        </div>
+        <div class="certification-details">
+            <span id="bronze-count">0</span> / 59 indicadores
+        </div>
+    </div>
+    
+    <!-- Prata - posição 2 (cima direita) -->
+    <div class="certification-card">
+        <div class="certification-level">Prata</div>
+        <div class="certification-requirements">45 indicadores principais + 15 a 29 de apoio</div>
+        <div class="certification-progress">
+            <div class="certification-progress-bar-prata" id="prata-progress" style="width: 0%;"></div>
+        </div>
+        <div class="certification-details">
+            <span id="prata-count">0</span> / 74 indicadores
+        </div>
+    </div>
+    
+    <!-- Ouro - posição 3 (baixo esquerda) -->
+    <div class="certification-card">
+        <div class="certification-level">Ouro</div>
+        <div class="certification-requirements">45 indicadores principais + 30 a 44 de apoio</div>
+        <div class="certification-progress">
+            <div class="certification-progress-bar-ouro" id="ouro-progress" style="width: 0%;"></div>
+        </div>
+        <div class="certification-details">
+            <span id="ouro-count">0</span> / 89 indicadores
+        </div>
+    </div>
+    
+    <!-- Platina - posição 4 (baixo direita) -->
+    <div class="certification-card">
+        <div class="certification-level">Platina</div>
+        <div class="certification-requirements">45 indicadores principais + 45 a 59 de apoio</div>
+        <div class="certification-progress">
+            <div class="certification-progress-bar-platina" id="platina-progress" style="width: 0%;"></div>
+        </div>
+        <div class="certification-details">
+            <span id="platina-count">0</span> / 104 indicadores
+        </div>
+    </div>
+</div>
+                <!-- Indicators -->
+                    <h2 class="white-section-title">Indicadores</h2>
+                    
+                    <!-- Legend Section -->
+                    <div class="legend-section">
+                        <h3 class="legend-title">Legenda dos Indicadores</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <span class="legend-color legend-core"></span>
+                                <span>Indicador Principal (Core) - Obrigatório para certificação</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color legend-supporting"></span>
+                                <span>Indicador de Apoio (Supporting) - Complementar</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="controls-section">
+                        <div class="year-selector">
+                            <label>📅 Ano:</label>
+                            <div class="year-buttons" id="year-buttons">
+                                <button class="year-btn active" onclick="selectYear(2024)">2024</button>
+                                <button class="year-btn" onclick="selectYear(2023)">2023</button>
+                                <button class="year-btn" onclick="selectYear(2022)">2022</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <label>🔍 Filtrar por categoria:</label>
+                            <select class="category-filter" id="category-filter" onchange="filterByCategory()">
+                                <option value="all">Todas as categorias</option>
+                                <option value="economia">Economia</option>
+                                <option value="educacao">Educação</option>
+                                <option value="energia">Energia</option>
+                                <option value="meio-ambiente">Meio ambiente e mudanças climáticas</option>
+                                <option value="financas">Finanças</option>
+                                <option value="governanca">Governança</option>
+                                <option value="saude">Saúde</option>
+                                <option value="habitacao">Habitação</option>
+                                <option value="populacao">População e condições sociais</option>
+                                <option value="recreacao">Recreação</option>
+                                <option value="seguranca">Segurança</option>
+                                <option value="residuos">Resíduos sólidos</option>
+                                <option value="esporte-cultura">Esporte e cultura</option>
+                                <option value="telecomunicacoes">Telecomunicações</option>
+                                <option value="transporte">Transporte</option>
+                                <option value="agricultura">Agricultura urbana e segurança alimentar</option>
+                                <option value="planejamento">Planejamento urbano</option>
+                                <option value="aguas-residuais">Águas residuais</option>
+                                <option value="agua">Água</option>
+                                <option value="perfil">Indicadores de Perfil</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <button class="generate-btn" onclick="generateReport()">📊 Visualização histórica</button>
+                        </div>
+                    </div>
+                    
+                    <div class="indicators-table">
+                        <div class="table-header">
+                            <div>Indicador</div>
+                            <div>ODS</div>
+                            <div>Dado</div>
+                            <div>Unidade</div>
+                            <div>Fonte</div>
+                        </div>
+                        <div class="table-body" id="table-body">
+                            <!-- Table rows will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="export-section">
+                        <button class="export-btn" onclick="exportToCSV()">📄 Exportar CSV</button>
+                        <button class="export-btn" onclick="exportToJSON()">💾 Exportar JSON</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">📊 Relatório Completo ISO 37120 - Londrina PR</h2>
+            <div id="reportSummary" class="modal-summary">
+                <!-- Summary will be inserted here -->
+            </div>
+            <div id="trendsSummary" class="trends-summary" style="display: none;">
+                <!-- Trends summary will be inserted here -->
+            </div>
+            <div class="indicator-charts-section">
+                <h3 class="chart-title">📈 Evolução dos Indicadores (2022-2024)</h3>
+                <div id="indicator-charts-container" class="charts-grid">
+                    <!-- Individual indicator charts will be rendered here -->
+                </div>
+            </div>
+            <div class="modal-export-buttons">
+                <button class="export-btn" onclick="exportToCSV()">📄 Exportar CSV</button>
+                <button class="export-btn" onclick="exportToJSON()">💾 Exportar JSON</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let radarChart = null;
+        let modalCharts = [];
+        
+        // Data structure for indicators with Core/Supporting classification
+        const indicatorsData = {
+            'economia': {
+                name: 'Economia',
+                description: 'Indicadores econômicos para avaliar desenvolvimento e sustentabilidade econômica',
+                indicators: [
+                    { name: 'Taxa de desemprego da cidade', ods: '8', unit: '%', type: 'core' },
+                    { name: 'Valor de avaliação de propriedades comerciais e industriais como porcentagem do valor total', ods: '11', unit: '%', type: 'supporting' },
+                    { name: 'Porcentagem da população com emprego em tempo integral', ods: '8', unit: '%', type: 'supporting' },
+                    { name: 'Taxa de desemprego de jovens', ods: '8', unit: '%', type: 'supporting' },
+                    { name: 'Número de empresas por 100.000 habitantes', ods: '8', unit: 'empresas/100k hab', type: 'supporting' },
+                    { name: 'Número de novas patentes por 100.000 habitantes por ano', ods: '9', unit: 'patentes/100k hab', type: 'supporting' },
+                    { name: 'Número anual de estadias de visitantes por 100.000 habitantes', ods: '8', unit: 'pernoites/100k hab', type: 'supporting' },
+                    { name: 'Conectividade aérea (número de destinos comerciais sem escalas)', ods: '9', unit: 'destinos', type: 'supporting' }
+                ]
+            },
+            'educacao': {
+                name: 'Educação',
+                description: 'Indicadores educacionais para medir acesso e qualidade da educação',
+                indicators: [
+                    { name: 'Porcentagem da população feminina em idade escolar matriculada', ods: '4', unit: '%', type: 'core' },
+                    { name: 'Porcentagem de estudantes que completam o ensino primário', ods: '4', unit: '%', type: 'core' },
+                    { name: 'Porcentagem de estudantes que completam o ensino secundário', ods: '4', unit: '%', type: 'core' },
+                    { name: 'Relação estudante/professor no ensino primário', ods: '4', unit: 'razão', type: 'core' },
+                    { name: 'Porcentagem da população em idade escolar matriculada', ods: '4', unit: '%', type: 'supporting' },
+                    { name: 'Número de diplomas de ensino superior por 100.000 habitantes', ods: '4', unit: 'diplomas/100k hab', type: 'supporting' }
+                ]
+            },
+            'energia': {
+                name: 'Energia',
+                description: 'Indicadores energéticos para sustentabilidade e eficiência energética',
+                indicators: [
+                    { name: 'Consumo final total de energia per capita', ods: '7', unit: 'GJ/ano', type: 'core' },
+                    { name: 'Porcentagem da energia final derivada de fontes renováveis', ods: '7', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população com serviço elétrico autorizado', ods: '7', unit: '%', type: 'core' },
+                    { name: 'Número de conexões de distribuição de gás por 100.000 habitantes', ods: '7', unit: 'conexões/100k hab', type: 'core' },
+                    { name: 'Consumo de energia da iluminação pública per km de rua iluminada', ods: '7', unit: 'kWh/ano', type: 'supporting' },
+                    { name: 'Horas anuais médias de interrupção do serviço elétrico por domicílio', ods: '7', unit: 'horas/ano', type: 'supporting' },
+                    { name: 'Consumo final de energia de edifícios públicos por ano', ods: '7', unit: 'GJ/m²', type: 'supporting' }
+                ]
+            },
+            'meio-ambiente': {
+                name: 'Meio ambiente e mudanças climáticas',
+                description: 'Indicadores ambientais para qualidade do ar, água e biodiversidade',
+                indicators: [
+                    { name: 'Concentração de material particulado fino (PM2.5)', ods: '3', unit: 'μg/m³', type: 'core' },
+                    { name: 'Concentração de material particulado (PM10)', ods: '3', unit: 'μg/m³', type: 'core' },
+                    { name: 'Emissões de gases de efeito estufa em toneladas per capita', ods: '13', unit: 't CO2 eq/hab', type: 'core' },
+                    { name: 'Porcentagem de áreas designadas para proteção natural', ods: '15', unit: '%', type: 'supporting' },
+                    { name: 'Concentração de NO2 (dióxido de nitrogênio)', ods: '3', unit: 'μg/m³', type: 'supporting' },
+                    { name: 'Concentração de SO2 (dióxido de enxofre)', ods: '3', unit: 'μg/m³', type: 'supporting' },
+                    { name: 'Concentração de O3 (ozônio)', ods: '3', unit: 'μg/m³', type: 'supporting' },
+                    { name: 'Poluição sonora', ods: '3', unit: 'dB', type: 'supporting' },
+                    { name: 'Variação percentual no número de espécies nativas', ods: '15', unit: '%', type: 'supporting' }
+                ]
+            },
+            'financas': {
+                name: 'Finanças',
+                description: 'Indicadores financeiros para sustentabilidade fiscal municipal',
+                indicators: [
+                    { name: 'Taxa de serviço da dívida (como porcentagem da receita própria)', ods: '17', unit: '%', type: 'core' },
+                    { name: 'Gastos de capital como porcentagem dos gastos totais', ods: '17', unit: '%', type: 'core' },
+                    { name: 'Receita própria como porcentagem do total de receitas', ods: '17', unit: '%', type: 'supporting' },
+                    { name: 'Impostos coletados como porcentagem dos impostos cobrados', ods: '17', unit: '%', type: 'supporting' }
+                ]
+            },
+            'governanca': {
+                name: 'Governança',
+                description: 'Indicadores de transparência, participação e governança democrática',
+                indicators: [
+                    { name: 'Mulheres como porcentagem do total eleito para cargos municipais', ods: '5', unit: '%', type: 'core' },
+                    { name: 'Número de condenações por corrupção/suborno por 100.000 habitantes', ods: '16', unit: 'casos/100k hab', type: 'supporting' },
+                    { name: 'Eleitores registrados como porcentagem da população em idade de votar', ods: '16', unit: '%', type: 'supporting' },
+                    { name: 'Participação eleitoral na última eleição municipal', ods: '16', unit: '%', type: 'supporting' }
+                ]
+            },
+            'saude': {
+                name: 'Saúde',
+                description: 'Indicadores de saúde pública e qualidade dos serviços de saúde',
+                indicators: [
+                    { name: 'Expectativa média de vida', ods: '3', unit: 'anos', type: 'core' },
+                    { name: 'Número de leitos hospitalares por 100.000 habitantes', ods: '3', unit: 'leitos/100k hab', type: 'core' },
+                    { name: 'Número de médicos por 100.000 habitantes', ods: '3', unit: 'médicos/100k hab', type: 'core' },
+                    { name: 'Mortalidade de menores de cinco anos por 1.000 nascidos vivos', ods: '3', unit: '‰', type: 'core' },
+                    { name: 'Número de profissionais de enfermagem por 100.000 habitantes', ods: '3', unit: 'profissionais/100k hab', type: 'supporting' },
+                    { name: 'Taxa de suicídio por 100.000 habitantes', ods: '3', unit: 'casos/100k hab', type: 'supporting' }
+                ]
+            },
+            'habitacao': {
+                name: 'Habitação',
+                description: 'Indicadores habitacionais para acesso e qualidade da moradia',
+                indicators: [
+                    { name: 'Porcentagem da população vivendo em habitação inadequada', ods: '11', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população vivendo em habitação acessível', ods: '11', unit: '%', type: 'core' },
+                    { name: 'Número de pessoas em situação de rua por 100.000 habitantes', ods: '11', unit: 'pessoas/100k hab', type: 'supporting' },
+                    { name: 'Porcentagem de domicílios sem título legal registrado', ods: '11', unit: '%', type: 'supporting' }
+                ]
+            },
+            'populacao': {
+                name: 'População e condições sociais',
+                description: 'Indicadores sociais e demográficos da população',
+                indicators: [
+                    { name: 'Porcentagem da população abaixo da linha internacional de pobreza', ods: '1', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população abaixo da linha nacional de pobreza', ods: '1', unit: '%', type: 'supporting' },
+                    { name: 'Coeficiente Gini de desigualdade', ods: '10', unit: 'índice', type: 'supporting' }
+                ]
+            },
+            'recreacao': {
+                name: 'Recreação',
+                description: 'Indicadores de espaços e equipamentos para recreação pública',
+                indicators: [
+                    { name: 'Metros quadrados de espaço de recreação coberto per capita', ods: '11', unit: 'm²/hab', type: 'supporting' },
+                    { name: 'Metros quadrados de espaço de recreação ao ar livre per capita', ods: '11', unit: 'm²/hab', type: 'supporting' }
+                ]
+            },
+            'seguranca': {
+                name: 'Segurança',
+                description: 'Indicadores de segurança pública e proteção civil',
+                indicators: [
+                    { name: 'Número de bombeiros por 100.000 habitantes', ods: '11', unit: 'bombeiros/100k hab', type: 'core' },
+                    { name: 'Número de mortes relacionadas a incêndios por 100.000 habitantes', ods: '11', unit: 'mortes/100k hab', type: 'core' },
+                    { name: 'Número de mortes relacionadas a desastres naturais por 100.000 habitantes', ods: '13', unit: 'mortes/100k hab', type: 'core' },
+                    { name: 'Número de policiais por 100.000 habitantes', ods: '16', unit: 'policiais/100k hab', type: 'core' },
+                    { name: 'Número de homicídios por 100.000 habitantes', ods: '16', unit: 'homicídios/100k hab', type: 'core' },
+                    { name: 'Número de bombeiros voluntários por 100.000 habitantes', ods: '11', unit: 'bombeiros/100k hab', type: 'supporting' },
+                    { name: 'Tempo de resposta dos serviços de emergência', ods: '11', unit: 'minutos', type: 'supporting' },
+                    { name: 'Crimes contra a propriedade por 100.000 habitantes', ods: '16', unit: 'casos/100k hab', type: 'supporting' },
+                    { name: 'Mortes causadas por acidentes industriais por 100.000 habitantes', ods: '8', unit: 'mortes/100k hab', type: 'supporting' },
+                    { name: 'Crimes violentos contra mulheres por 100.000 habitantes', ods: '5', unit: 'casos/100k hab', type: 'supporting' }
+                ]
+            },
+            'residuos': {
+                name: 'Resíduos sólidos',
+                description: 'Indicadores de gestão de resíduos sólidos urbanos',
+                indicators: [
+                    { name: 'Porcentagem da população com coleta regular de resíduos sólidos', ods: '11', unit: '%', type: 'core' },
+                    { name: 'Total de resíduos sólidos coletados per capita', ods: '11', unit: 'kg/hab/ano', type: 'core' },
+                    { name: 'Porcentagem de resíduos sólidos que são reciclados', ods: '12', unit: '%', type: 'core' },
+                    { name: 'Porcentagem de resíduos dispostos em aterro sanitário', ods: '12', unit: '%', type: 'core' },
+                    { name: 'Porcentagem de resíduos tratados em usinas de energia', ods: '12', unit: '%', type: 'core' },
+                    { name: 'Total de coleta de resíduos sólidos municipais per capita', ods: '12', unit: '%', type: 'core' },
+                    { name: 'Porcentagem de resíduos tratados biologicamente', ods: '12', unit: '%', type: 'supporting' },
+                    { name: 'Porcentagem de resíduos dispostos em lixão a céu aberto', ods: '12', unit: '%', type: 'supporting' },
+                    { name: 'Porcentagem de resíduos dispostos por outros meios', ods: '12', unit: '%', type: 'supporting' },
+                    { name: 'Geração de resíduos perigosos per capita', ods: '12', unit: 'toneladas/hab', type: 'supporting' },
+                    { name: 'Porcentagem de resíduos perigosos reciclados', ods: '12', unit: '%', type: 'supporting' }
+                ]
+            },
+            'esporte-cultura': {
+                name: 'Esporte e cultura',
+                description: 'Indicadores culturais e esportivos para qualidade de vida',
+                indicators: [
+                    { name: 'Número de instituições culturais e esportivas por 100.000 habitantes', ods: '11', unit: 'instituições/100k hab', type: 'core' },
+                    { name: 'Porcentagem do orçamento municipal para cultura e esporte', ods: '11', unit: '%', type: 'supporting' },
+                    { name: 'Número anual de eventos culturais por 100.000 habitantes', ods: '11', unit: 'eventos/100k hab', type: 'supporting' }
+                ]
+            },
+            'telecomunicacoes': {
+                name: 'Telecomunicações',
+                description: 'Indicadores de conectividade e acesso às telecomunicações',
+                indicators: [
+                    { name: 'Número de conexões de internet por 100.000 habitantes', ods: '9', unit: 'conexões/100k hab', type: 'supporting' },
+                    { name: 'Número de conexões de telefone móvel por 100.000 habitantes', ods: '9', unit: 'conexões/100k hab', type: 'supporting' }
+                ]
+            },
+            'transporte': {
+                name: 'Transporte',
+                description: 'Indicadores de mobilidade urbana e transporte sustentável',
+                indicators: [
+                    { name: 'Quilômetros de sistema de transporte público por 100.000 habitantes', ods: '11', unit: 'km/100k hab', type: 'core' },
+                    { name: 'Número anual de viagens de transporte público per capita', ods: '11', unit: 'viagens/hab', type: 'core' },
+                    { name: 'Porcentagem de passageiros usando modo alternativo ao veículo pessoal', ods: '11', unit: '%', type: 'supporting' },
+                    { name: 'Quilômetros de ciclovias por 100.000 habitantes', ods: '11', unit: 'km/100k hab', type: 'supporting' },
+                    { name: 'Mortes no trânsito por 100.000 habitantes', ods: '3', unit: 'mortes/100k hab', type: 'supporting' },
+                    { name: 'Porcentagem da população a 0,5 km do transporte público', ods: '11', unit: '%', type: 'supporting' },
+                    { name: 'Tempo médio de deslocamento', ods: '11', unit: 'minutos', type: 'supporting' }
+                ]
+            },
+            'agricultura': {
+                name: 'Agricultura urbana e segurança alimentar',
+                description: 'Indicadores de segurança alimentar e agricultura urbana',
+                indicators: [
+                    { name: 'Área agrícola urbana total por 100.000 habitantes', ods: '2', unit: 'hectares/100k hab', type: 'core' },
+                    { name: 'Quantidade de alimentos produzidos localmente', ods: '2', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população desnutrida', ods: '2', unit: '%', type: 'supporting' },
+                    { name: 'Porcentagem da população com sobrepeso ou obesidade', ods: '2', unit: '%', type: 'supporting' }
+                ]
+            },
+            'planejamento': {
+                name: 'Planejamento urbano',
+                description: 'Indicadores de planejamento e desenvolvimento urbano',
+                indicators: [
+                    { name: 'Área verde (hectares) por 100.000 habitantes', ods: '11', unit: 'hectares/100k hab', type: 'core' },
+                    { name: 'Tamanho da área de assentamentos informais como porcentagem da área da cidade', ods: '11', unit: '%', type: 'core' },
+                    { name: 'Relação emprego-habitação', ods: '11', unit: 'razão', type: 'supporting' },
+                    { name: 'Proximidade de serviços básicos', ods: '11', unit: 'minutos', type: 'supporting' }
+                ]
+            },
+            'aguas-residuais': {
+                name: 'Águas residuais',
+                description: 'Indicadores de tratamento e gestão de águas residuais',
+                indicators: [
+                    { name: 'Porcentagem da população atendida por coleta de águas residuais', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Porcentagem das águas residuais recebendo tratamento centralizado', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população com acesso a saneamento melhorado', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Taxa de conformidade do tratamento de águas residuais', ods: '6', unit: '%', type: 'supporting' }
+                ]
+            },
+            'agua': {
+                name: 'Água',
+                description: 'Indicadores de acesso e qualidade do abastecimento de água',
+                indicators: [
+                    { name: 'Porcentagem da população com serviço de água potável', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Porcentagem da população com acesso sustentável à água', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Consumo doméstico total de água per capita', ods: '6', unit: 'litros/dia', type: 'core' },
+                    { name: 'Taxa de conformidade da qualidade da água potável', ods: '6', unit: '%', type: 'core' },
+                    { name: 'Consumo total de água per capita', ods: '6', unit: 'litros/dia', type: 'supporting' },
+                    { name: 'Horas anuais médias de interrupção do serviço de água por domicílio', ods: '6', unit: 'horas/ano', type: 'supporting' },
+                    { name: 'Porcentagem de perda de água (não contabilizada)', ods: '6', unit: '%', type: 'supporting' }
+                ]
+            },
+            'perfil': {
+                name: 'Indicadores de Perfil',
+                description: 'Indicadores contextuais e demográficos para caracterização da cidade',
+                indicators: [
+                    { name: 'Orçamento bruto de custeio per capita', ods: '17', unit: 'USD', type: 'profile' },
+                    { name: 'Orçamento bruto de capital per capita', ods: '17', unit: 'USD', type: 'profile' },
+                    { name: 'Graus-dia de aquecimento', ods: '7', unit: 'graus-dia', type: 'profile' },
+                    { name: 'Graus-dia de resfriamento', ods: '7', unit: 'graus-dia', type: 'profile' },
+                    { name: 'Taxa anual de inflação baseada na média dos últimos cinco anos', ods: '8', unit: '%', type: 'profile' },
+                    { name: 'Produto da cidade per capita', ods: '8', unit: 'USD', type: 'profile' },
+                    { name: 'Renda familiar média', ods: '1', unit: 'USD', type: 'profile' },
+                    { name: 'Número total de domicílios', ods: '11', unit: 'domicílios', type: 'profile' },
+                    { name: 'Pessoas por domicílio', ods: '11', unit: 'pessoas/domicílio', type: 'profile' },
+                    { name: 'Taxa de desocupação', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Espaço habitável', ods: '11', unit: 'm²/pessoa', type: 'profile' },
+                    { name: 'Taxa de residência secundária', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Domicílios para locação residencial como porcentagem do total', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Variação populacional anual', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem da população que é estrangeira', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem da população que são novos imigrantes', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Porcentagem de não cidadãos da população da cidade', ods: '10', unit: '%', type: 'profile' },
+                    { name: 'Número de estudantes universitários por 100.000 habitantes', ods: '4', unit: 'estudantes/100k hab', type: 'profile' },
+                    { name: 'Número de automóveis privados per capita', ods: '11', unit: 'veículos/hab', type: 'profile' },
+                    { name: 'Número de veículos motorizados de duas rodas per capita', ods: '11', unit: 'veículos/hab', type: 'profile' },
+                    { name: 'Densidade populacional (por quilômetro quadrado)', ods: '11', unit: 'hab/km²', type: 'profile' },
+                    { name: 'Densidade de urbanização', ods: '11', unit: '%', type: 'profile' },
+                    { name: 'Número de árvores por 100.000 habitantes', ods: '11', unit: 'árvores/100k hab', type: 'profile' },
+                    { name: 'Dados demográficos', ods: '11', unit: 'dados', type: 'profile' }
+                ]
+            }
+        };
+
+        let currentYear = 2024;
+        let currentData = {};
+        let selectedMunicipality = '';
+
+        // Initialize the application
+        function init() {
+            loadData();
+            renderCategoriesOverview();
+            
+            // Generate some sample data for demonstration
+            generateSampleData();
+        }
+
+        // Generate sample data for demonstration
+        function generateSampleData() {
+            const years = [2022, 2023, 2024];
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    years.forEach(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        if (!currentData[dataKey]) {
+                            // Generate some random sample data for demonstration
+                            let value = '';
+                            if (Math.random() > 0.3) { // 70% chance of having data
+                                if (indicator.unit.includes('%')) {
+                                    value = (Math.random() * 100).toFixed(1);
+                                } else if (indicator.unit.includes('hab')) {
+                                    value = (Math.random() * 1000 + 100).toFixed(0);
+                                } else if (indicator.unit === 'anos') {
+                                    value = (Math.random() * 10 + 70).toFixed(1);
+                                } else {
+                                    value = (Math.random() * 100 + 10).toFixed(1);
+                                }
+                            }
+                            
+                            currentData[dataKey] = {
+                                value: value,
+                                source: value ? 'https://exemplo.gov.br/dados' : ''
+                            };
+                        }
+                    });
+                });
+            });
+            saveData();
+        }
+
+        // Load data from memory (removed localStorage)
+        function loadData() {
+            // Data will be stored in memory during the session
+            if (!currentData) {
+                currentData = {};
+            }
+        }
+
+        // Save data to memory
+        function saveData() {
+            // Data is saved in memory during the session
+            if (selectedMunicipality) {
+                updateCertificationLevels();
+            }
+        }
+
+        // Select municipality
+        function selectMunicipality() {
+            const municipioSelect = document.getElementById('municipality-select');
+            const ufSelect = document.getElementById('uf-select');
+            const selectedMunicipio = municipioSelect.value;
+            const selectedUF = ufSelect.value;
+            
+            // Auto-complete UF based on municipality
+            if (selectedMunicipio) {
+                if (selectedMunicipio === 'londrina' || selectedMunicipio === 'curitiba' || selectedMunicipio === 'maringa') {
+                    ufSelect.value = 'pr';
+                } else if (selectedMunicipio === 'sao-paulo') {
+                    ufSelect.value = 'sp';
+                } else if (selectedMunicipio === 'rio-de-janeiro') {
+                    ufSelect.value = 'rj';
+                }
+            }
+            
+            if (selectedMunicipio && (selectedUF || ufSelect.value)) {
+                selectedMunicipality = `${selectedMunicipio}-${ufSelect.value}`;
+                
+                // Update header title
+                const municipalityTitle = document.getElementById('municipality-title');
+                municipalityTitle.textContent = `${selectedMunicipio.charAt(0).toUpperCase() + selectedMunicipio.slice(1)} - ${(ufSelect.value || selectedUF).toUpperCase()}`;
+                
+                // Hide overview sections
+                document.getElementById('default-sections').style.display = 'none';
+                
+                // Show municipality details
+                document.getElementById('municipality-details').classList.add('show');
+                
+                // Initialize detailed view
+                renderTable();
+                renderProfileIndicators();
+                updateCertificationLevels();
+                updateRadarChart();
+                updateCategorySummary();
+                
+                // Scroll to municipality details
+                setTimeout(() => {
+                    document.getElementById('municipality-details').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            } else {
+                resetPage();
+            }
+        }
+
+        // Select UF
+        function selectUF() {
+            selectMunicipality(); // Call the same function to handle the logic
+        }
+
+        // Reset page
+        function resetPage() {
+            // Reset dropdown
+            document.getElementById('municipality-select').value = '';
+            
+            // Show default sections
+            document.getElementById('default-sections').style.display = 'block';
+            
+            // Hide municipality details
+            document.getElementById('municipality-details').classList.remove('show');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render categories overview
+        function renderCategoriesOverview() {
+            const grid = document.getElementById('categories-grid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+
+            // Filter out profile indicators for the overview
+            const mainCategories = Object.keys(indicatorsData).filter(key => key !== 'perfil');
+
+            mainCategories.forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                const coreCount = category.indicators.filter(ind => ind.type === 'core').length;
+                const supportingCount = category.indicators.filter(ind => ind.type === 'supporting').length;
+                const totalCount = category.indicators.length;
+
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <div class="category-title">${category.name}</div>
+                    <div class="category-description">${category.description}</div>
+                    <div class="category-stats">
+                        <div class="indicator-count">${totalCount} indicadores</div>
+                        <div class="core-info">
+                            ${coreCount > 0 ? `${coreCount} core` : ''}
+                            ${supportingCount > 0 ? `${supportingCount} supporting` : ''}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render profile indicators
+        function renderProfileIndicators() {
+            const profileContainer = document.getElementById('profile-indicators');
+            if (!profileContainer) return;
+            
+            profileContainer.innerHTML = '';
+            
+            const profileCategory = indicatorsData['perfil'];
+            if (!profileCategory) return;
+            
+            profileCategory.indicators.forEach((indicator, index) => {
+                const dataKey = `perfil_${index}_${currentYear}`;
+                const currentValue = currentData[dataKey] || { value: '', source: '' };
+                
+                const indicatorItem = document.createElement('div');
+                indicatorItem.className = 'profile-indicator-item';
+                indicatorItem.innerHTML = `
+                    <div class="profile-indicator-name">${indicator.name}</div>
+                    <div class="profile-indicator-value">
+                        <span>${indicator.unit}</span>
+                        <span>${currentValue.value || 'Não informado'}</span>
+                    </div>
+                `;
+                
+                profileContainer.appendChild(indicatorItem);
+            });
+        }
+
+        // Select year
+        function selectYear(year) {
+            currentYear = year;
+            document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable();
+            renderProfileIndicators();
+            updateCertificationLevels();
+            
+            // Update the radar chart
+            if (selectedMunicipality) {
+                updateRadarChart();
+                updateCategorySummary();
+            }
+        }
+
+        // Count filled indicators by type (excluding profile indicators)
+        function countFilledIndicators() {
+            const filter = document.getElementById('category-filter').value;
+            let coreCount = 0;
+            let supportingCount = 0;
+            let totalCore = 0;
+            let totalSupporting = 0;
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (filter !== 'all' && filter !== categoryKey) return;
+                if (categoryKey === 'perfil') return; // Exclude profile indicators from certification count
+                
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    if (indicator.type === 'core') {
+                        totalCore++;
+                        const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                        if (currentData[dataKey] && currentData[dataKey].value) {
+                            coreCount++;
+                        }
+                    } else if (indicator.type === 'supporting') {
+                        totalSupporting++;
+                        const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                        if (currentData[dataKey] && currentData[dataKey].value) {
+                            supportingCount++;
+                        }
+                    }
+                });
+            });
+
+            return { coreCount, supportingCount, totalCore, totalSupporting };
+        }
+
+        // Update certification levels with corrected logic
+        function updateCertificationLevels() {
+            const counts = countFilledIndicators();
+            const { coreCount, supportingCount } = counts;
+            
+            // Bronze: mínimo 45 core (pode ter 0-14 supporting)
+            const bronzeProgress = coreCount >= 45 ? 100 : (coreCount / 45) * 100;
+            
+            // Prata: 45 core + 15-29 supporting
+            const prataProgress = (coreCount >= 45 && supportingCount >= 15) ? 100 : 
+                                  coreCount >= 45 ? (supportingCount / 15) * 100 : 0;
+            
+            // Ouro: 45 core + 30-44 supporting  
+            const ouroProgress = (coreCount >= 45 && supportingCount >= 30) ? 100 : 
+                                 coreCount >= 45 ? Math.max(0, (supportingCount - 15) / 15) * 100 : 0;
+            
+            // Platina: 45 core + 45+ supporting
+            const platinaProgress = (coreCount >= 45 && supportingCount >= 45) ? 100 : 
+                                    coreCount >= 45 ? Math.max(0, (supportingCount - 30) / 15) * 100 : 0;
+
+            // Update progress bars and counts
+            document.getElementById('bronze-progress').style.width = `${Math.min(bronzeProgress, 100)}%`;
+            document.getElementById('bronze-count').textContent = `${coreCount}/${45} core + ${Math.min(supportingCount, 14)}/14 apoio`;
+
+            document.getElementById('prata-progress').style.width = `${Math.min(prataProgress, 100)}%`;
+            document.getElementById('prata-count').textContent = `${coreCount}/${45} core + ${Math.min(supportingCount, 29)}/29 apoio`;
+
+            document.getElementById('ouro-progress').style.width = `${Math.min(ouroProgress, 100)}%`;
+            document.getElementById('ouro-count').textContent = `${coreCount}/${45} core + ${Math.min(supportingCount, 44)}/44 apoio`;
+
+            document.getElementById('platina-progress').style.width = `${Math.min(platinaProgress, 100)}%`;
+            document.getElementById('platina-count').textContent = `${coreCount}/${45} core + ${Math.min(supportingCount, 58)}/58 apoio`;
+        }
+
+        // Render the indicators table
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            if (!tableBody) return;
+            
+            const filter = document.getElementById('category-filter').value;
+            
+            tableBody.innerHTML = '';
+
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (filter !== 'all' && filter !== categoryKey) return;
+                
+                const category = indicatorsData[categoryKey];
+                
+                // Add category divider
+                const divider = document.createElement('div');
+                divider.className = 'category-divider';
+                divider.textContent = `📊 ${category.name}`;
+                tableBody.appendChild(divider);
+
+                // Add indicators
+                category.indicators.forEach((indicator, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'table-row';
+                    
+                    const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                    const currentValue = currentData[dataKey] || { value: '', source: '' };
+                    
+                    row.innerHTML = `
+                        <div class="table-cell indicator-name">
+                            <span class="${indicator.type === 'core' ? 'type-principal' : indicator.type === 'supporting' ? 'type-apoio' : 'type-perfil'}">${indicator.name}</span>
+                        </div>
+                        <div class="table-cell ods-cell">${indicator.ods}</div>
+                        <div class="table-cell">
+                            <input type="text" class="data-input ${currentValue.value ? 'filled' : ''}" 
+                                   value="${currentValue.value}" 
+                                   onchange="updateData('${dataKey}', 'value', this.value)"
+                                   placeholder="Inserir dado">
+                        </div>
+                        <div class="table-cell unit-cell">${indicator.unit}</div>
+                        <div class="table-cell source-cell">
+                            ${currentValue.source && isValidUrl(currentValue.source) ? 
+                                `<a href="${currentValue.source}" target="_blank" class="source-link">${currentValue.source}</a>` :
+                                `<input type="url" class="source-input" 
+                                        value="${currentValue.source}" 
+                                        onchange="updateData('${dataKey}', 'source', this.value)"
+                                        placeholder="https://exemplo.com">`
+                            }
+                        </div>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+
+        // Update data
+        function updateData(key, field, value) {
+            if (!currentData[key]) {
+                currentData[key] = { value: '', source: '' };
+            }
+            currentData[key][field] = value;
+            saveData();
+            
+            // Re-render to update visual state
+            renderTable();
+            
+            // Update profile indicators if needed
+            if (key.startsWith('perfil_')) {
+                renderProfileIndicators();
+            }
+            
+            // Update radar chart
+            if (selectedMunicipality) {
+                updateRadarChart();
+                updateCategorySummary();
+            }
+        }
+
+        // Check if URL is valid
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Filter by category
+        function filterByCategory() {
+            renderTable();
+            updateCertificationLevels();
+        }
+
+        // Calculate category completion percentages
+        function calculateCategoryCompletion() {
+            const categoryData = {};
+            
+            // Exclude 'perfil' category from radar chart
+            const mainCategories = Object.keys(indicatorsData).filter(key => key !== 'perfil');
+            
+            mainCategories.forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                let filled = 0;
+                let total = category.indicators.length;
+                
+                category.indicators.forEach((indicator, index) => {
+                    const dataKey = `${categoryKey}_${index}_${currentYear}`;
+                    if (currentData[dataKey] && currentData[dataKey].value) {
+                        filled++;
+                    }
+                });
+                
+                categoryData[categoryKey] = {
+                    name: category.name,
+                    percentage: total > 0 ? Math.round((filled / total) * 100) : 0,
+                    filled: filled,
+                    total: total
+                };
+            });
+            
+            return categoryData;
+        }
+
+        // Update radar chart
+        function updateRadarChart() {
+            const categoryData = calculateCategoryCompletion();
+            const categories = Object.values(categoryData).map(cat => cat.name);
+            const percentages = Object.values(categoryData).map(cat => cat.percentage);
+            
+            const ctx = document.getElementById('categoryRadarChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (radarChart) {
+                radarChart.destroy();
+            }
+            
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: percentages,
+                        backgroundColor: 'rgba(81, 60, 154, 0.2)',
+                        borderColor: 'rgba(81, 60, 154, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(81, 60, 154, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8,
+                        pointRadius: 5,
+                        pointHoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(81, 60, 154, 1)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const data = Object.values(categoryData)[context.dataIndex];
+                                    return [
+                                        `${data.name}: ${context.raw}%`,
+                                        `Preenchidos: ${data.filled}/${data.total}`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                display: true,
+                                color: 'rgba(81, 60, 154, 0.6)',
+                                backdropColor: 'transparent',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 11,
+                                    weight: '600'
+                                },
+                                color: '#513C9A',
+                                padding: 10
+                            },
+                            grid: {
+                                color: 'rgba(81, 60, 154, 0.2)',
+                                lineWidth: 1
+                            },
+                            angleLines: {
+                                color: 'rgba(81, 60, 154, 0.2)',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update category summary
+        function updateCategorySummary() {
+            const categoryData = calculateCategoryCompletion();
+            const progressList = document.getElementById('category-progress-list');
+            
+            if (!progressList) return;
+            
+            progressList.innerHTML = '';
+            
+            Object.values(categoryData).forEach(category => {
+                const progressItem = document.createElement('div');
+                progressItem.className = 'legend-popup-category';
+                progressItem.innerHTML = `${category.name}: <strong>${category.percentage}%</strong> (${category.filled}/${category.total})`;
+                progressList.appendChild(progressItem);
+            });
+        }
+
+        // Toggle legend popup
+        function toggleLegendPopup() {
+            const popup = document.getElementById('legend-popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('legend-popup');
+            const button = event.target.closest('.info-button');
+            
+            if (!button && popup && popup.style.display === 'block') {
+                popup.style.display = 'none';
+            }
+        });
+
+        // Calculate trend (improvement/worsening) for an indicator
+        function calculateTrend(dataPoints) {
+            if (dataPoints.length < 2) return 'neutral';
+            
+            const firstValue = dataPoints[0];
+            const lastValue = dataPoints[dataPoints.length - 1];
+            
+            if (lastValue > firstValue) return 'improving';
+            else if (lastValue < firstValue) return 'worsening';
+            return 'neutral';
+        }
+
+        // Generate comprehensive report with charts
+        function generateReport() {
+            const counts = countFilledIndicators();
+            const totalFilled = counts.coreCount + counts.supportingCount;
+            const totalIndicators = counts.totalCore + counts.totalSupporting;
+            const completionRate = ((totalFilled / totalIndicators) * 100).toFixed(1);
+            
+            // Create summary
+            const summaryHtml = `
+                <strong>📈 Relatório Executivo - ${selectedMunicipality.replace('-', ' ').toUpperCase()}</strong><br><br>
+                <strong>Período:</strong> 2022-2024<br>
+                <strong>Data de Geração:</strong> ${new Date().toLocaleDateString('pt-BR')}<br><br>
+                
+                <strong>📊 Resumo Geral de Preenchimento (${currentYear}):</strong><br>
+                • Indicadores Principais: <strong>${counts.coreCount}/${counts.totalCore}</strong> (${((counts.coreCount/counts.totalCore)*100).toFixed(1)}%)<br>
+                • Indicadores de Apoio: <strong>${counts.supportingCount}/${counts.totalSupporting}</strong> (${((counts.supportingCount/counts.totalSupporting)*100).toFixed(1)}%)<br>
+                • Taxa de Completude Total: <strong>${completionRate}%</strong><br><br>
+                
+                <strong>🎯 Status de Certificação:</strong><br>
+                ${getBestCertificationLevel(counts)}<br><br>
+                
+                <strong>📋 Este relatório apresenta a evolução temporal de todos os indicadores com dados disponíveis para os anos 2022, 2023 e 2024.</strong>
+            `;
+            
+            document.getElementById('reportSummary').innerHTML = summaryHtml;
+            
+            // Generate and show trends summary
+            const trendsHtml = generateTrendsSummary();
+            const trendsContainer = document.getElementById('trendsSummary');
+            trendsContainer.innerHTML = trendsHtml;
+            trendsContainer.style.display = 'block';
+            
+            // Generate charts for indicators with data
+            generateIndicatorCharts();
+            
+            // Show modal
+            document.getElementById('reportModal').style.display = 'block';
+        }
+
+        // Get best certification level achieved
+        function getBestCertificationLevel(counts) {
+            const { coreCount, supportingCount } = counts;
+            const totalFilled = coreCount + supportingCount;
+            
+            if (coreCount >= 45 && totalFilled >= 90) {
+                return '💎 <strong>Nível Platina</strong> - Cidade atende aos requisitos para certificação Platina';
+            } else if (coreCount >= 45 && totalFilled >= 75) {
+                return '🥇 <strong>Nível Ouro</strong> - Cidade atende aos requisitos para certificação Ouro';
+            } else if (coreCount >= 45 && totalFilled >= 60) {
+                return '🥈 <strong>Nível Prata</strong> - Cidade atende aos requisitos para certificação Prata';
+            } else if (coreCount >= 45 && totalFilled >= 45) {
+                return '🥉 <strong>Nível Bronze</strong> - Cidade atende aos requisitos para certificação Bronze';
+            } else {
+                return '📊 <strong>Em Desenvolvimento</strong> - Cidade ainda não atende aos requisitos mínimos para certificação';
+            }
+        }
+
+        // Calculate trends for all indicators
+        function calculateAllTrends() {
+            const trends = {
+                improving: [],
+                worsening: [],
+                stable: [],
+                byYear: {
+                    2022: { improving: 0, worsening: 0, stable: 0 },
+                    2023: { improving: 0, worsening: 0, stable: 0 },
+                    2024: { improving: 0, worsening: 0, stable: 0 }
+                }
+            };
+
+            const years = [2022, 2023, 2024];
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (categoryKey === 'perfil') return; // Skip profile indicators
+                
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    const dataPoints = [];
+                    let hasValidData = false;
+                    
+                    years.forEach(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        if (data && data.value && data.value.trim() !== '') {
+                            hasValidData = true;
+                            dataPoints.push(parseFloat(data.value) || 0);
+                        } else {
+                            dataPoints.push(null);
+                        }
+                    });
+                    
+                    if (hasValidData && dataPoints.length >= 2) {
+                        // Compare each consecutive year
+                        for (let i = 1; i < dataPoints.length; i++) {
+                            if (dataPoints[i-1] !== null && dataPoints[i] !== null) {
+                                const year = years[i];
+                                if (dataPoints[i] > dataPoints[i-1]) {
+                                    trends.byYear[year].improving++;
+                                } else if (dataPoints[i] < dataPoints[i-1]) {
+                                    trends.byYear[year].worsening++;
+                                } else {
+                                    trends.byYear[year].stable++;
+                                }
+                            }
+                        }
+                        
+                        // Overall trend (first vs last)
+                        const trend = calculateTrend(dataPoints.filter(p => p !== null));
+                        const indicatorInfo = {
+                            name: indicator.name,
+                            category: category.name,
+                            type: indicator.type
+                        };
+                        
+                        if (trend === 'improving') {
+                            trends.improving.push(indicatorInfo);
+                        } else if (trend === 'worsening') {
+                            trends.worsening.push(indicatorInfo);
+                        } else {
+                            trends.stable.push(indicatorInfo);
+                        }
+                    }
+                });
+            });
+            
+            return trends;
+        }
+
+        // Generate trends summary
+        function generateTrendsSummary() {
+            const trends = calculateAllTrends();
+            
+            const trendsHtml = `
+                <h3 class="trends-title">📈 Resumo de Tendências dos Indicadores</h3>
+                <div class="trends-grid">
+                    <div class="trends-card improving">
+                        <div class="trends-icon">📈</div>
+                        <div class="trends-number">${trends.improving.length}</div>
+                        <div class="trends-label">Melhorando</div>
+                    </div>
+                    
+                    <div class="trends-card worsening">
+                        <div class="trends-icon">📉</div>
+                        <div class="trends-number">${trends.worsening.length}</div>
+                        <div class="trends-label">Piorando</div>
+                    </div>
+                    
+                    <div class="trends-card stable">
+                        <div class="trends-icon">➡️</div>
+                        <div class="trends-number">${trends.stable.length}</div>
+                        <div class="trends-label">Estáveis</div>
+                    </div>
+                </div>
+            `;
+            
+            return trendsHtml;
+        }
+
+        // Generate individual indicator charts organized by category sections
+        function generateIndicatorCharts() {
+            const chartsContainer = document.getElementById('indicator-charts-container');
+            chartsContainer.innerHTML = '';
+            
+            // Destroy existing modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+            
+            const years = [2022, 2023, 2024];
+            
+            // Process categories in order, excluding 'perfil'
+            const categoryOrder = Object.keys(indicatorsData).filter(key => key !== 'perfil');
+            
+            categoryOrder.forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                
+                // Check if category has any data
+                let hasDataInCategory = false;
+                const categoryIndicatorsWithData = [];
+                
+                category.indicators.forEach((indicator, index) => {
+                    const hasData = years.some(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        return data && data.value && data.value.trim() !== '';
+                    });
+                    
+                    if (hasData) {
+                        hasDataInCategory = true;
+                        categoryIndicatorsWithData.push({ indicator, index });
+                    }
+                });
+                
+                // Only create section if category has data
+                if (hasDataInCategory) {
+                    // Create category section
+                    const categorySection = document.createElement('div');
+                    categorySection.className = 'category-charts-section';
+                    categorySection.innerHTML = `
+                        <div class="category-charts-header">📊 ${category.name}</div>
+                        <div class="category-charts-grid">
+                        </div>
+                    `;
+                    
+                    const categoryChartsGrid = categorySection.querySelector('.category-charts-grid');
+                    
+                    // Process indicators with data
+                    categoryIndicatorsWithData.forEach(({ indicator, index }) => {
+                        const dataPoints = [];
+                        
+                        years.forEach(year => {
+                            const dataKey = `${categoryKey}_${index}_${year}`;
+                            const data = currentData[dataKey];
+                            const value = data && data.value ? parseFloat(data.value) || 0 : 0;
+                            dataPoints.push(value);
+                        });
+                        
+                        // Calculate trend
+                        const trend = calculateTrend(dataPoints);
+                        
+                        // Create chart card
+                        const chartCard = document.createElement('div');
+                        chartCard.className = 'chart-card';
+                        chartCard.style.marginBottom = '20px';
+                        
+                        const chartId = `chart_${categoryKey}_${index}`;
+                        
+                        // Determine colors based on trend
+                        let borderColor, backgroundColor, trendIcon, trendText;
+                        if (trend === 'improving') {
+                            borderColor = 'rgba(40, 167, 69, 1)';
+                            backgroundColor = 'rgba(40, 167, 69, 0.1)';
+                            trendIcon = '📈';
+                            trendText = 'Melhorando';
+                        } else if (trend === 'worsening') {
+                            borderColor = 'rgba(220, 53, 69, 1)';
+                            backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                            trendIcon = '📉';
+                            trendText = 'Piorando';
+                        } else {
+                            borderColor = 'rgba(108, 117, 125, 1)';
+                            backgroundColor = 'rgba(108, 117, 125, 0.1)';
+                            trendIcon = '➡️';
+                            trendText = 'Estável';
+                        }
+                        
+                        // Determine indicator type for badge
+                        const typeColor = indicator.type === 'core' ? '#ff8c00' : '#ffd700';
+                        const typeText = indicator.type === 'core' ? 'PRINCIPAL' : 'APOIO';
+                        
+                        chartCard.innerHTML = `
+                            <h4>
+                                ${indicator.name}
+                                <br>
+                                <small style="color: ${typeColor}; font-weight: bold; font-size: 0.8rem;">
+                                    (Indicador ${typeText})
+                                </small>
+                                <small style="color: ${borderColor}; margin-left: 10px;">
+                                    ${trendIcon} ${trendText}
+                                </small>
+                            </h4>
+                            <canvas id="${chartId}" style="max-height: 300px;"></canvas>
+                        `;
+                        
+                        categoryChartsGrid.appendChild(chartCard);
+                        
+                        // Create chart after DOM insertion
+                        setTimeout(() => {
+                            const ctx = document.getElementById(chartId);
+                            if (ctx) {
+                                const chart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: years,
+                                        datasets: [{
+                                            label: `${indicator.unit}`,
+                                            data: dataPoints,
+                                            backgroundColor: backgroundColor,
+                                            borderColor: borderColor,
+                                            borderWidth: 4,
+                                            pointBackgroundColor: borderColor,
+                                            pointBorderColor: '#fff',
+                                            pointBorderWidth: 3,
+                                            pointRadius: 8,
+                                            pointHoverRadius: 10,
+                                            fill: true,
+                                            tension: 0.4
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                labels: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                }
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                                titleColor: '#fff',
+                                                bodyColor: '#fff',
+                                                borderColor: borderColor,
+                                                borderWidth: 2,
+                                                titleFont: {
+                                                    size: 14,
+                                                    weight: 'bold'
+                                                },
+                                                bodyFont: {
+                                                    size: 13
+                                                },
+                                                callbacks: {
+                                                    afterLabel: function(context) {
+                                                        const year = context.label;
+                                                        const dataKey = `${categoryKey}_${index}_${year}`;
+                                                        const data = currentData[dataKey];
+                                                        return data && data.source ? `Fonte: ${data.source}` : '';
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            },
+                                            y: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                modalCharts.push(chart);
+                            }
+                        }, 100);
+                    });
+                    
+                    chartsContainer.appendChild(categorySection);
+                }
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            
+            // Destroy modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            let csv = 'Categoria,Indicador,Tipo,ODS,Valor_2022,Valor_2023,Valor_2024,Unidade,Fonte_2024\n';
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    const data2022 = currentData[`${categoryKey}_${index}_2022`] || { value: '', source: '' };
+                    const data2023 = currentData[`${categoryKey}_${index}_2023`] || { value: '', source: '' };
+                    const data2024 = currentData[`${categoryKey}_${index}_2024`] || { value: '', source: '' };
+                    
+                    csv += `"${category.name}","${indicator.name}","${indicator.type}","${indicator.ods}","${data2022.value}","${data2023.value}","${data2024.value}","${indicator.unit}","${data2024.source}"\n`;
+                });
+            });
+
+            downloadFile(`iso37120_${selectedMunicipality}_completo.csv`, csv, 'text/csv');
+        }
+
+        // Export to JSON
+        function exportToJSON() {
+            const counts = countFilledIndicators();
+            const exportData = {
+                municipality: selectedMunicipality.replace('-', ' ').toUpperCase(),
+                exportDate: new Date().toISOString(),
+                summary: {
+                    coreIndicators: `${counts.coreCount}/${counts.totalCore}`,
+                    supportingIndicators: `${counts.supportingCount}/${counts.totalSupporting}`,
+                    total: `${counts.coreCount + counts.supportingCount}/${counts.totalCore + counts.totalSupporting}`,
+                    completionRate: `${((counts.coreCount + counts.supportingCount)/(counts.totalCore + counts.totalSupporting)*100).toFixed(1)}%`
+                },
+                data: currentData,
+                metadata: indicatorsData
+            };
+            
+            downloadFile(`iso37120_${selectedMunicipality}_completo.json`, JSON.stringify(exportData, null, 2), 'application/json');
+        }
+
+        // Download file
+        function downloadFile(filename, content, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+        
+    </script>
+</body>
+</html>

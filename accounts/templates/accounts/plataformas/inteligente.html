@@ -1,0 +1,1069 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inteli.gente - Plataforma de Indicadores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #513C9A;
+            --primary-light: #6B4FB5;
+            --primary-lighter: #8B7BC5;
+            --bg-main: #fafbfc;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .top-nav {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: var(--bg-main);
+            color: var(--primary);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-badge {
+            height: 50px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-badge img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Selection Panel - Purple Section */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: 0 20px 60px rgba(81, 60, 154, 0.25);
+        }
+
+        .purple-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatEffect 8s ease-in-out infinite;
+        }
+
+        @keyframes floatEffect {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, -30px); }
+        }
+
+        .section-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 17px;
+            margin-bottom: 36px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .municipality-dropdowns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .municipality-select-container {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #2c3e50;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            min-width: 200px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23513C9A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 16px center;
+            background-repeat: no-repeat;
+            background-size: 18px;
+            padding-right: 48px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2), 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .municipality-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-button {
+            background: rgba(220, 53, 69, 0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            min-width: 180px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            background: rgba(220, 53, 69, 0.25);
+            border-color: white;
+        }
+
+        .selection-display {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 28px;
+            text-align: center;
+            color: white;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .selection-display.show {
+            display: block;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .selection-display h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Tabs */
+        .tabs {
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Category Section */
+        .category-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Indicator Cards */
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .indicator-card {
+            background: var(--bg-main);
+            padding: 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .indicator-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .indicator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .indicator-name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .level-1 { background: #ef4444; }
+        .level-2 { background: #f97316; }
+        .level-3 { background: #eab308; }
+        .level-4 { background: #84cc16; }
+        .level-5 { background: #22c55e; }
+        .level-6 { background: #3b82f6; }
+        .level-7 { background: #8b5cf6; }
+
+        .indicator-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .indicator-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            font-size: 0.9375rem;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .top-nav {
+                padding: 0 1rem;
+                height: 60px;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .logo-badge {
+                height: 40px;
+            }
+
+            .logo-badge img {
+                max-width: 120px;
+            }
+
+            .logo-title {
+                font-size: 1rem;
+            }
+
+            .purple-section {
+                padding: 32px 24px;
+                border-radius: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .section-subtitle {
+                font-size: 15px;
+                margin-bottom: 24px;
+            }
+
+            .municipality-dropdowns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-select-container {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .tabs {
+                gap: 0.5rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .stats-grid,
+            .indicators-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav" role="navigation" aria-label="Navegação principal">
+        <div class="nav-left">
+            <a href="#" class="back-link" onclick="history.back(); return false;" aria-label="Voltar para página anterior">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Voltar
+            </a>
+            <div class="logo-area">
+                <div class="logo-badge">
+                    <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+                </div>
+                <h1 class="logo-title">Inteli.gente</h1>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container" role="main">
+        <!-- Selection Panel -->
+        <section class="purple-section" aria-labelledby="selection-title">
+            <h2 id="selection-title" class="section-title">Selecione um município</h2>
+            <p class="section-subtitle">Escolha o município para visualizar os indicadores Inteli.gente</p>
+
+            <div class="municipality-dropdowns">
+                <div class="municipality-select-container">
+                    <select id="uf-select" class="municipality-select" onchange="selectUF()" aria-label="Selecione o estado">
+                        <option value="">Carregando estados...</option>
+                    </select>
+                </div>
+                <div class="municipality-select-container">
+                    <select id="municipality-select" class="municipality-select" onchange="selectMunicipality()" disabled aria-label="Selecione o município">
+                        <option value="">Primeiro selecione o estado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="selection-display" id="selection-display">
+                <h3>Município Selecionado:</h3>
+                <p id="selection-text"></p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button" onclick="clearSelection()" aria-label="Limpar seleção de município">
+                    🗑️ Limpar Seleção
+                </button>
+            </div>
+        </section>
+
+        <!-- Info Message (default) -->
+        <div id="info-message" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">📊</div>
+            <h3 class="empty-title">Bem-vindo à Plataforma Inteli.gente</h3>
+            <p class="empty-text">
+                Selecione um estado e município acima para visualizar os indicadores de cidades inteligentes.
+            </p>
+        </div>
+
+        <!-- Future Implementation Message -->
+        <div id="future-message" class="empty-state hidden">
+            <div class="empty-icon" aria-hidden="true">🚧</div>
+            <h3 class="empty-title">Dados em breve</h3>
+            <p class="empty-text">
+                No momento, apenas Londrina-PR possui dados disponíveis.<br>
+                Estamos trabalhando para incluir mais municípios.
+            </p>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="hidden">
+            <!-- Tabs Navigation -->
+            <nav class="tabs" role="tablist" aria-label="Categorias de dados">
+                <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-caracterizacoes" id="tab-btn-caracterizacoes" onclick="switchTab('caracterizacoes')">
+                    Caracterizações
+                </button>
+                <button class="tab" role="tab" aria-selected="false" aria-controls="tab-economia" id="tab-btn-economia" onclick="switchTab('economia')">
+                    Economia
+                </button>
+                <button class="tab" role="tab" aria-selected="false" aria-controls="tab-meio-ambiente" id="tab-btn-meio-ambiente" onclick="switchTab('meio-ambiente')">
+                    Meio Ambiente
+                </button>
+                <button class="tab" role="tab" aria-selected="false" aria-controls="tab-sociocultural" id="tab-btn-sociocultural" onclick="switchTab('sociocultural')">
+                    Sociocultural
+                </button>
+                <button class="tab" role="tab" aria-selected="false" aria-controls="tab-capacidades" id="tab-btn-capacidades" onclick="switchTab('capacidades')">
+                    Capacidades Institucionais
+                </button>
+            </nav>
+
+            <!-- Tab: Caracterizações -->
+            <div id="tab-caracterizacoes" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-caracterizacoes">
+                <div class="category-section">
+                    <div class="category-header">
+                        <span class="category-icon" aria-hidden="true">👥</span>
+                        <h3 class="category-title">Sociodemográfica</h3>
+                    </div>
+                    <div class="stats-grid" id="socio-grid"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-header">
+                        <span class="category-icon" aria-hidden="true">💻</span>
+                        <h3 class="category-title">Transformação Digital</h3>
+                    </div>
+                    <div class="stats-grid" id="digital-grid"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-header">
+                        <span class="category-icon" aria-hidden="true">🏛️</span>
+                        <h3 class="category-title">Institucional</h3>
+                    </div>
+                    <div class="stats-grid" id="institutional-grid"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Economia -->
+            <div id="tab-economia" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-economia">
+                <div id="economia-content"></div>
+            </div>
+
+            <!-- Tab: Meio Ambiente -->
+            <div id="tab-meio-ambiente" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-meio-ambiente">
+                <div id="meio-ambiente-content"></div>
+            </div>
+
+            <!-- Tab: Sociocultural -->
+            <div id="tab-sociocultural" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-sociocultural">
+                <div id="sociocultural-content"></div>
+            </div>
+
+            <!-- Tab: Capacidades -->
+            <div id="tab-capacidades" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-capacidades">
+                <div id="capacidades-content"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Data
+        const caracterizacoesData = {"municipio":{"caracterizacao_sociodemografica":{"populacao_total_estimada":555965,"rede_influencia_cidade":"Capital Regional B","pib_per_capita":40636.89,"pib":{"agropecuaria":529678,"industria":4346594,"servicos":12880971,"administracao_publica":2808055},"populacao_ocupada_vinculo_formal":null,"indice_gini_renda_domiciliar":0.523,"idh_municipal":0.778,"capacidade_pagamento_capag":"C"},"caracterizacao_transformacao_digital":{"empregos_tic":11671,"empresas_tic":1332,"campus_institutos_universidades_federais":2,"empresas_parques_tecnologicos":8,"incubadoras_credenciadas_lei_tic":null,"instituicoes_ensino_pesquisa_pdi_lei_tic":2,"centros_institutos_pdi_lei_tic":null,"empresas_habilitadas_lei_tic":3,"empresas_lei_bem_pdi":13},"caracterizacao_institucional":{"equipe_ti_tamanho":null,"estrutura_organizacional_tic":"Funcionários efetivos","incorporacao_tics_areas_prioritarias":null,"governanca_tecnologica_responsaveis":null,"governanca_ti_responsavel":null}}};
+
+        const economiaData = {"municipio":{"indicadores":{"agua_esgoto":{"indice_populacao_total_atendimento_agua":{"valor":99.99,"unidade":"%","nivel":7},"indice_populacao_total_atendimento_esgoto":{"valor":99.99,"unidade":"%","nivel":7},"indice_populacao_urbana_atendimento_esgoto":{"valor":99.99,"unidade":"%","nivel":7}},"residuos_solidos":{"taxa_populacao_coberta_coleta_residuos":{"valor":98.99,"unidade":"%","nivel":6},"coleta_seletiva_residuos":{"valor":true,"nivel":7}},"habitacao":{"percentual_domicilios_aglomerados_subnormais":{"valor":1.67,"unidade":"%","nivel":5},"assentamentos_urbanos_precarios":{"valor":4,"nivel":1},"programas_acoes_habitacionais":{"valor":6,"nivel":4}},"transporte":{"servicos_regulares_transporte_passageiros":{"valor":9,"nivel":3},"servicos_compartilhamento_viagens":{"valor":null,"nivel":2},"servico_informacoes_transporte_publico_tempo_real":{"valor":null,"nivel":2},"servicos_solucoes_inteligentes_mobilidade":{"valor":1,"nivel":4},"acessibilidade_transporte_publico":{"valor":3,"nivel":4},"ciclomobilidade":{"valor":3,"nivel":3}},"urbanizacao_vias_publicas":{"indice_pavimentacao_vias":{"valor":98.36,"unidade":"%","nivel":6}},"infraestrutura_conectividade":{"escala_acesso_banda_larga_fixa":{"valor":39.87,"unidade":"%","nivel":6},"escala_acesso_banda_larga_movel":{"valor":125.17,"unidade":"%","nivel":7},"cobertura_banda_larga_movel_3g_4g":{"valor":3,"nivel":6},"cobertura_fibra_otica":{"valor":true,"nivel":5},"rede_tecnologia_equipamentos_edificios_publicos":{"valor":3,"nivel":5},"escala_acesso_banda_larga_fixa_alta_velocidade":{"valor":32.68,"unidade":"%","nivel":6},"numero_estacoes_radio_base":{"valor":53,"nivel":3}},"inovacao":{"qualificacao_profissional_intermediacao_mao_obra":{"valor":6,"nivel":6},"inclusao_produtiva_urbana":{"valor":4,"nivel":3},"acesso_credito_microcredito_seguro":{"valor":4,"nivel":3},"geracao_trabalho_renda":{"valor":5,"nivel":6}},"sistemas_tecnologia_gestao_urbana":{"sistema_informacao_geografica":{"valor":8,"nivel":7},"centros_comando_controle":{"valor":1,"nivel":3},"plataforma_integrada_cidade_inteligente":{"valor":null,"nivel":1}},"servicos_online_prefeitura":{"servicos_website_prefeitura":{"valor":15,"nivel":6}},"dados_abertos":{"dados_abertos_gestao_municipal":{"valor":9,"nivel":6}}}}};
+
+        const meioAmbienteData = {"municipio":{"indicadores":{"agua_esgoto":{"indice_volume_esgoto_coletado":{"valor":89.06,"unidade":"%","nivel":6},"consumo_medio_per_capita_agua":{"valor":178.10,"unidade":"litros/hab","nivel":2},"solucoes_inteligentes_gestao_distribuicao_consumo_agua":{"valor":null,"nivel":1},"indice_perdas_distribuicao_agua":{"valor":33.72,"unidade":"%","nivel":4},"indice_volume_esgoto_tratado":{"valor":100.00,"unidade":"%","nivel":7}},"residuos_solidos":{"percentual_material_recolhido_coleta_seletiva":{"valor":null,"nivel":1},"solucoes_inteligentes_otimizacao_coleta_residuos":{"valor":null,"nivel":1}},"areas_verdes":{"protecao_gestao_meio_ambiente_areas_verdes_municipio":{"valor":7,"nivel":6}},"qualidade_ar":{"solucoes_monitoramento_gases_efeito_estufa_qualidade_ar":{"valor":null,"nivel":1},"monitoramento_qualidade_ar":{"valor":null,"nivel":1}},"energia":{"solucoes_inteligentes_gestao_consumo_energia_eletrica":{"valor":null,"nivel":1},"solucoes_telegestao_iluminacao_publica":{"valor":null,"nivel":1}}}}};
+
+        const socioculturalData = {"municipio":{"indicadores":{"educacao":{"indice_equipamentos_tecnologia_escolas_publicas":{"valor":56.31,"unidade":"%","nivel":6},"taxa_analfabetismo":{"valor":4.2,"unidade":"%","nivel":5},"ideb_anos_finais":{"valor":null,"nivel":1},"vagas_ensino_superior":{"valor":3084,"nivel":4},"centros_educacao_tecnologica":{"valor":null,"nivel":1},"acoes_educacao_comunidades_especificas":{"valor":1,"nivel":2},"taxas_distorcao_idade_serie":{"valor":5.3,"unidade":"%","nivel":7},"percentual_escolas_municipais_acesso_internet":{"valor":99.17,"unidade":"%","nivel":7},"computadores_uso_alunos":{"valor":2942,"nivel":5}},"cultura":{"estrutura_equipamentos_culturais_esportivos":{"valor":24,"nivel":7},"protecao_patrimonio_cultural":{"valor":7,"nivel":6},"servicos_online_promocao_cultura":{"valor":null,"nivel":2},"servicos_culturais_online_populacao":{"valor":null,"nivel":2}},"saude":{"servicos_telemedicina_telessaude":{"valor":null,"nivel":2},"leitos_hospitalares_rede_publica":{"valor":218,"nivel":3},"medicos_disponiveis_rede_publica":{"valor":504,"nivel":7},"prontuario_eletronico":{"valor":null,"nivel":1},"servicos_online_saude_pacientes":{"valor":null,"nivel":2},"indice_risco_protecao_saude_nascidos_vivos":{"valor":0.122,"nivel":4},"mortalidade_materna":{"valor":32.70,"unidade":"%","nivel":3}},"seguranca_publica":{"solucoes_monitoramento_seguranca":{"valor":null,"nivel":2},"taxa_homicidios":{"valor":16.18,"unidade":"%","nivel":4},"politicas_publicas_acoes_seguranca":{"valor":3,"nivel":3}},"gestao_desastres":{"solucoes_tecnologia_monitoramento_desastres":{"valor":3,"nivel":5},"vulnerabilidade_riscos_desastres_naturais":{"valor":5,"nivel":1}},"inclusao_digital":{"promocao_inclusao_digital":{"valor":3,"nivel":5},"cursos_capacitacao_tecnologica":{"valor":3,"nivel":6}},"inclusao_social":{"politicas_publicas_mulheres":{"valor":9,"nivel":6},"inclusao_social_grupos_especificos":{"valor":2,"nivel":2}},"participacao_publica":{"formas_presenciais_participacao":{"valor":4,"nivel":4},"formas_online_participacao":{"valor":0,"nivel":1}}}}};
+
+        const capacidadesData = {"municipio":{"indicadores":{"estrategia":{"governanca_colaborativa_responsaveis":{"valor":null,"nivel":1},"incorporacao_tics_planejamento":{"valor":null,"nivel":1},"planejamento_estrategico_transformacao_digital":{"valor":null,"nivel":1}},"infraestrutura_hw_sw":{"governanca_ti_praticas":{"valor":null,"nivel":1},"infraestrutura_hw_sw_armazenamento":{"valor":null,"nivel":1}},"servicos_aplicacoes":{"gestao_integrada_dados":{"valor":null,"nivel":2},"servicos_publicos_online":{"valor":15,"nivel":6},"solicitacao_servicos_publicos":{"valor":7,"nivel":5}},"monitoramento":{"seguranca_politicas_publicas_monitoramento":{"valor":null,"nivel":1},"percepcao_servicos_publicos":{"valor":0,"nivel":1},"transparencia_monitoramento":{"valor":null,"nivel":1}},"dados_abertos":{"transparencia_execucao_orcamentaria_financeira":{"valor":5,"nivel":5},"transparencia_dados_disponibilizacao":{"valor":9,"nivel":6},"seguranca_dados_praticas":{"valor":null,"nivel":1}}}}};
+
+        let allStates = [];
+        let selectedMunicipalityData = null;
+
+        // Load states on page load
+        async function loadStates() {
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome');
+                const states = await response.json();
+
+                allStates = states;
+                const ufSelect = document.getElementById('uf-select');
+                ufSelect.innerHTML = '<option value="">Selecione um estado</option>';
+
+                states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.id;
+                    option.textContent = `${state.nome} (${state.sigla})`;
+                    ufSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar estados:', error);
+                document.getElementById('uf-select').innerHTML = '<option value="">Erro ao carregar estados</option>';
+            }
+        }
+
+        async function selectUF() {
+            const ufSelect = document.getElementById('uf-select');
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedStateId = ufSelect.value;
+
+            if (!selectedStateId) {
+                municipalitySelect.innerHTML = '<option value="">Selecione um estado primeiro</option>';
+                municipalitySelect.disabled = true;
+                hideSelection();
+                return;
+            }
+
+            municipalitySelect.innerHTML = '<option value="">Carregando municípios...</option>';
+            municipalitySelect.disabled = true;
+
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedStateId}/municipios?orderBy=nome`);
+                const municipalities = await response.json();
+
+                municipalitySelect.innerHTML = '<option value="">Selecione um município</option>';
+                municipalities.forEach(municipality => {
+                    const option = document.createElement('option');
+                    option.value = municipality.id;
+                    option.textContent = municipality.nome;
+                    option.dataset.municipalityData = JSON.stringify(municipality);
+                    municipalitySelect.appendChild(option);
+                });
+
+                municipalitySelect.disabled = false;
+            } catch (error) {
+                console.error('Erro ao carregar municípios:', error);
+                municipalitySelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
+            }
+        }
+
+        function selectMunicipality() {
+            const municipalitySelect = document.getElementById('municipality-select');
+            const selectedOption = municipalitySelect.options[municipalitySelect.selectedIndex];
+
+            if (!selectedOption.value) {
+                hideSelection();
+                return;
+            }
+
+            selectedMunicipalityData = JSON.parse(selectedOption.dataset.municipalityData);
+            showSelection();
+
+            if (selectedMunicipalityData.nome.toLowerCase() === 'londrina' &&
+                selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla.toUpperCase() === 'PR') {
+                showDashboard();
+            } else {
+                showFutureImplementation();
+            }
+        }
+
+        function showSelection() {
+            if (!selectedMunicipalityData) return;
+
+            const display = document.getElementById('selection-display');
+            const text = document.getElementById('selection-text');
+            const state = selectedMunicipalityData.microrregiao.mesorregiao.UF;
+
+            text.textContent = `${selectedMunicipalityData.nome} - ${state.nome} (${state.sigla})`;
+            display.classList.add('show');
+
+            document.getElementById('info-message').classList.add('hidden');
+        }
+
+        function hideSelection() {
+            document.getElementById('selection-display').classList.remove('show');
+            document.getElementById('info-message').classList.remove('hidden');
+            document.getElementById('dashboard-content').classList.add('hidden');
+            document.getElementById('future-message').classList.add('hidden');
+            selectedMunicipalityData = null;
+        }
+
+        function showDashboard() {
+            document.getElementById('dashboard-content').classList.remove('hidden');
+            document.getElementById('future-message').classList.add('hidden');
+
+            renderCharacterizations();
+        }
+
+        function showFutureImplementation() {
+            document.getElementById('dashboard-content').classList.add('hidden');
+            document.getElementById('future-message').classList.remove('hidden');
+        }
+
+        function clearSelection() {
+            document.getElementById('uf-select').value = '';
+            document.getElementById('municipality-select').value = '';
+            document.getElementById('municipality-select').innerHTML = '<option value="">Selecione um estado primeiro</option>';
+            document.getElementById('municipality-select').disabled = true;
+
+            hideSelection();
+        }
+
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+            document.getElementById(`tab-btn-${tabName}`).setAttribute('aria-selected', 'true');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // Load content if needed
+            if (tabName !== 'caracterizacoes') {
+                const contentMap = {
+                    'economia': economiaData,
+                    'meio-ambiente': meioAmbienteData,
+                    'sociocultural': socioculturalData,
+                    'capacidades': capacidadesData
+                };
+
+                const containerMap = {
+                    'economia': 'economia-content',
+                    'meio-ambiente': 'meio-ambiente-content',
+                    'sociocultural': 'sociocultural-content',
+                    'capacidades': 'capacidades-content'
+                };
+
+                renderDimensionData(contentMap[tabName], containerMap[tabName]);
+            }
+        }
+
+        function renderCharacterizations() {
+            const socio = caracterizacoesData.municipio.caracterizacao_sociodemografica;
+            const digital = caracterizacoesData.municipio.caracterizacao_transformacao_digital;
+            const institutional = caracterizacoesData.municipio.caracterizacao_institucional;
+
+            // Sociodemográfica
+            const socioGrid = document.getElementById('socio-grid');
+            socioGrid.innerHTML = '';
+
+            addStatCard(socioGrid, 'População Total', socio.populacao_total_estimada?.toLocaleString('pt-BR') || 'N/D');
+            addStatCard(socioGrid, 'Rede de Influência', socio.rede_influencia_cidade || 'N/D');
+            addStatCard(socioGrid, 'PIB per Capita', socio.pib_per_capita ? `R$ ${socio.pib_per_capita.toLocaleString('pt-BR', {minimumFractionDigits: 2})}` : 'N/D');
+            addStatCard(socioGrid, 'IDH Municipal', socio.idh_municipal || 'N/D');
+            addStatCard(socioGrid, 'Índice Gini', socio.indice_gini_renda_domiciliar || 'N/D');
+            addStatCard(socioGrid, 'CAPAG', socio.capacidade_pagamento_capag || 'N/D');
+
+            // Digital
+            const digitalGrid = document.getElementById('digital-grid');
+            digitalGrid.innerHTML = '';
+
+            addStatCard(digitalGrid, 'Empregos TIC', digital.empregos_tic?.toLocaleString('pt-BR') || 'N/D');
+            addStatCard(digitalGrid, 'Empresas TIC', digital.empresas_tic?.toLocaleString('pt-BR') || 'N/D');
+            addStatCard(digitalGrid, 'Campus Federais', digital.campus_institutos_universidades_federais || 'N/D');
+            addStatCard(digitalGrid, 'Parques Tecnológicos', digital.empresas_parques_tecnologicos || 'N/D');
+            addStatCard(digitalGrid, 'Empresas Lei TIC', digital.empresas_habilitadas_lei_tic || 'N/D');
+            addStatCard(digitalGrid, 'Empresas Lei do Bem', digital.empresas_lei_bem_pdi || 'N/D');
+
+            // Institutional
+            const institutionalGrid = document.getElementById('institutional-grid');
+            institutionalGrid.innerHTML = '';
+
+            addStatCard(institutionalGrid, 'Equipe TI', institutional.equipe_ti_tamanho || 'N/D');
+            addStatCard(institutionalGrid, 'Estrutura TIC', institutional.estrutura_organizacional_tic || 'N/D');
+        }
+
+        function addStatCard(container, label, value) {
+            const card = document.createElement('div');
+            card.className = 'stat-card';
+            card.innerHTML = `
+                <div class="stat-label">${label}</div>
+                <div class="stat-value">${value}</div>
+            `;
+            container.appendChild(card);
+        }
+
+        function renderDimensionData(data, containerId) {
+            const container = document.getElementById(containerId);
+
+            // Check if already rendered
+            if (container.children.length > 0) return;
+
+            container.innerHTML = '';
+
+            const indicators = data.municipio.indicadores;
+
+            for (const [categoryKey, categoryData] of Object.entries(indicators)) {
+                const categoryName = formatCategoryName(categoryKey);
+                const categoryIcon = getCategoryIcon(categoryKey);
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                section.innerHTML = `
+                    <div class="category-header">
+                        <span class="category-icon" aria-hidden="true">${categoryIcon}</span>
+                        <h3 class="category-title">${categoryName}</h3>
+                    </div>
+                    <div class="indicators-grid" id="cat-${categoryKey}"></div>
+                `;
+
+                container.appendChild(section);
+
+                const grid = document.getElementById(`cat-${categoryKey}`);
+
+                for (const [indicatorKey, indicatorData] of Object.entries(categoryData)) {
+                    const card = document.createElement('div');
+                    card.className = 'indicator-card';
+
+                    const formattedValue = formatValue(indicatorData.valor);
+                    const unit = indicatorData.unidade ? ` ${indicatorData.unidade}` : '';
+
+                    card.innerHTML = `
+                        <div class="indicator-header">
+                            <div class="indicator-name">${formatIndicatorName(indicatorKey)}</div>
+                            <div class="level-badge level-${indicatorData.nivel}" aria-label="Nível ${indicatorData.nivel}">${indicatorData.nivel}</div>
+                        </div>
+                        <div class="indicator-value">${formattedValue}${unit}</div>
+                        <div class="indicator-footer">Nível: ${indicatorData.nivel}/7</div>
+                    `;
+
+                    grid.appendChild(card);
+                }
+            }
+        }
+
+        function formatValue(value) {
+            if (value === null) return 'N/D';
+            if (typeof value === 'boolean') return value ? 'Sim' : 'Não';
+            if (typeof value === 'number') return value.toLocaleString('pt-BR');
+            return value;
+        }
+
+        function formatCategoryName(key) {
+            const names = {
+                'agua_esgoto': 'Água e Esgoto',
+                'residuos_solidos': 'Resíduos Sólidos',
+                'habitacao': 'Habitação',
+                'transporte': 'Transporte',
+                'urbanizacao_vias_publicas': 'Urbanização',
+                'infraestrutura_conectividade': 'Conectividade',
+                'inovacao': 'Inovação',
+                'sistemas_tecnologia_gestao_urbana': 'Gestão Urbana',
+                'servicos_online_prefeitura': 'Serviços Online',
+                'dados_abertos': 'Dados Abertos',
+                'areas_verdes': 'Áreas Verdes',
+                'qualidade_ar': 'Qualidade do Ar',
+                'energia': 'Energia',
+                'educacao': 'Educação',
+                'cultura': 'Cultura',
+                'saude': 'Saúde',
+                'seguranca_publica': 'Segurança Pública',
+                'gestao_desastres': 'Gestão de Desastres',
+                'inclusao_digital': 'Inclusão Digital',
+                'inclusao_social': 'Inclusão Social',
+                'participacao_publica': 'Participação Pública',
+                'estrategia': 'Estratégia',
+                'infraestrutura_hw_sw': 'Infraestrutura TI',
+                'servicos_aplicacoes': 'Serviços e Aplicações',
+                'monitoramento': 'Monitoramento'
+            };
+            return names[key] || key;
+        }
+
+        function formatIndicatorName(key) {
+            // Abbreviated for brevity - use the full mapping from original
+            return key.split('_').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'agua_esgoto': '💧',
+                'residuos_solidos': '♻️',
+                'habitacao': '🏘️',
+                'transporte': '🚌',
+                'urbanizacao_vias_publicas': '🛣️',
+                'infraestrutura_conectividade': '📡',
+                'inovacao': '💡',
+                'sistemas_tecnologia_gestao_urbana': '🏙️',
+                'servicos_online_prefeitura': '🌐',
+                'dados_abertos': '🔓',
+                'areas_verdes': '🌳',
+                'qualidade_ar': '🌬️',
+                'energia': '⚡',
+                'educacao': '🎓',
+                'cultura': '🎭',
+                'saude': '🏥',
+                'seguranca_publica': '🛡️',
+                'gestao_desastres': '🚨',
+                'inclusao_digital': '💻',
+                'inclusao_social': '🤝',
+                'participacao_publica': '🗳️',
+                'estrategia': '🎯',
+                'infraestrutura_hw_sw': '💻',
+                'servicos_aplicacoes': '📱',
+                'monitoramento': '📊'
+            };
+            return icons[category] || '📌';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStates();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,847 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Gerenciar Usuários</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            background: #513C9A;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-header {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background: white;
+            color: #513C9A;
+        }
+
+        .btn-back:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-logout {
+            background: #9e1220;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #bd2130;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: #513C9A;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-description {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-add {
+            background: #513C9A;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-add:hover {
+            background: #6B4FB5;
+            color: white;
+        }
+
+        .users-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead {
+            background: #513C9A;
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .user-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: #513C9A;
+            color: white;
+        }
+
+        .badge-manager {
+            background: #2196F3;
+            color: white;
+        }
+
+        .badge-common {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #2196F3;
+        }
+
+        .btn-edit:hover {
+            background: #1976D2;
+        }
+
+        .btn-delete {
+            background: #f44336;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+
+        .btn-role {
+            background: #FF9800;
+        }
+
+        .btn-role:hover {
+            background: #F57C00;
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-users-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background: #513C9A;
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 300px;
+            max-width: 400px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid;
+        }
+
+        .toast.success {
+            border-left-color: #4CAF50;
+        }
+
+        .toast.error {
+            border-left-color: #f44336;
+        }
+
+        .toast.warning {
+            border-left-color: #FF9800;
+        }
+
+        .toast.info {
+            border-left-color: #2196F3;
+        }
+
+        .toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: #4CAF50;
+        }
+
+        .toast.error .toast-icon {
+            color: #f44336;
+        }
+
+        .toast.warning .toast-icon {
+            color: #FF9800;
+        }
+
+        .toast.info .toast-icon {
+            color: #2196F3;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+
+        /* Custom Confirmation Modal */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .custom-modal-overlay.active {
+            display: flex;
+        }
+
+        .custom-modal {
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .custom-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .custom-modal-header.danger {
+            background: #ffebee;
+        }
+
+        .custom-modal-icon {
+            font-size: 32px;
+        }
+
+        .custom-modal-icon.danger {
+            color: #f44336;
+        }
+
+        .custom-modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .custom-modal-body {
+            padding: 24px;
+        }
+
+        .custom-modal-text {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .custom-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .custom-modal-btn.cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .custom-modal-btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .custom-modal-btn.confirm {
+            background: #f44336;
+            color: white;
+        }
+
+        .custom-modal-btn.confirm:hover {
+            background: #d32f2f;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .table {
+                font-size: 14px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">Gerenciamento de Usuários</h1>
+            <div class="header-buttons">
+                <a href="{% url 'admin_menu' %}" class="btn-header btn-back">Voltar</a>
+                <a href="{% url 'logout' %}" class="btn-header btn-logout">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="page-title">Usuários do Sistema</h2>
+        <p class="page-description">Gerencie todos os usuários cadastrados na plataforma</p>
+
+        <!-- Actions Bar -->
+        <div class="actions-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar usuário por nome, email ou cidade..." onkeyup="searchUsers()">
+            </div>
+            <a href="{% url 'add_user' %}" class="btn-add">+ Adicionar Usuário</a>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table">
+            {% if users %}
+            <table class="table table-hover" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Usuário</th>
+                        <th>Cidade</th>
+                        <th>Tipo</th>
+                        <th>Data de Criação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.nome }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.cidade }}</td>
+                        <td>
+                            {% if user.user_type == 'ADMIN' %}
+                            <span class="user-badge badge-admin">Administrador</span>
+                            {% elif user.user_type == 'MANAGER' %}
+                            <span class="user-badge badge-manager">Gestor</span>
+                            {% else %}
+                            <span class="user-badge badge-common">Usuário Comum</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.created_at|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'edit_user' user.id %}" class="btn-action btn-edit">Editar</a>
+                                <button class="btn-action btn-role" onclick="openRoleModal({{ user.id }}, '{{ user.username }}', '{{ user.user_type }}')">Privilégios</button>
+                                <button class="btn-action btn-delete" onclick="deleteUser({{ user.id }}, '{{ user.username }}')">Excluir</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-users">
+                <div class="no-users-icon">👥</div>
+                <h3>Nenhum usuário encontrado</h3>
+                <p>Comece adicionando um novo usuário ao sistema</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="custom-modal-overlay" id="confirmModal">
+        <div class="custom-modal">
+            <div class="custom-modal-header danger">
+                <span class="custom-modal-icon danger">⚠️</span>
+                <h3 class="custom-modal-title" id="confirmTitle">Confirmar ação</h3>
+            </div>
+            <div class="custom-modal-body">
+                <p class="custom-modal-text" id="confirmMessage">Tem certeza?</p>
+            </div>
+            <div class="custom-modal-footer">
+                <button class="custom-modal-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="custom-modal-btn confirm" id="confirmButton">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Change Modal -->
+    <div class="modal fade" id="roleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modificar Privilégios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modificar privilégios do usuário: <strong id="roleUsername"></strong></p>
+                    <form id="roleForm">
+                        <input type="hidden" id="roleUserId">
+                        <div class="mb-3">
+                            <label class="form-label">Novo tipo de usuário:</label>
+                            <select class="form-select" id="newRole" required>
+                                <option value="COMMON">Usuário Comum</option>
+                                <option value="MANAGER">Gestor</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="changeRole()" style="background: #513C9A; border: none;">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toast Notification System
+        function showToast(message, type = 'success', title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+
+            const titles = {
+                success: title || 'Sucesso',
+                error: title || 'Erro',
+                warning: title || 'Atenção',
+                info: title || 'Informação'
+            };
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type]}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type]}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="closeToast(this)">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto-remove após 5 segundos
+            setTimeout(() => {
+                closeToast(toast.querySelector('.toast-close'));
+            }, 5000);
+        }
+
+        function closeToast(button) {
+            const toast = button.parentElement;
+            toast.classList.add('hiding');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }
+
+        // Custom Confirmation Modal
+        function showConfirmModal(title, message, onConfirm) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmModal').classList.add('active');
+
+            const confirmBtn = document.getElementById('confirmButton');
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+            newConfirmBtn.onclick = () => {
+                closeConfirmModal();
+                onConfirm();
+            };
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+        // Search Users
+        function searchUsers() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('usersTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const textValue = cell.textContent || cell.innerText;
+                        if (textValue.toLowerCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+
+        // Delete User
+        function deleteUser(userId, username) {
+            showConfirmModal(
+                'Excluir Usuário',
+                `Tem certeza que deseja excluir o usuário ${username}? Esta ação não pode ser desfeita.`,
+                () => {
+                    fetch(`/dashboard/admin/users/${userId}/delete/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            showToast(data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showToast('Erro ao excluir usuário', 'error');
+                    });
+                }
+            );
+        }
+
+        // Open Role Modal
+        function openRoleModal(userId, username, currentRole) {
+            document.getElementById('roleUserId').value = userId;
+            document.getElementById('roleUsername').textContent = username;
+            document.getElementById('newRole').value = currentRole;
+
+            const modal = new bootstrap.Modal(document.getElementById('roleModal'));
+            modal.show();
+        }
+
+        // Change User Role
+        function changeRole() {
+            const userId = document.getElementById('roleUserId').value;
+            const newRole = document.getElementById('newRole').value;
+
+            fetch(`/dashboard/admin/users/${userId}/change-role/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `user_type=${newRole}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close Bootstrap modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('roleModal'));
+                    modal.hide();
+
+                    showToast(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('Erro ao modificar privilégios', 'error');
+            });
+        }
+
+        // Get CSRF Cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Show Django messages as toasts
+        {% if messages %}
+        window.addEventListener('DOMContentLoaded', function() {
+            {% for message in messages %}
+            showToast('{{ message }}', '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}');
+            {% endfor %}
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

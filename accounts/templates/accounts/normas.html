@@ -1,0 +1,528 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normas - DataCity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: url('{% static "img/Fundo (1).png" %}') no-repeat center center/cover;
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            position: relative;
+        }
+        /* Logo Section */
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .logo-container {
+            width: 180px;
+            height: 126px;
+            margin: 0 auto;
+            z-index: 3;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* Header Section */
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            z-index: 10;
+        }
+        .back-btn {
+            color: #6B4FB5;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        /* Title and Actions */
+        .menu-container {
+            text-align: left;
+            margin-top: -10px;
+        }
+        .menu-title {
+            color: #513C9A;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .action-button {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        .action-button:hover {
+            background: #f5f5f5;
+            transform: translateY(-1px);
+        }
+        #searchInput {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        /* Menu Buttons */
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .menu-btn {
+            background: #513C9A;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 60, 154, 0.3);
+            color: #fff;
+        }
+        .menu-btn .admin-controls {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .menu-btn:hover .admin-controls {
+            opacity: 1;
+        }
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 3px;
+            padding: 3px 6px;
+            font-size: 12px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        /* Background Overlay */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            z-index: -1;
+        }
+        
+        /* Ensure modals appear above everything */
+        .modal {
+            z-index: 1050;
+        }
+        .modal-backdrop {
+            z-index: 1040;
+        }
+        /* Modal customization */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            background: #513C9A;
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        .btn-primary {
+            background: #513C9A;
+            border-color: #513C9A;
+        }
+        .btn-primary:hover {
+            background: #6B4FB5;
+            border-color: #6B4FB5;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-container {
+                width: 140px;
+                height: 98px;
+            }
+            .menu-title {
+                font-size: 28px;
+            }
+            .menu-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            #searchInput {
+                width: 150px;
+            }
+            .admin-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-container">
+                <img src="{% static 'img/Logo.png' %}" alt="DataCity Logo">
+            </div>
+        </div>
+        <div class="header">
+            <a href="{% url 'menu' %}" class="back-btn">← Voltar</a>
+        </div>
+        <div class="menu-container">
+            <h1 class="menu-title">Normas disponíveis</h1>
+            <div class="admin-actions">
+                <input type="text" id="searchInput" placeholder="Pesquisar normas..." onkeyup="filterNorms()">
+                {% if user.user_type == 'ADMIN' %}
+                <button class="action-button" data-bs-toggle="modal" data-bs-target="#addNormModal">
+                    <span class="icon">+</span>
+                    <span class="label">Adicionar</span>
+                </button>
+                {% endif %}
+            </div>
+            <!-- Botões Estáticos das Normas (não editáveis) -->
+            <div class="menu-buttons static-norms">
+                <div class="menu-btn norm-item" data-norm-name="iso 37120" onclick="window.location.href='{% url 'iso37120' %}'">
+                    ISO 37120
+                </div>
+                <div class="menu-btn norm-item" data-norm-name="iso 37122" onclick="window.location.href='{% url 'iso37122' %}'">
+                    ISO 37122
+                </div>
+                <div class="menu-btn norm-item" data-norm-name="iso 37123" onclick="window.location.href='{% url 'iso37123' %}'">
+                    ISO 37123
+                </div>
+                <div class="menu-btn norm-item" data-norm-name="iso 37125" onclick="window.location.href='{% url 'iso37125' %}'">
+                    ISO 37125
+                </div>
+            </div>
+
+            <!-- Botões Dinâmicos das Normas (editáveis pelos administradores) -->
+            <div class="menu-buttons" id="normsContainer">
+                {% for norm in norms %}
+                <div class="menu-btn norm-item" data-norm-name="{{ norm.Nome|lower }}" onclick="window.open('{{ norm.Direcionamento }}', '_blank')">
+                    {{ norm.Nome }}
+                    {% if user.user_type == 'ADMIN' %}
+                    <div class="admin-controls">
+                        <button class="control-btn edit-norm" data-norm-id="{{ norm.id_norma }}" onclick="event.stopPropagation(); editNorm('{{ norm.id_norma }}', '{{ norm.Nome }}', '{{ norm.Direcionamento }}')">✎</button>
+                        <button class="control-btn delete-norm" data-norm-id="{{ norm.id_norma }}" onclick="event.stopPropagation(); deleteNorm('{{ norm.id_norma }}', '{{ norm.Nome }}')">×</button>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="background-overlay"></div>
+    </div>
+
+    <!-- Modal Adicionar Norma -->
+    <div class="modal fade" id="addNormModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Nova Norma</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNormForm">
+                        <div class="mb-3">
+                            <label for="normName" class="form-label">Nome da Norma</label>
+                            <input type="text" class="form-control" id="normName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="normLink" class="form-label">Link</label>
+                            <input type="url" class="form-control" id="normLink" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveNormBtn">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Norma -->
+    <div class="modal fade" id="editNormModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Norma</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editNormForm">
+                        <input type="hidden" id="editNormId">
+                        <div class="mb-3">
+                            <label for="editNormName" class="form-label">Nome da Norma</label>
+                            <input type="text" class="form-control" id="editNormName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNormLink" class="form-label">Link</label>
+                            <input type="url" class="form-control" id="editNormLink" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="updateNormBtn">Atualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Exclusão -->
+    <div class="modal fade" id="deleteNormModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir a norma <strong id="deleteNormName"></strong>?</p>
+                    <input type="hidden" id="deleteNormId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        function filterNorms() {
+            const searchInput = document.getElementById('searchInput');
+            const filter = searchInput.value.toLowerCase();
+            const normItems = document.querySelectorAll('.norm-item');
+            
+            normItems.forEach(function(item) {
+                const normName = item.getAttribute('data-norm-name');
+                if (normName.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Edit norm functionality
+        function editNorm(id, name, link) {
+            document.getElementById('editNormId').value = id;
+            document.getElementById('editNormName').value = name;
+            document.getElementById('editNormLink').value = link;
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editNormModal'));
+            editModal.show();
+        }
+
+        // Delete norm functionality
+        function deleteNorm(id, name) {
+            document.getElementById('deleteNormId').value = id;
+            document.getElementById('deleteNormName').textContent = name;
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteNormModal'));
+            deleteModal.show();
+        }
+
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Wait for DOM to be loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Normas page loaded, Bootstrap available:', typeof bootstrap !== 'undefined');
+            
+            // Test function available in console
+            window.testModal = function() {
+                console.log('Testing modal...');
+                const modal = new bootstrap.Modal(document.getElementById('addNormModal'));
+                modal.show();
+            };
+            
+            // Add norm functionality
+            const saveBtn = document.getElementById('saveNormBtn');
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function() {
+                    const name = document.getElementById('normName').value;
+                    let link = document.getElementById('normLink').value;
+
+                    if (!name || !link) {
+                        alert('Por favor, preencha todos os campos.');
+                        return;
+                    }
+
+                    // Normalizar URL no frontend
+                    if (link && !link.startsWith('http://') && !link.startsWith('https://')) {
+                        link = 'https://' + link;
+                        document.getElementById('normLink').value = link;
+                    }
+                    
+                    fetch('{% url "adicionar_norma" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            link: link
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erro ao adicionar norma: ' + (data.message || 'Erro desconhecido'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao adicionar norma.');
+                    });
+                });
+            }
+
+            // Update norm functionality
+            const updateBtn = document.getElementById('updateNormBtn');
+            if (updateBtn) {
+                updateBtn.addEventListener('click', function() {
+                    const id = document.getElementById('editNormId').value;
+                    const name = document.getElementById('editNormName').value;
+                    let link = document.getElementById('editNormLink').value;
+
+                    if (!name || !link) {
+                        alert('Por favor, preencha todos os campos.');
+                        return;
+                    }
+
+                    // Normalizar URL no frontend
+                    if (link && !link.startsWith('http://') && !link.startsWith('https://')) {
+                        link = 'https://' + link;
+                        document.getElementById('editNormLink').value = link;
+                    }
+                    
+                    fetch(`/dashboard/normas/editar_norma/${id}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            link: link
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erro ao editar norma: ' + (data.message || 'Erro desconhecido'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao editar norma.');
+                    });
+                });
+            }
+
+            // Delete norm functionality
+            const deleteBtn = document.getElementById('confirmDeleteBtn');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    const id = document.getElementById('deleteNormId').value;
+                    
+                    fetch(`/dashboard/normas/remover_norma/${id}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erro ao remover norma: ' + (data.message || 'Erro desconhecido'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao remover norma.');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

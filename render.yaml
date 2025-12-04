@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: datacity
+    env: python
+    buildCommand: |
+      apt-get update && apt-get install -y wget gnupg2
+      wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+      echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+      apt-get update && apt-get install -y google-chrome-stable
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+      python manage.py create_test_users
+    startCommand: gunicorn -c gunicorn_config.py datacity.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: PIP_NO_CACHE_DIR
+        value: "1"
+      - key: POSTGRES_DATABASE
+        fromDatabase:
+          name: datacity-db
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: datacity-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: datacity-db
+          property: password
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: datacity-db
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: datacity-db
+          property: port
+
+databases:
+  - name: datacity-db
+    databaseName: datacity
+    user: datacity
+    plan: free 

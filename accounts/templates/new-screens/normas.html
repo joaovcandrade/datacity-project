@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normas - Datacity</title>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo.png' %}" alt="Logo">
+        </div>
+    </header>
+    <div class="menu-container">
+        <h1 class="menu-title">Normas disponíveis</h1>
+        <div class="nav-buttons">
+            <a href="javascript:history.back()" class="back-btn">Voltar</a>
+        </div>
+        <div class="menu-buttons" id="menuButtons">
+            <a href="iso37120" class="menu-btn">ISO 37120</a>
+            <a href="iso37122.html" class="menu-btn">ISO 37122</a>
+            <a href="iso37123.html" class="menu-btn">ISO 37123</a>
+        </div>
+        <!-- Botões de gerenciamento -->
+        <div class="admin-actions">
+            <button class="action-button add" onclick="abrirPopup('adicionar-norma')">
+                <span class="icon">+</span>
+                <span class="label">Adicionar</span>
+            </button>
+            <button class="action-button edit" onclick="abrirPopup('editar-norma')">
+                <span class="icon">✎</span>
+                <span class="label">Editar</span>
+            </button>
+            <button class="action-button remove" onclick="abrirPopup('remover-norma')">
+                <span class="icon">×</span>
+                <span class="label">Remover</span>
+            </button>
+        </div>
+    </div>
+    <!-- Popup Adicionar -->
+    <div id="popup-adicionar-norma" class="popup">
+        <div class="popup-content">
+            <h2>Adicionar nova norma</h2>
+            <input type="text" id="nomeNorma" placeholder="Nome da norma">
+            <input type="url" id="linkNorma" placeholder="Link da norma (opcional)">
+            <div class="popup-actions">
+                <button onclick="adicionarNorma()">Adicionar</button>
+                <button onclick="fecharPopup('adicionar-norma')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Editar -->
+    <div id="popup-editar-norma" class="popup">
+        <div class="popup-content">
+            <h2>Editar norma</h2>
+            <select id="selectNorma">
+                <option value="">Selecione uma norma</option>
+                <option value="ISO 37120">ISO 37120</option>
+                <option value="ISO 37122">ISO 37122</option>
+                <option value="ISO 37123">ISO 37123</option>
+            </select>
+            <input type="text" id="editNomeNorma" placeholder="Novo nome">
+            <input type="url" id="editLinkNorma" placeholder="Novo link">
+            <div class="popup-actions">
+                <button onclick="editarNorma()">Salvar</button>
+                <button onclick="fecharPopup('editar-norma')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Remover -->
+    <div id="popup-remover-norma" class="popup">
+        <div class="popup-content">
+            <h2>Remover norma</h2>
+            <select id="removeNorma">
+                <option value="">Selecione uma norma</option>
+                <option value="ISO 37120">ISO 37120</option>
+                <option value="ISO 37122">ISO 37122</option>
+                <option value="ISO 37123">ISO 37123</option>
+            </select>
+            <div class="popup-actions">
+                <button onclick="removerNorma()">Remover</button>
+                <button onclick="fecharPopup('remover-norma')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/unified.js' %}"></script>
+</body>
+</html>

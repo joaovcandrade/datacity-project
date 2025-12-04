@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Dimensões CSC</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="dimensoes-page">
+    <div id="dimensoes-view" class="view active">
+        <div class="selection-container">
+            <h2 class="selection-title">Selecione um município:</h2>
+            <div class="select-group">
+                <div class="custom-select">
+                    <button class="select-button">
+                        Londrina
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+                <div class="custom-select">
+                    <button class="select-button small">
+                        PR
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <h2 class="selection-title">Selecione uma dimensão para visualizar os indicadores:</h2>
+        </div>
+
+        <div class="dimensions-container">
+            <!-- Mobilidade -->
+            <div class="dimension-item" data-dimension="mobilidade">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Mobilidade.png' %}" alt="Mobilidade" width="80" height="80">
+                </div>
+                <span class="dimension-name">Mobilidade</span>
+            </div>
+
+            <!-- Urbanismo -->
+            <div class="dimension-item" data-dimension="urbanismo">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Urbanismo.png' %}" alt="Urbanismo" width="80" height="80">
+                </div>
+                <span class="dimension-name">Urbanismo</span>
+            </div>
+
+            <!-- Educação -->
+            <div class="dimension-item" data-dimension="educacao">
+                <div class="dimension-icon" style="background-color: transparent; border: 2px solid white; border-radius: 10px;">
+                    <img src="{% static 'img/Educação.png' %}" alt="Educação" width="80" height="80" >
+                </div>
+                <span class="dimension-name">Educação</span>
+            </div>
+
+            <!-- Segurança -->
+            <div class="dimension-item" data-dimension="seguranca">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Segurança.png' %}" alt="Segurança" width="80" height="80">
+                </div>
+                <span class="dimension-name">Segurança</span>
+            </div>
+
+            <!-- Governança -->
+            <div class="dimension-item" data-dimension="governanca">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Governança.png' %}" alt="Governança" width="80" height="80">
+                </div>
+                <span class="dimension-name">Governança</span>
+            </div>
+
+            <!-- Economia -->
+            <div class="dimension-item" data-dimension="economia">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 50%;">
+                    <img src="{% static 'img/Economia.png' %}" alt="Economia" width="80" height="80">
+                </div>
+                <span class="dimension-name">Economia</span>
+            </div>
+
+            <!-- Energia -->
+            <div class="dimension-item" data-dimension="energia">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 50%;">
+                    <img src="{% static 'img/Energia.png' %}" alt="Energia" width="80" height="80">
+                </div>
+                <span class="dimension-name">Energia</span>
+            </div>
+
+            <!-- Meio Ambiente -->
+            <div class="dimension-item" data-dimension="meio-ambiente">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Meio Ambiente.png' %}" alt="Meio Ambiente" width="80" height="80">
+                </div>
+                <span class="dimension-name">Meio Ambiente</span>
+            </div>
+
+            <!-- Tecnologia e Inovação -->
+            <div class="dimension-item" data-dimension="tecnologia">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 50%;">
+                    <img src="{% static 'img/Tecnologia.png' %}" alt="Tecnologia" width="80" height="80">
+                </div>
+                <span class="dimension-name">Tecnologia e Inovação</span>
+            </div>
+
+            <!-- Empreendedorismo -->
+            <div class="dimension-item" data-dimension="empreendedorismo">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Empreendedorismo.png' %}" alt="Empreendedorismo" width="80" height="80">
+                </div>
+                <span class="dimension-name">Empreendedorismo</span>
+            </div>
+
+            <!-- Saúde -->
+            <div class="dimension-item" data-dimension="saude">
+                <div class="dimension-icon" style="background-color: #ffffff00; border-radius: 10px;">
+                    <img src="{% static 'img/Saúde.png' %}" alt="Saúde" width="80" height="80">
+                </div>
+                <span class="dimension-name">Saúde</span>
+            </div>
+        </div>
+
+        <div class="management-buttons">
+            <button id="nova-dimensao-btn" class="management-btn">Nova Dimensão</button>
+            <button id="editar-dimensao-btn" class="management-btn">Editar Dimensão</button>
+            <button id="remover-dimensao-btn" class="management-btn">Remover Dimensão</button>
+        </div>
+
+        <div class="city-illustration">
+            <img src="{% static 'img/Cidade embaixo.png' %}" alt="Ilustração da cidade">
+        </div>
+    </div>
+
+    <script src="{% static 'js/unified.js' %}"></script>
+</body>
+</html>

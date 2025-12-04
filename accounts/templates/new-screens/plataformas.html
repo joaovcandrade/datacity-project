@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataformas - Datacity</title>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+    <script src="{% static 'js/unified.js' %}" defer></script>
+    {% csrf_token %}
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo.png' %}" alt="Logo">
+        </div>
+    </header>
+    <div class="menu-container">
+        <h1 class="menu-title">Plataformas disponíveis</h1>
+        <div class="nav-buttons">
+            <a href="javascript:history.back()" class="back-btn">Voltar</a>
+        </div>
+        <div class="menu-buttons" id="menuButtons">
+            <!-- Plataformas serão adicionadas aqui pelo JavaScript -->
+        </div>
+        <!-- Botões de gerenciamento -->
+        <div class="admin-actions">
+            <button class="action-button add" onclick="abrirPopup('adicionar')">
+                <span class="icon">+</span>
+                <span class="label">Adicionar</span>
+            </button>
+            <button class="action-button edit" onclick="abrirPopup('editar')">
+                <span class="icon">✎</span>
+                <span class="label">Editar</span>
+            </button>
+            <button class="action-button remove" onclick="abrirPopup('remover')">
+                <span class="icon">×</span>
+                <span class="label">Remover</span>
+            </button>
+        </div>
+    </div>
+    <!-- Popup Adicionar -->
+    <div id="popup-adicionar" class="popup">
+        <div class="popup-content">
+            <h2>Adicionar nova plataforma</h2>
+            <input type="text" id="nomePlataforma" placeholder="Nome da plataforma">
+            <input type="url" id="linkPlataforma" placeholder="Link da plataforma">
+            <div class="popup-actions">
+                <button onclick="adicionarPlataforma()">Adicionar</button>
+                <button onclick="fecharPopup('adicionar')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Editar -->
+    <div id="popup-editar" class="popup">
+        <div class="popup-content">
+            <h2>Editar plataforma</h2>
+            <select id="selectPlataforma">
+                <option value="">Selecione uma plataforma</option>
+                <!-- Opções serão adicionadas pelo JavaScript -->
+            </select>
+            <input type="text" id="editNomePlataforma" placeholder="Novo nome">
+            <input type="url" id="editLinkPlataforma" placeholder="Novo link">
+            <div class="popup-actions">
+                <button onclick="editarPlataforma()">Salvar</button>
+                <button onclick="fecharPopup('editar')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Remover -->
+    <div id="popup-remover" class="popup">
+        <div class="popup-content">
+            <h2>Remover plataforma</h2>
+            <select id="removePlataforma">
+                <option value="">Selecione uma plataforma</option>
+                <!-- Opções serão adicionadas pelo JavaScript -->
+            </select>
+            <div class="popup-actions">
+                <button onclick="removerPlataforma()">Remover</button>
+                <button onclick="fecharPopup('remover')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

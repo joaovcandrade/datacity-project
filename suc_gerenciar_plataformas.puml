@@ -1,0 +1,112 @@
+@startuml suc_gerenciar_plataformas
+
+title Diagrama de Sequência - SUC Gerenciar Plataformas (Fluxo Principal)
+
+actor Usuario
+participant "Interface\n(plataformas.html)" as Interface
+participant "Sistema\n(views.py)" as Sistema
+database "Banco de Dados\n(Platform)" as BD
+
+== Listar Plataformas ==
+Usuario -> Interface: Acessa página de plataformas
+activate Usuario
+activate Interface
+
+Interface -> Sistema: plataformas()
+activate Sistema
+
+Sistema -> BD: Platform.objects.all()
+activate BD
+BD --> Sistema: lista de plataformas
+deactivate BD
+
+Sistema --> Interface: render(plataformas.html, {platforms})
+deactivate Sistema
+
+Interface --> Usuario: Exibe lista de plataformas
+deactivate Interface
+
+== Adicionar Plataforma ==
+Usuario -> Interface: Clica em "Adicionar Plataforma"
+activate Interface
+
+Interface --> Usuario: Exibe formulário
+deactivate Interface
+
+Usuario -> Interface: Preenche dados (nome, link)
+activate Interface
+
+Interface -> Sistema: adicionar_plataforma(nome, link)
+activate Sistema
+
+Sistema -> Sistema: Valida dados obrigatórios
+Sistema -> Sistema: normalize_url(link)
+
+Sistema -> BD: Platform.objects.create(Nome, Direcionamento)
+activate BD
+BD --> Sistema: plataforma criada
+deactivate BD
+
+Sistema --> Interface: JsonResponse({success: True})
+deactivate Sistema
+
+Interface --> Usuario: Exibe mensagem de sucesso
+deactivate Interface
+
+== Editar Plataforma ==
+Usuario -> Interface: Seleciona plataforma e clica em "Editar"
+activate Interface
+
+Interface --> Usuario: Exibe formulário com dados atuais
+deactivate Interface
+
+Usuario -> Interface: Modifica dados (nome, link)
+activate Interface
+
+Interface -> Sistema: editar_plataforma(platform_id, nome, link)
+activate Sistema
+
+Sistema -> BD: get_object_or_404(Platform, id_plataforma)
+activate BD
+BD --> Sistema: plataforma encontrada
+deactivate BD
+
+Sistema -> Sistema: Valida dados obrigatórios
+Sistema -> Sistema: normalize_url(link)
+
+Sistema -> BD: platform.save()
+activate BD
+BD --> Sistema: plataforma atualizada
+deactivate BD
+
+Sistema --> Interface: JsonResponse({success: True})
+deactivate Sistema
+
+Interface --> Usuario: Exibe mensagem de sucesso
+deactivate Interface
+
+== Remover Plataforma ==
+Usuario -> Interface: Seleciona plataforma e clica em "Remover"
+activate Interface
+
+Interface -> Sistema: remover_plataforma(platform_id)
+activate Sistema
+
+Sistema -> BD: get_object_or_404(Platform, id_plataforma)
+activate BD
+BD --> Sistema: plataforma encontrada
+deactivate BD
+
+Sistema -> BD: platform.delete()
+activate BD
+BD --> Sistema: plataforma removida
+deactivate BD
+
+Sistema --> Interface: JsonResponse({success: True})
+deactivate Sistema
+
+Interface --> Usuario: Exibe mensagem de sucesso
+deactivate Interface
+deactivate Usuario
+
+@enduml

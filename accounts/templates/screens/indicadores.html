@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Indicadores</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="indicadores-page">
+    <div id="indicadores-view" class="view active">
+        <h2 id="indicadores-titulo" class="indicadores-title">Indicadores de <span id="dimensao-nome">Economia</span> no município selecionado</h2>
+        
+        <button id="gerar-relatorio-btn" class="report-btn">Gerar relatório</button>
+        
+        <div class="table-container">
+            <table id="indicadores-table">
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>ODS (Onu)</th>
+                        <th>Dado</th>
+                        <th>Fonte</th>
+                        <th>ISO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os indicadores serão carregados via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="indicadores-actions">
+            <button id="adicionar-indicador-btn" class="action-btn">Adicionar Indicador</button>
+            <button id="excluir-indicador-btn" class="action-btn">Excluir Indicador</button>
+            <button id="editar-indicador-btn" class="action-btn">Editar indicador</button>
+        </div>
+        
+        <button id="voltar-dimensoes-btn" class="back-btn">Voltar para Dimensões</button>
+    </div>
+
+    <script src="{% static 'js/unified.js' %}"></script>
+</body>
+</html>
