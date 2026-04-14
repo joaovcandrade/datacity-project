@@ -7,7 +7,7 @@ def admin_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         if not request.user.is_authenticated or not request.user.is_admin():
             messages.error(request, 'Você não tem permissão para acessar esta página.')
-            return redirect('home')
+            return redirect('menu')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
@@ -16,7 +16,7 @@ def manager_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         if not request.user.is_authenticated or not (request.user.is_admin() or request.user.is_manager()):
             messages.error(request, 'Você não tem permissão para acessar esta página.')
-            return redirect('home')
+            return redirect('menu')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 

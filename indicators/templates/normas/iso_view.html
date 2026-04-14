@@ -1,0 +1,3065 @@
+            {% load static %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - {{norm.codigo_norma}}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/Logo_drive.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #513C9A;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 40px;
+        }
+
+        .back-button:hover {
+            color: #6B4FB5;
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .logo-header img {
+            width: 180px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: #513C9A;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            color: #513C9A;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Purple Sections */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Municipality Selection */
+        .municipality-dropdowns {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .municipality-select-container {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #333;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            min-width: 200px;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .municipality-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .search-input {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        /* Search results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #513C9A;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .search-result-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-result-item.selected {
+            background: #513C9A;
+            color: white;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 16px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        .loading {
+            padding: 16px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Toggle buttons */
+        .input-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #513C9A;
+            border-color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Selection display */
+        .selection-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            text-align: center;
+            color: white;
+            display: none;
+        }
+
+        .selection-display.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(81, 60, 154, 0.15);
+        }
+
+        .category-title {
+            color: #513C9A;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .indicator-count {
+            background: #513C9A;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .core-info {
+            color: #513C9A;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .progress-content {
+            display: grid;
+            grid-template-columns: 300px 1fr; 
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* Profile Indicators */
+        .profile-indicators-container {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 12px;
+            padding: 15px; 
+            max-height: 500px;
+            overflow-y: auto;
+            width: 100%; 
+        }
+
+        .profile-indicators-container h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .profile-indicator-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px; 
+            border-radius: 6px; 
+            margin-bottom: 8px; 
+            border-left: 3px solid rgba(255, 255, 255, 0.3); 
+        }
+
+        .profile-indicator-name {
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: white;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        .profile-indicator-value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Radar Chart */
+        .radar-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* White Sections */
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        /* Certification Grid */
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .certification-card {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .certification-card:nth-child(1) { /* Bronze */
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .certification-card:nth-child(2) { /* Prata */
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .certification-card:nth-child(3) { /* Ouro */
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .certification-card:nth-child(4) { /* Platina */
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .certification-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(81, 60, 154, 0.3);
+        }
+
+        .certification-level {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .certification-requirements {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        /* Barra de progresso maior */
+        .certification-progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            height: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .certification-progress-bar,
+        .certification-progress-bar-bronze,
+        .certification-progress-bar-prata,
+        .certification-progress-bar-ouro,
+        .certification-progress-bar-platina {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.3s ease;
+        }
+
+        .certification-progress-bar {
+            background: white;
+        }
+
+        .certification-progress-bar-bronze {
+            background: #Cd7f32;
+        }
+
+        .certification-progress-bar-prata {
+            background: #949494;
+        }
+        
+        .certification-progress-bar-ouro {
+            background: #ffd700;
+        }
+
+        .certification-progress-bar-platina {
+            background: #B9f2ff;
+        }
+
+        .certification-details {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Controls */
+        .controls-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .year-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .year-selector label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .year-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .year-btn {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .year-btn:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .year-btn.active {
+            background: #513C9A;
+            color: white;
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .filter-section label {
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .category-filter {
+            background: white;
+            color: #333;
+            border: 2px solid #513C9A;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        .generate-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Toggle buttons for input mode */
+        .input-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #513C9A;
+            border-color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Legend */
+        .legend-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .legend-title {
+            font-size: 16px;
+            color: #513C9A;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-core {
+            background: #ff4400ff;
+        }
+
+        .legend-supporting {
+            background: #007006ff;
+        }
+
+        /* Table styles */
+        .indicators-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .table-header {
+            background: #513C9A;
+            display: grid;
+            grid-template-columns: 3fr 0.8fr 1.2fr 1fr 1.2fr 1.6fr;
+            gap: 1px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table-header > div {
+            padding: 16px 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .table-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 3fr 0.8fr 1.2fr 1fr 2.5fr;
+            gap: 1px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .table-row:hover {
+            background-color: rgba(81, 60, 154, 0.05);
+        }
+
+        .table-cell {
+            padding: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            min-height: 50px;
+            font-size: 14px;
+        }
+
+        .indicator-name {
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .ods-cell, .unit-cell {
+            text-align: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #513C9A;
+        }
+
+        .data-input, .source-input {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            flex: 1;
+        }
+
+        .data-input:focus, .source-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        .data-input.filled {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .data-input:disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: #e9ecef;
+        }
+
+        .data-input.editing {
+            background: white;
+            border-color: #513C9A;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        .source-link {
+            color: #513C9A;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 12px;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        .anexo-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .anexo-input {
+            display: none;
+        }
+
+        .anexo-btn {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .anexo-btn:hover {
+            background: #513C9A;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.3);
+        }
+
+        .anexo-btn.has-file {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+            border-color: #513C9A;
+        }
+
+        .anexo-link {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .anexo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.3);
+            text-decoration: none;
+        }
+
+        .anexo-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .anexo-delete-btn {
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            padding: 6px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .anexo-delete-btn:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #513C9A, #6B4FB5);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Custom Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 450px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid #513C9A;
+        }
+
+        .toast.success {
+            border-left-color: #28a745;
+        }
+
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-left-color: #ffc107;
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .toast.error .toast-icon {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .toast.warning .toast-icon {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .toast-close:hover {
+            color: #513C9A;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Confirm Modal */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .confirm-modal.show {
+            display: flex;
+        }
+
+        .confirm-modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.2s ease;
+        }
+
+        .confirm-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(81, 60, 154, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .confirm-modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .confirm-modal-message {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .confirm-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .confirm-modal-btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .confirm-modal-btn.cancel {
+            background: white;
+            color: #666;
+            border-color: #ddd;
+        }
+
+        .confirm-modal-btn.cancel:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .confirm-modal-btn.confirm {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            color: white;
+        }
+
+        .confirm-modal-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(81, 60, 154, 0.4);
+        }
+
+        .confirm-modal-btn.danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .confirm-modal-btn.danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Edit Icon Styles */
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edit-icon {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            padding: 4px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #513C9A;
+            background: transparent;
+            border: none;
+            width: 24px;
+            height: 24px;
+        }
+
+        .edit-icon:hover {
+            opacity: 1;
+            background: rgba(81, 60, 154, 0.1);
+            transform: scale(1.1);
+        }
+
+        .edit-icon:active {
+            transform: scale(0.95);
+        }
+
+        .edit-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 2;
+        }
+
+        .category-divider {
+            background: #513C9A;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Indicator type styling */
+        .indicator-type-text {
+            font-weight: 600;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .type-principal {
+            color: #ff4400ff !important;
+        }
+
+        .type-apoio {
+            color: #007006ff !important;
+        }
+
+        .type-perfil {
+            color: #513C9A !important;
+        }
+
+        /* Export buttons */
+        .export-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+        }
+
+        /* Chart info */
+        .chart-info-container {
+            position: relative;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .info-button {
+            background: white;
+            color: #513C9A;
+            border: 2px solid #513C9A;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .info-button:hover {
+            background: #513C9A;
+            color: white;
+        }
+
+        .legend-popup {
+            display: none;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 2px solid #513C9A;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 250px;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .legend-popup h4 {
+            color: #513C9A;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .legend-popup-category {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #513C9A;
+            font-weight: 500;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-button {
+            color: #999;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close-button:hover {
+            color: #513C9A;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #513C9A;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            padding-right: 60px;
+        }
+
+        .modal-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .modal-summary strong {
+            color: #513C9A;
+        }
+
+        /* Charts section */
+        .indicator-charts-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #513C9A;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h4 {
+            color: #513C9A;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .chart-card canvas {
+            max-height: 300px;
+        }
+
+        /* Category charts sections */
+        .category-charts-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-charts-header {
+            background: #513C9A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .category-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* Trends summary */
+        .trends-summary {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .trends-title {
+            font-size: 20px;
+            color: #513C9A;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .trends-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--trend-color);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .trends-card.improving {
+            --trend-color: #28a745;
+        }
+
+        .trends-card.worsening {
+            --trend-color: #dc3545;
+        }
+
+        .trends-card.stable {
+            --trend-color: #6c757d;
+        }
+
+        .trends-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .trends-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--trend-color);
+            margin-bottom: 5px;
+        }
+
+        .trends-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .modal-export-buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Hidden sections */
+        .hidden-sections {
+            display: none;
+        }
+
+        .detailed-view {
+            display: none;
+        }
+
+        .municipality-details {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .municipality-details.show {
+            display: block;
+        }
+
+        .anexo-hover-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .anexo-count-badge {
+            background: #f8f9fa;
+            color: #513C9A;
+            border: 1px solid #d9d9d9;
+            border-radius: 16px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .anexo-hover-popup {
+            display: none;
+            position: absolute;
+            top: calc(85% + 8px);
+            left: 50%;
+            transform: translateX(-65%);
+            min-width: 260px;
+            max-width: 340px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+        }
+
+        .anexo-hover-wrapper:hover .anexo-hover-popup {
+            display: block;
+        }
+
+        .anexo-popup-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .anexo-popup-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .anexo-popup-upload {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: center;
+        }
+
+        .anexo-popup-item .anexo-link {
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .progress-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .radar-container {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .chart-container {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .profile-indicators-container {
+                max-height: 300px;
+            }
+
+            .certification-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .certification-card:nth-child(1),
+            .certification-card:nth-child(2),
+            .certification-card:nth-child(3),
+            .certification-card:nth-child(4) {
+                grid-column: 1;
+                grid-row: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .back-button {
+                left: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 36px;
+            }
+
+            .purple-section, .white-section, .progress-section {
+                padding: 24px;
+            }
+
+            .section-title, .white-section-title, .progress-title {
+                font-size: 24px;
+            }
+
+            .municipality-dropdowns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-select-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .municipality-select,
+            .search-input {
+                width: 100%;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 2fr 0.5fr 1fr 0.8fr 2fr;
+                font-size: 12px;
+            }
+            
+            .table-cell {
+                padding: 8px;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+                padding: 20px;
+                max-height: 95vh;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+                padding-right: 40px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar customization */
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-results::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .search-results::-webkit-scrollbar-thumb {
+            background: #513C9A;
+            border-radius: 3px;
+        }
+
+        .search-results::-webkit-scrollbar-thumb:hover {
+            background: #6B4FB5;
+        }
+
+        .generate-btn[style*="background: #dc3545"] {
+    background: #dc3545 !important;
+}
+
+.generate-btn[style*="background: #dc3545"]:hover {
+    background: #c82333 !important;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="#" class="back-button" onclick="history.back(); return false;">
+                ← Voltar para Normas
+            </a>
+           <div class="logo-header">
+            <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1>{{norm.codigo_norma}}</h1>
+                <p>{{ num_indicators }} indicadores voltados a serviços urbanos e qualidade de vida</p>
+            </div>
+
+            <!-- Municipality Selection -->
+            <div class="purple-section municipality-section-header" id="municipality-section">
+                <div class="section-content">
+                    <h2 class="section-title" id="municipality-title">Selecione um município</h2>
+                    <p class="section-subtitle">Escolha o município para visualizar os indicadores {{ norm.codigo_norma }}</p>
+                    
+                    <!-- Toggle between dropdown and search -->
+                    <div class="municipality-dropdowns" id="dropdown-mode">
+                        <div class="municipality-select-container">
+                            <select class="municipality-select" id="selectEstado" name="estado" onchange="carregarMunicipios(this.value)">
+                                <option value="">Selecione um estado...</option>
+                            </select>
+                        </div>
+                        <div class="municipality-select-container">
+                            <select class="municipality-select" id="selectMunicipio" name="cidade" disabled onchange="selecionarMunicipio(this)">
+                                <option value="">Primeiro selecione o estado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="selection-display" id="selection-display">
+                        <h3>Município Selecionado:</h3>
+                        <p id="selection-text"></p>
+                    </div>
+                    <div class="selection-display" id="clear-selection" style="display: none; margin-top: 15px;">
+                        <button type="button" class="generate-btn" onclick="clearSelection()" style="background: #dc3545;">
+                            🗑️ Limpar Seleção
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+            
+
+            <!-- Sections to hide when municipality is selected -->
+            <div id="default-sections">
+                <!-- Summary Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Resumo dos indicadores</h2>
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">{{ num_principal_indicators }}</div>
+                                <div class="stat-label">Indicadores Principais</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">{{ num_main_indicators }}</div>
+                                <div class="stat-label">Indicadores Principais</div>
+                            </div>
+                            {% if num_support_indicators != 0 %}
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ num_support_indicators }}</div>
+                                    <div class="stat-label">Indicadores de Apoio</div>
+                                </div>
+                            {% endif %}
+                            {% if num_profile_indicators != 0 %}
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ num_profile_indicators }}</div>
+                                    <div class="stat-label">Indicadores de Perfil</div>
+                                </div>
+                            {% endif %}
+                            <div class="stat-item">
+                                <div class="stat-number">{{ num_categories }}</div>
+                                <div class="stat-label">Categorias</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">{{ num_ods }}</div>
+                                <div class="stat-label">ODS Relacionados</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="purple-section">
+                    <div class="section-content">
+                        <h2 class="section-title">Categorias de indicadores</h2>
+                        <div class="categories-grid" id="categories-grid">
+                            <!-- Categories will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Municipality Details (Hidden by default) -->
+            <div id="municipality-details" class="municipality-details">
+                <!-- Progress Mapping -->
+                <div class="progress-section" id="radar-section">
+                    <h2 class="progress-title">Progresso de Mapeamento</h2>
+                    <div class="progress-content">
+                        <div class="profile-indicators-container">
+                            <h3>Indicadores de Perfil do município</h3>
+                            <div class="profile-indicators-grid" id="profile-indicators">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                        <div class="radar-container">
+                            <div class="chart-container">
+                                <canvas id="categoryRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-info-container">
+                        <button class="info-button" onclick="toggleLegendPopup()">ℹ️ Ver Progresso por Categoria</button>
+                        <div class="legend-popup" id="legend-popup">
+                            <h4>📊 Progresso por Categoria</h4>
+                            <div id="category-progress-list">
+                                <!-- Será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Certification Levels -->
+                
+                <div class="white-section">
+                    <h2 class="white-section-title">Níveis de Certificação</h2>
+                    <div class="certification-grid" id="certification-grid">
+                        <!-- preenchido dinamicamente -->
+                    </div>
+                </div>
+                <!-- Indicators -->
+                 <div class="white-section">
+                    <h2 class="white-section-title">Indicadores</h2>
+                    
+                    <!-- Legend Section -->
+                    <div class="legend-section">
+                        <h3 class="legend-title">Legenda dos Indicadores</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <span class="legend-color legend-core"></span>
+                                <span>Indicador Principal (Core) - Obrigatório para certificação</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color legend-supporting"></span>
+                                <span>Indicador de Apoio (Supporting) - Complementar</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="controls-section">
+                        <div class="year-selector">
+                            <label>📅 Ano:</label>
+                            <div class="year-buttons" id="year-buttons">
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <label>🔍 Filtrar por categoria:</label>
+                            <select class="category-filter" id="category-filter" onchange="filterByCategory()">
+                                <option value="all">Todas as categorias</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <button class="generate-btn" onclick="generateReport()">📊 Visualização histórica</button>
+                        </div>
+                    </div>
+                    <div class="controls-section">
+                        
+                    </div>
+
+                        <div class="indicators-table">
+                            <div class="table-header">
+                                <div>Indicador</div>
+                                <div>ODS</div>
+                                <div>Dado</div>
+                                <div>Unidade</div>
+                                <div>Fonte</div>
+                                <div>Anexos</div>
+                            </div>
+                            <div class="table-body" id="table-body">
+                                <!-- Table rows will be generated here -->
+                            </div>
+                        </div>
+                        <div class="export-section">
+                            <!-- Year selection for PDF export -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title"> Relatório Completo ISO 37120 - Londrina PR</h2>
+            <div id="reportSummary" class="modal-summary">
+                <!-- Summary will be inserted here -->
+            </div>
+            <div id="trendsSummary" class="trends-summary" style="display: none;">
+                <!-- Trends summary will be inserted here -->
+            </div>
+            <div class="indicator-charts-section">
+                <h3 class="chart-title">📈 Evolução dos Indicadores (2022-2025)</h3>
+                <div id="indicator-charts-container" class="charts-grid">
+                    <!-- Individual indicator charts will be rendered here -->
+                </div>
+            </div>
+            <div class="modal-export-buttons">
+                <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon" id="confirmModalIcon">🗑️</div>
+            <h3 class="confirm-modal-title" id="confirmModalTitle">Confirmar ação</h3>
+            <p class="confirm-modal-message" id="confirmModalMessage">Tem certeza que deseja continuar?</p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-modal-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="confirm-modal-btn danger" id="confirmModalBtn" onclick="executeConfirmAction()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const indicatorsData = JSON.parse('{{ indicators_json|safe|escapejs }}');
+        const certificationsData = JSON.parse('{{ certifications_json|default:"[]"|safe|escapejs }}');
+        const initialNormId = {{ norm.id }};
+        const normsData = JSON.parse('{{ norms_json|safe|escapejs }}');
+        const currentNormYear = {{ current_norm_year }};
+        const userType = '{{ user_type }}';
+        const userMunicipalityId = {{ user_municipality_id|default:'null' }};
+
+        let selectedMunicipalityId = null;
+        let municipalityData = null;
+        let radarChart = null;
+        let currentNormId = initialNormId;
+        let selectedYear = currentNormYear;
+        let reportCharts = [];
+        let lastReportData = [];
+
+        function getTypeLabel(type) {
+            if (type === 'principal') return 'Principal';
+            if (type === 'apoio') return 'Apoio';
+            if (type === 'perfil') return 'Perfil';
+            return type || '-';
+        }
+
+        function getTypeClass(type) {
+            const t = String(type || '').toLowerCase();
+
+            if (t === 'principal') return 'type-principal';
+            if (t === 'apoio') return 'type-apoio';
+            if (t === 'perfil') return 'type-perfil';
+
+            return '';
+        }
+
+        function selectedMunicipalityCanEdit() {
+            return Boolean(municipalityData && municipalityData.permissions && municipalityData.permissions.can_edit);
+        }
+
+        function getPermissionMessage() {
+            if (selectedMunicipalityCanEdit()) {
+                return userType === 'ADMIN'
+                    ? 'Administrador: preenchimento liberado para todos os municípios.'
+                    : 'Gestor: preenchimento liberado apenas para o seu município.';
+            }
+            if (userType === 'MANAGER') {
+                return 'Gestor: visualização liberada. O preenchimento só é permitido no seu próprio município.';
+            }
+            return 'Usuário: somente visualização.';
+        }
+
+        function renderPermissionBanner() {
+            const controlsSection = document.querySelector('.controls-section');
+            if (!controlsSection) return;
+
+            let banner = document.getElementById('permission-banner');
+            if (!banner) {
+                banner = document.createElement('div');
+                banner.id = 'permission-banner';
+                banner.style.width = '100%';
+                banner.style.padding = '12px 16px';
+                banner.style.borderRadius = '10px';
+                banner.style.background = '#ffffff';
+                banner.style.border = '1px solid #e5e7eb';
+                banner.style.color = '#513C9A';
+                banner.style.fontWeight = '600';
+                controlsSection.prepend(banner);
+            }
+            banner.textContent = getPermissionMessage();
+        }
+
+        async function saveIndicator(indicatorId, field, value) {
+            if (!selectedMunicipalityCanEdit()) return;
+
+            const indicator = municipalityData.indicators.find(item => item.id === indicatorId);
+            if (!indicator) return;
+
+            const payload = {
+                value: field === 'value' ? value : (indicator.value || ''),
+                source: field === 'source' ? value : (indicator.source || ''),
+            };
+
+            const response = await fetch(`/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/save/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (!data.success) {
+                alert(data.message || 'Erro ao salvar indicador.');
+                return;
+            }
+
+            indicator.value = payload.value;
+            indicator.source = payload.source;
+            renderTable();
+            renderProfileIndicators();
+            updateRadarChart();
+            updateCategorySummary();
+            updateCertificationLevels();
+        }
+
+        function enableEdit(button, indicatorId, field) {
+            if (!selectedMunicipalityCanEdit()) return;
+            const container = button.closest('.input-container');
+            const input = container.querySelector(field === 'value' ? '.data-input' : '.source-input');
+            if (!input) return;
+            input.disabled = false;
+            input.classList.add('editing');
+            input.focus();
+            input.select();
+            button.innerHTML = '✓';
+            button.title = 'Salvar';
+            button.onclick = async function() { await saveInlineEdit(this, indicatorId, field); };
+            input.onblur = async () => { await saveInlineEdit(button, indicatorId, field); };
+        }
+
+        async function saveInlineEdit(button, indicatorId, field) {
+            const container = button.closest('.input-container');
+            const input = container.querySelector(field === 'value' ? '.data-input' : '.source-input');
+            if (!input || input.disabled) return;
+            input.disabled = true;
+            input.classList.remove('editing');
+            button.innerHTML = '✎';
+            button.title = 'Clique para editar';
+            button.onclick = function() { enableEdit(this, indicatorId, field); };
+            input.onblur = null;
+            await saveIndicator(indicatorId, field, input.value);
+        }
+
+        function renderYearButtons() {
+            const container = document.getElementById('year-buttons');
+            if (!container) return;
+            const years = [...normsData].sort((a, b) => b.year - a.year);
+            container.innerHTML = years.map(item => `
+                <button type="button" class="year-btn ${Number(item.year) === Number(selectedYear) ? 'active' : ''}" onclick="selectYear(${item.year})">${item.year}</button>
+            `).join('');
+        }
+
+        function syncExportYearCheckboxes() {
+            const exportSection = document.querySelector('.export-section');
+            if (!exportSection) return;
+            const years = [...normsData].sort((a, b) => b.year - a.year);
+            const labels = years.map(item => {
+                const checked = Number(item.year) === Number(selectedYear) ? 'checked' : '';
+                return `<label style="margin-right:6px"><input type="checkbox" class="export-year" value="${item.year}" ${checked}> ${item.year}</label>`;
+            }).join('');
+            exportSection.innerHTML = `
+                <label style="margin-right:8px">📅 Anos para exportar:</label>
+                ${labels}
+                <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+            `;
+        }
+
+        async function selectYear(year) {
+            const selectedNorm = normsData.find(item => Number(item.year) === Number(year));
+            if (!selectedNorm) return;
+            selectedYear = Number(year);
+            currentNormId = selectedNorm.id;
+            renderYearButtons();
+            syncExportYearCheckboxes();
+            if (selectedMunicipalityId) {
+                await carregarDadosMunicipio();
+            }
+        }
+
+        function populateCategoryFilter() {
+            const select = document.getElementById('category-filter');
+            if (!select) return;
+
+            const options = ['<option value="all">Todas as categorias</option>'];
+
+            Object.values(indicatorsData).forEach(category => {
+                options.push(`<option value="${category.key}">${category.name}</option>`);
+            });
+
+            const hasProfile = Object.values(indicatorsData).some(category =>
+                (category.indicators || []).some(ind => String(ind.type || '').toLowerCase() === 'perfil')
+            );
+
+            if (hasProfile) {
+                options.push('<option value="perfil">Indicadores de Perfil</option>');
+            }
+
+            select.innerHTML = options.join('');
+        }
+
+        function renderCategoriesOverview() {
+            const grid = document.getElementById('categories-grid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+
+            Object.values(indicatorsData || {}).forEach(category => {
+                const indicators = category.indicators || [];
+
+                const principalCount = indicators.filter(i => i.type === 'PRINCIPAL').length;
+                const apoioCount = indicators.filter(i => i.type === 'APOIO').length;
+
+                const totalCount = indicators.length - indicators.filter(i => i.type === 'PERFIL').length;
+
+                if (totalCount != 0) {
+
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+
+                    card.innerHTML = `
+                        <div class="category-title">${category.name}</div>
+                        <div class="category-description">${category.description || ''}</div>
+                        <div class="category-stats">
+                            <div class="indicator-count">${totalCount} indicadores</div>
+                            <div class="core-info">
+                                ${principalCount !== 0 ? `${principalCount} principais<br>` : ''}
+                                ${apoioCount !== 0 ? `${apoioCount} apoio` : ''}
+                            </div>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        async function carregarMunicipios(estado) {
+            const municipalitySelect = document.getElementById('selectMunicipio');
+            if (!estado) {
+                municipalitySelect.innerHTML = '<option value="">Primeiro selecione o estado</option>';
+                municipalitySelect.disabled = true;
+                return;
+            }
+            municipalitySelect.innerHTML = '<option value="">Carregando...</option>';
+            municipalitySelect.disabled = true;
+            try {
+                const response = await fetch(`/dashboard/api/municipios/?estado=${encodeURIComponent(estado)}`);
+                const data = await response.json();
+                municipalitySelect.innerHTML = '<option value="">Selecione...</option>';
+                if (data.success) {
+                    data.data.forEach(mun => municipalitySelect.add(new Option(mun.nome, mun.id)));
+                    municipalitySelect.disabled = false;
+                }
+            } catch (error) {
+                municipalitySelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
+            }
+        }
+
+        async function selecionarMunicipio(select) {
+            const municipioId = select.value;
+            if (!municipioId) return;
+            const municipioNome = select.options[select.selectedIndex].text;
+            const estadoSigla = document.getElementById('selectEstado').value;
+            selectedMunicipalityId = municipioId;
+            document.getElementById('selection-text').innerHTML = `<strong>${municipioNome}</strong> - ${estadoSigla}`;
+            document.getElementById('dropdown-mode').style.display = 'none';
+            document.getElementById('selection-display').classList.add('show');
+            document.getElementById('clear-selection').style.display = 'block';
+            document.getElementById('default-sections').style.display = 'none';
+            document.getElementById('municipality-details').classList.add('show');
+            document.getElementById('municipality-title').textContent = `${municipioNome} - ${estadoSigla}`;
+            await carregarDadosMunicipio();
+            document.getElementById('municipality-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function carregarDadosMunicipio() {
+            if (!selectedMunicipalityId) return;
+
+            const response = await fetch(`/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/`);
+            municipalityData = await response.json();
+
+            if (!municipalityData.success) {
+                alert('Erro ao carregar dados do município.');
+                return;
+            }
+
+            renderPermissionBanner();
+            renderProfileIndicators();
+            renderTable();
+            updateRadarChart();
+            updateCategorySummary();
+            updateCertificationLevels();
+        }
+
+
+        function formatador(int){
+            const formatador = new Intl.NumberFormat('pt-BR', {
+            minimumFractionDigits: 0, // Se for 2, mostra "2"
+            maximumFractionDigits: 2, // Se for 2.156, mostra "2,16"
+            });
+            formated_int = formatador.format(int)
+            return formated_int;
+        };
+
+        function renderProfileIndicators() {
+            const container = document.getElementById('profile-indicators');
+
+            if (!container || !municipalityData) return;
+
+            const items = municipalityData.profile_indicators || [];
+           
+            if (!items.length) {
+                container.innerHTML = `
+                    <div class="profile-indicator-item">
+                        <div class="profile-indicator-name">Nenhum indicador de perfil encontrado.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="profile-indicator-item">
+                    <div class="profile-indicator-name">${item.name || '-'}</div>
+                    <div class="profile-indicator-value">
+                        <span>${item.unit || '-'}</span>
+                        <span>${formatador(item.value) || 'Não informado'}</span>
+                    </div>
+                </div>
+            `).join('');
+            
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            if (!tableBody || !municipalityData) return;
+
+            const filter = document.getElementById('category-filter').value;
+            const canEdit = selectedMunicipalityCanEdit();
+
+            const allIndicators = municipalityData.indicators || [];
+
+            const profileIndicators = allIndicators.filter(
+                item => String(item.type || '').toLowerCase() === 'perfil'
+            );
+
+            const nonProfileIndicators = allIndicators.filter(
+                item => String(item.type || '').toLowerCase() !== 'perfil'
+            );
+
+            let indicators = [];
+
+            if (filter === 'all') {
+                indicators = [...nonProfileIndicators, ...profileIndicators];
+            } else if (filter === 'perfil') {
+                indicators = profileIndicators;
+            } else {
+                indicators = nonProfileIndicators.filter(
+                    item => String(item.category_id) === String(filter)
+                );
+            }
+
+            let html = '';
+            let lastGroup = null;
+
+            indicators.forEach(item => {
+                const isPerfil = String(item.type || '').toLowerCase() === 'perfil';
+                const groupName = isPerfil ? 'Indicadores de Perfil' : item.category_name;
+
+                if (groupName !== lastGroup) {
+                    html += `<div class="category-divider">${groupName}</div>`;
+                    lastGroup = groupName;
+                }
+
+                html += `
+                    <div class="table-row" style="grid-template-columns: 3fr 0.8fr 1.2fr 1fr 1.3fr 1.3fr;">
+                        <div class="table-cell indicator-name">
+                            <div>
+                                <span class="indicator-name-text ${getTypeClass(item.type)}">${item.name}</span>
+                            </div>
+                        </div>
+
+                        <div class="table-cell ods-cell">${(item.ods || []).join(', ') || '-'}</div>
+
+                        <div class="table-cell">
+                            <div class="input-container">
+                                <input
+                                    type="text"
+                                    class="data-input ${item.value ? 'filled' : ''}"
+                                    value="${item.value || ''}"
+                                    placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                    disabled
+                                >
+                                ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'value')">✎</button>` : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="table-cell unit-cell">${item.unit || '-'}</div>
+
+                        <div class="table-cell">
+                            <div class="input-container">
+                                <input
+                                    type="url"
+                                    class="source-input"
+                                    value="${item.source || ''}"
+                                    placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                    disabled
+                                >
+                                ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'source')">✎</button>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="table-cell" style="justify-content:center; position:relative;">
+                            <div class="anexo-hover-wrapper">
+                                <div class="anexo-count-badge">
+                                    <button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-${item.id}').click()">
+                                        📎 Adicionar PDF(s)
+                                    </button>
+                                    ${item.attachments && item.attachments.length ? `${item.attachments.length} anexo(s)` : '-'}
+                                </div>
+
+                                ${
+                                    item.attachments && item.attachments.length
+                                        ? `
+                                        <div class="anexo-hover-popup">
+                                            ${item.attachments.map(att => `
+                                                <div class="anexo-popup-item">
+                                                    <a href="${att.url}" target="_blank" class="anexo-link">
+                                                        📄 ${att.descricao || 'Ver PDF'}
+                                                    </a>
+                                                    ${canEdit ? `
+                                                        <button
+                                                            class="anexo-delete-btn"
+                                                            type="button"
+                                                            onclick="deleteAnexo(${item.id}, ${att.id})"
+                                                        >
+                                                            🗑️
+                                                        </button>
+                                                    ` : ''}
+                                                </div>
+                                            `).join('')}
+
+                                            ${canEdit ? `
+                                                <div class="anexo-popup-upload">
+                                                    <input
+                                                        type="file"
+                                                        id="anexo-input-${item.id}"
+                                                        class="anexo-input"
+                                                        accept=".pdf"
+                                                        multiple
+                                                        onchange="uploadAnexo(${item.id}, this)"
+                                                    >
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                        `
+                                        : canEdit ? `
+                                        <div class="anexo-hover-popup">
+                                            <div class="anexo-popup-item" style="justify-content:center;">
+                                                Nenhum anexo
+                                            </div>
+                                            <div class="anexo-popup-upload">
+                                                <input
+                                                    type="file"
+                                                    id="anexo-input-${item.id}"
+                                                    class="anexo-input"
+                                                    accept=".pdf"
+                                                    multiple
+                                                    onchange="uploadAnexo(${item.id}, this)"
+                                                >
+                                            </div>
+                                        </div>
+                                        `
+                                        : ''
+                                }
+
+                                <div class="upload-progress" id="progress-${item.id}">
+                                    <div class="upload-progress-bar" id="progress-bar-${item.id}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            tableBody.innerHTML = html || `
+                <div class="table-row">
+                    <div class="table-cell" style="grid-column: 1 / -1; justify-content: center;">
+                        Nenhum indicador encontrado.
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterByCategory() {
+            renderTable();
+        }
+
+
+        function normalizeCertificationRequirements(requisitos) {
+            let parsed = requisitos || [];
+
+            if (typeof parsed === 'string') {
+                try {
+                    parsed = JSON.parse(parsed);
+                } catch (e) {
+                    parsed = [];
+                }
+            }
+
+            if (!Array.isArray(parsed)) {
+                parsed = [];
+            }
+
+            let principalMin = 0;
+            let principalMax = 0;
+            let apoioMin = 0;
+            let apoioMax = 0;
+
+            parsed.forEach(item => {
+                const tipo = String(item.tipo || '').trim().toLowerCase();
+
+                const qtd = Number(item.qtd ?? 0);
+                const qtdMin = Number(item.qtd_min ?? item.min ?? qtd ?? 0);
+                const qtdMax = Number(item.qtd_max ?? item.max ?? qtd ?? 0);
+
+                if (tipo === 'principal' || tipo === 'core') {
+                    principalMin = qtdMin;
+                    principalMax = qtdMax;
+                } else if (tipo === 'apoio' || tipo === 'supporting') {
+                    apoioMin = qtdMin;
+                    apoioMax = qtdMax;
+                }
+            });
+
+            return {
+                principal_min: principalMin,
+                principal_max: principalMax,
+                apoio_min: apoioMin,
+                apoio_max: apoioMax
+            };
+        }
+
+        function getCertificationProgressClass(nivel) {
+            const normalized = String(nivel || '').toLowerCase();
+            if (normalized.includes('bronze')) return 'certification-progress-bar-bronze';
+            if (normalized.includes('prata')) return 'certification-progress-bar-prata';
+            if (normalized.includes('ouro')) return 'certification-progress-bar-ouro';
+            if (normalized.includes('platina')) return 'certification-progress-bar-platina';
+            return 'certification-progress-bar';
+        }
+
+        function buildCertificationRequirementText(req) {
+            const principalText =
+                req.principal_max > 0 && req.principal_max !== req.principal_min
+                    ? `${req.principal_min} a ${req.principal_max} indicadores principais`
+                    : `${req.principal_min} indicadores principais`;
+
+            if (!req.apoio_min && !req.apoio_max) {
+                return principalText;
+            }
+
+            const apoioText =
+                req.apoio_max > 0 && req.apoio_max !== req.apoio_min
+                    ? `${req.apoio_min} a ${req.apoio_max} de apoio`
+                    : `${req.apoio_max || req.apoio_min} de apoio`;
+
+            return `${principalText} + ${apoioText}`;
+        }
+
+
+        function renderCertificationCards() {
+            const grid = document.getElementById('certification-grid');
+            if (!grid) return;
+
+            if (!certificationsData || !certificationsData.length) {
+                grid.innerHTML = '';
+                return;
+            }
+
+            grid.innerHTML = certificationsData.map(cert => {
+                const req = normalizeCertificationRequirements(cert.requisitos);
+                const progressClass = getCertificationProgressClass(cert.nivel);
+                const certId = `cert-${cert.id}`;
+
+                const principalTarget = req.principal_max || req.principal_min;
+                const apoioTarget = req.apoio_max || req.apoio_min;
+
+                const initialCountText =
+                    (!req.apoio_min && !req.apoio_max)
+                        ? `0/${principalTarget} core`
+                        : `0/${principalTarget} core + 0/${apoioTarget} apoio`;
+
+                return `
+                    <div class="certification-card">
+                        <div class="certification-level">${cert.nivel}</div>
+                        <div class="certification-requirements">${buildCertificationRequirementText(req)}</div>
+                        <div class="certification-progress">
+                            <div class="${progressClass}" id="${certId}-progress" style="width: 0%;"></div>
+                        </div>
+                        <div class="certification-details">
+                            <span id="${certId}-count">${initialCountText}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function hasIndicatorValue(value) {
+            return value !== null && value !== undefined && String(value).trim() !== '';
+        }
+
+        function updateCertificationLevels() {
+            if (!municipalityData || !certificationsData || !certificationsData.length) return;
+
+            const indicators = municipalityData.indicators || [];
+
+            const principalFilled = indicators.filter(item =>
+                String(item.type || '').toLowerCase() === 'principal' &&
+                hasIndicatorValue(item.value)
+            ).length;
+
+            const apoioFilled = indicators.filter(item =>
+                String(item.type || '').toLowerCase() === 'apoio' &&
+                hasIndicatorValue(item.value)
+            ).length;
+
+            certificationsData.forEach(cert => {
+                const req = normalizeCertificationRequirements(cert.requisitos);
+                const certId = `cert-${cert.id}`;
+
+                const progressEl = document.getElementById(`${certId}-progress`);
+                const countEl = document.getElementById(`${certId}-count`);
+                if (!progressEl || !countEl) return;
+
+                const principalTarget = req.principal_max || req.principal_min;
+                const apoioTarget = req.apoio_max || req.apoio_min;
+
+                const principalProgress = req.principal_min > 0
+                    ? Math.min((principalFilled / req.principal_min) * 100, 100)
+                    : 100;
+
+                const apoioProgress = req.apoio_min > 0
+                    ? Math.min((apoioFilled / req.apoio_min) * 100, 100)
+                    : 100;
+
+                progressEl.style.width = `${Math.min(principalProgress, apoioProgress)}%`;
+
+                if (!req.apoio_min && !req.apoio_max) {
+                    countEl.textContent = `${principalFilled}/${principalTarget} core`;
+                } else {
+                    countEl.textContent = `${principalFilled}/${principalTarget} core + ${apoioFilled}/${apoioTarget} apoio`;
+                }
+            });
+        }
+
+        function updateRadarChart() {
+            const canvas = document.getElementById('categoryRadarChart');
+            if (!canvas || !municipalityData) return;
+            const labels = municipalityData.categories_progress.map(item => item.name);
+            const values = municipalityData.categories_progress.map(item => item.percentage);
+            if (radarChart) radarChart.destroy();
+            radarChart = new Chart(canvas, {
+                type: 'radar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: 'rgba(81, 60, 154, 0.2)',
+                        borderColor: 'rgba(81, 60, 154, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(81, 60, 154, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 20, backdropColor: 'transparent' } } }
+                }
+            });
+        }
+
+        function updateCategorySummary() {
+            const container = document.getElementById('category-progress-list');
+            if (!container || !municipalityData) return;
+            container.innerHTML = municipalityData.categories_progress.map(item => `
+                <div class="legend-popup-category">${item.name}: <strong>${item.percentage}%</strong> (${item.filled}/${item.total})</div>
+            `).join('');
+        }
+
+        function toggleLegendPopup() {
+            const popup = document.getElementById('legend-popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        async function fetchHistoricalData(years) {
+            const yearMap = years
+                .map(year => ({ year, norm: normsData.find(item => Number(item.year) === Number(year)) }))
+                .filter(item => item.norm);
+            const responses = await Promise.all(yearMap.map(async item => {
+                const response = await fetch(`/dashboard/api/normas/${item.norm.id}/municipios/${selectedMunicipalityId}/`);
+                const data = await response.json();
+                return { year: item.year, normId: item.norm.id, data };
+            }));
+            return responses.filter(item => item.data && item.data.success).sort((a, b) => a.year - b.year);
+        }
+
+        function closeReportModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            reportCharts.forEach(chart => chart.destroy());
+            reportCharts = [];
+        }
+
+        async function generateReport() {
+            if (!selectedMunicipalityId) {
+                alert('Selecione um município primeiro.');
+                return;
+            }
+            const years = Array.from(document.querySelectorAll('.export-year:checked')).map(el => Number(el.value)).sort((a,b)=>a-b);
+            if (!years.length) {
+                alert('Selecione pelo menos um ano para gerar o relatório.');
+                return;
+            }
+            const historicalData = await fetchHistoricalData(years);
+            if (!historicalData.length) {
+                alert('Não foi possível carregar dados para o relatório.');
+                return;
+            }
+            lastReportData = historicalData;
+            const municipalityName = document.getElementById('selection-text').innerText;
+            document.getElementById('report-modal-title').textContent = `Relatório histórico - ${municipalityName}`;
+
+            const summaryHtml = historicalData.map(item => {
+                const s = item.data.summary || {};
+                return `
+                    <div style="margin-bottom:12px; padding:12px; background:white; border-radius:10px;">
+                        <strong>${item.year}</strong><br>
+                        Principais: ${s.principal_filled || 0}/${s.principal_total || 0}<br>
+                        Apoio: ${s.apoio_filled || 0}/${s.apoio_total || 0}
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('reportSummary').innerHTML = summaryHtml;
+
+            const chartsContainer = document.getElementById('reportChartsContainer');
+            chartsContainer.innerHTML = '';
+            reportCharts.forEach(chart => chart.destroy());
+            reportCharts = [];
+
+            const numericSeriesMap = {};
+            historicalData.forEach(entry => {
+                (entry.data.indicators || []).forEach(ind => {
+                    const numericValue = Number(String(ind.value).replace(',', '.'));
+                    if (!Number.isNaN(numericValue) && ind.value !== '') {
+                        if (!numericSeriesMap[ind.id]) {
+                            numericSeriesMap[ind.id] = {
+                                name: ind.name,
+                                category: ind.category_name,
+                                unit: ind.unit || '',
+                                years: [],
+                                values: []
+                            };
+                        }
+                        numericSeriesMap[ind.id].years.push(entry.year);
+                        numericSeriesMap[ind.id].values.push(numericValue);
+                    }
+                });
+            });
+
+            Object.values(numericSeriesMap)
+                .filter(item => item.values.length >= 2)
+                .slice(0, 12)
+                .forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'chart-card';
+                    card.innerHTML = `<h4>${item.name}<br><small>${item.category}</small></h4><canvas id="report-chart-${index}"></canvas>`;
+                    chartsContainer.appendChild(card);
+                    const ctx = card.querySelector('canvas');
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: item.years,
+                            datasets: [{
+                                label: item.unit || 'Valor',
+                                data: item.values,
+                                borderColor: 'rgba(81, 60, 154, 1)',
+                                backgroundColor: 'rgba(81, 60, 154, 0.15)',
+                                fill: true,
+                                tension: 0.3,
+                                borderWidth: 3,
+                                pointRadius: 5
+                            }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false }
+                    });
+                    reportCharts.push(chart);
+                });
+
+            if (!chartsContainer.innerHTML.trim()) {
+                chartsContainer.innerHTML = '<div class="chart-card"><h4>Não há indicadores numéricos suficientes para montar gráficos históricos.</h4></div>';
+            }
+
+            document.getElementById('reportModal').style.display = 'block';
+        }
+
+        function ensurePdfLibraries(callback) {
+            if (window.jspdf && window.jspdf.jsPDF && window.jspdf.jsPDF.API.autoTable) {
+                callback();
+                return;
+            }
+            const head = document.getElementsByTagName('head')[0];
+            const s1 = document.createElement('script');
+            s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            s1.onload = () => {
+                const s2 = document.createElement('script');
+                s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js';
+                s2.onload = callback;
+                head.appendChild(s2);
+            };
+            head.appendChild(s1);
+        }
+
+        async function exportToPDF() {
+            if (!selectedMunicipalityId) {
+                alert('Selecione um município antes de exportar.');
+                return;
+            }
+            const years = Array.from(document.querySelectorAll('.export-year:checked')).map(el => Number(el.value)).sort((a,b)=>a-b);
+            if (!years.length) {
+                alert('Selecione pelo menos um ano para exportar.');
+                return;
+            }
+            const historicalData = lastReportData.length && years.every(y => lastReportData.some(item => item.year === y))
+                ? lastReportData.filter(item => years.includes(item.year))
+                : await fetchHistoricalData(years);
+
+            ensurePdfLibraries(() => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('l', 'mm', 'a4');
+                const municipalityName = document.getElementById('selection-text').innerText || 'Município';
+                doc.setFontSize(16);
+                doc.text(`Relatório ISO - ${municipalityName}`, 14, 14);
+                doc.setFontSize(10);
+                doc.text(`Anos selecionados: ${years.join(', ')}`, 14, 21);
+
+                const summaryBody = historicalData.map(item => {
+                    const s = item.data.summary || {};
+                    return [
+                        String(item.year),
+                        `${s.principal_filled || 0}/${s.principal_total || 0}`,
+                        `${s.apoio_filled || 0}/${s.apoio_total || 0}`
+                    ];
+                });
+
+                doc.autoTable({
+                    startY: 28,
+                    head: [['Ano', 'Indicadores principais', 'Indicadores de apoio']],
+                    body: summaryBody,
+                    headStyles: { fillColor: [81, 60, 154] }
+                });
+
+                const current = historicalData.find(item => item.year === selectedYear) || historicalData[historicalData.length - 1];
+                const filter = document.getElementById('category-filter').value;
+                const body = (current.data.indicators || [])
+                    .filter(item => filter === 'all' || String(item.category_id) === String(filter))
+                    .map(item => [
+                        item.category_name || '-',
+                        item.name || '-',
+                        getTypeLabel(item.type),
+                        (item.ods || []).join(', ') || '-',
+                        item.value || '-',
+                        item.unit || '-',
+                        item.source || '-'
+                    ]);
+
+                doc.autoTable({
+                    startY: doc.lastAutoTable.finalY + 8,
+                    head: [['Categoria', 'Indicador', 'Tipo', 'ODS', `Valor (${selectedYear})`, 'Unidade', 'Fonte']],
+                    body,
+                    styles: { fontSize: 8 },
+                    headStyles: { fillColor: [81, 60, 154] }
+                });
+
+                const fileName = municipalityName.replace(/\s+/g, '_').replace(/[^\w\-]/g, '').toLowerCase();
+                doc.save(`relatorio_iso_${fileName}.pdf`);
+            });
+        }
+
+        function clearSelection() {
+            selectedMunicipalityId = null;
+            municipalityData = null;
+            lastReportData = [];
+            document.getElementById('selectEstado').value = '';
+            document.getElementById('selectMunicipio').innerHTML = '<option value="">Primeiro selecione o estado</option>';
+            document.getElementById('selectMunicipio').disabled = true;
+            document.getElementById('dropdown-mode').style.display = 'flex';
+            document.getElementById('selection-display').classList.remove('show');
+            document.getElementById('clear-selection').style.display = 'none';
+            document.getElementById('default-sections').style.display = 'block';
+            document.getElementById('municipality-details').classList.remove('show');
+            document.getElementById('profile-indicators').innerHTML = '';
+            document.getElementById('table-body').innerHTML = '';
+            renderYearButtons();
+            syncExportYearCheckboxes();
+            const permissionBanner = document.getElementById('permission-banner');
+            if (permissionBanner) permissionBanner.remove();
+            if (radarChart) {
+                radarChart.destroy();
+                radarChart = null;
+            }
+        }
+
+
+        function uploadAnexo(indicatorId, inputElement) {
+            const files = Array.from(inputElement.files || []);
+            if (!files.length) return;
+
+            if (!selectedMunicipalityCanEdit()) {
+                alert('Você não tem permissão para anexar arquivos neste município.');
+                inputElement.value = '';
+                return;
+            }
+
+            for (const file of files) {
+                if (!file.name.toLowerCase().endsWith('.pdf')) {
+                    alert(`O arquivo "${file.name}" não é PDF.`);
+                    inputElement.value = '';
+                    return;
+                }
+            }
+
+            const progressContainer = document.getElementById(`progress-${indicatorId}`);
+            const progressBar = document.getElementById(`progress-bar-${indicatorId}`);
+
+            if (progressContainer) progressContainer.style.display = 'block';
+            if (progressBar) progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            files.forEach(file => formData.append('anexos', file));
+
+            const xhr = new XMLHttpRequest();
+            xhr.open(
+                'POST',
+                `/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/upload-anexo/`,
+                true
+            );
+
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable && progressBar) {
+                    const percent = (e.loaded / e.total) * 100;
+                    progressBar.style.width = `${percent}%`;
+                }
+            };
+
+            xhr.onload = async function () {
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
+
+                let response = {};
+                try {
+                    response = JSON.parse(xhr.responseText || '{}');
+                } catch (e) {}
+
+                if (xhr.status === 200 && response.success) {
+                    await carregarDadosMunicipio();
+                } else {
+                    alert(response.message || 'Erro ao enviar anexos.');
+                }
+
+                inputElement.value = '';
+            };
+
+            xhr.onerror = function () {
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
+                alert('Erro ao enviar anexos.');
+                inputElement.value = '';
+            };
+
+            xhr.send(formData);
+        }
+
+        async function deleteAnexo(indicatorId, attachmentId) {
+            if (!selectedMunicipalityCanEdit()) {
+                alert('Você não tem permissão para remover anexos deste município.');
+                return;
+            }
+
+            const response = await fetch(
+                `/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/anexos/${attachmentId}/delete/`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const data = await response.json();
+            if (!data.success) {
+                alert(data.message || 'Erro ao remover anexo.');
+                return;
+            }
+
+            await carregarDadosMunicipio();
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/dashboard/api/estados/');
+                const data = await response.json();
+                const select = document.getElementById('selectEstado');
+                if (data.success) {
+                    select.innerHTML = '<option value="">Selecione um estado...</option>';
+                    data.data.forEach(item => select.add(new Option(item.estado, item.estado)));
+                }
+            } catch (error) {
+                console.error('Erro ao carregar estados:', error);
+            }
+            populateCategoryFilter();
+            renderCategoriesOverview();
+            renderCertificationCards();
+            renderYearButtons();
+            syncExportYearCheckboxes();
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) closeReportModal();
+        };
+    </script>
+
+
+</body>
+</html>

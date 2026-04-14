@@ -266,7 +266,7 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
+            display: flex !important;
             align-items: center;
             gap: 12px;
             animation: slideIn 0.3s ease-out;
@@ -566,7 +566,7 @@
                         <td>{{ user.nome }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.username }}</td>
-                        <td>{{ user.cidade }}</td>
+                        <td>{{ user.municipio.nome }}</td>
                         <td>
                             {% if user.user_type == 'ADMIN' %}
                             <span class="user-badge badge-admin">Administrador</span>

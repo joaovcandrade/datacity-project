@@ -1,0 +1,1064 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Gerenciar Normas ISO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            background: #513C9A;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-header {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background: white;
+            color: #513C9A;
+        }
+
+        .btn-back:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-logout {
+            background: #9e1220;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #bd2130;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: #513C9A;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-description {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-add {
+            background: #513C9A;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-add:hover {
+            background: #6B4FB5;
+            color: white;
+        }
+
+        .users-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead {
+            background: #513C9A;
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .user-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: #513C9A;
+            color: white;
+        }
+
+        .badge-manager {
+            background: #2196F3;
+            color: white;
+        }
+
+        .badge-common {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #2196F3;
+        }
+
+        .btn-edit:hover {
+            background: #1976D2;
+        }
+
+        .btn-delete {
+            background: #f44336;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+
+        .btn-status {
+            background: #FF9800;
+        }
+
+        .btn-status:hover {
+            background: #F57C00;
+        }
+
+        .btn-certification {
+            background-color: #00b000;
+        }
+
+        .btn-certification:hover {
+            background-color: #009000;
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-users-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background: #513C9A;
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 300px;
+            max-width: 400px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex !important;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid;
+        }
+
+        .toast.success {
+            border-left-color: #4CAF50;
+        }
+
+        .toast.error {
+            border-left-color: #f44336;
+        }
+
+        .toast.warning {
+            border-left-color: #FF9800;
+        }
+
+        .toast.info {
+            border-left-color: #2196F3;
+        }
+
+        .toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: #4CAF50;
+        }
+
+        .toast.error .toast-icon {
+            color: #f44336;
+        }
+
+        .toast.warning .toast-icon {
+            color: #FF9800;
+        }
+
+        .toast.info .toast-icon {
+            color: #2196F3;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+
+        /* Custom Confirmation Modal */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .custom-modal-overlay.active {
+            display: flex;
+        }
+
+        .custom-modal {
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .custom-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .custom-modal-header.danger {
+            background: #ffebee;
+        }
+
+        .custom-modal-icon {
+            font-size: 32px;
+        }
+
+        .custom-modal-icon.danger {
+            color: #f44336;
+        }
+
+        .custom-modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .custom-modal-body {
+            padding: 24px;
+        }
+
+        .custom-modal-text {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .custom-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .custom-modal-btn.cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .custom-modal-btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .custom-modal-btn.confirm {
+            background: #f44336;
+            color: white;
+        }
+
+        .custom-modal-btn.confirm:hover {
+            background: #d32f2f;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .table {
+                font-size: 14px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">Gerenciamento de Normas ISO</h1>
+            <div class="header-buttons">
+                <a href="{% url 'admin_menu' %}" class="btn-header btn-back">Voltar</a>
+                <a href="{% url 'logout' %}" class="btn-header btn-logout">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="page-title">Normas ISO cadastradas no Sistema</h2>
+        <p class="page-description">Gerencie todas as normas ISO cadastradas na plataforma</p>
+
+        <!-- Actions Bar -->
+        <div class="actions-bar">
+            <form action="{% url 'add_norm' %}" method="POST">
+                {% csrf_token %}
+                <a id="btn-add-norma-link" href="{% url 'add_norm' %}?ano=2024" class="btn-add">
+                + Adicionar Norma em <span id="ano-selecionado-texto">2024</span>
+                </a>
+            </form>
+            <div id="years-container">
+                <button id="prev-btn" style="background-color: #6B4FB5; color: white; font-size: 15px;" class="btn-header"><-</button>
+                
+                {% for year in years reversed %}
+                    <button class="btn-add year-button" data-year-value="{{ year.ano }}" onclick="filterNormsByYear('{{ year.ano }}')">{{ year.ano }}</button>
+                {% endfor %}
+                
+                <button id="next-btn" style="background-color: #6B4FB5; color: white; font-size: 15px;" class="btn-header">-></button>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table">
+            {% if norms_list %}
+            <table class="table table-hover" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Código da Norma</th>
+                        <th> </th><th> </th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for norm in norms_list %}
+                        <tr class="norm-row" data-year="{{ norm.ano_referencia }}">
+                            <td>{{ norm.codigo_norma }}</td>
+                            <td> </td><td> </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="btn-action btn-status" href="{% url 'list_indicators' norm.id %}">Gerenciar Indicadores</a>
+                                    <a href="{% url 'edit_norm' norm.id %}" class="btn-action btn-edit">Editar</a>
+                                    <button class="btn-action btn-delete" onclick="deleteNorm({{ norm.id }}, '{{ norm.codigo_norma }}')">Excluir</button>
+                                    <button class="btn-action btn-certification" onclick="openManageCertification({{ norm.id }}, '{{ norm.codigo_norma }}')">Gerenciar Certificações</button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-users">
+                <div class="no-users-icon">⚙️</div>
+                <h3>Nenhuma norma encontrada</h3>
+                <p>Comece adicionando uma nova norma ao sistema</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="custom-modal-overlay" id="confirmModal">
+        <div class="custom-modal">
+            <div class="custom-modal-header danger">
+                <span class="custom-modal-icon danger">⚠️</span>
+                <h3 class="custom-modal-title" id="confirmTitle">Confirmar ação</h3>
+            </div>
+            <div class="custom-modal-body">
+                <p class="custom-modal-text" id="confirmMessage">Tem certeza?</p>
+            </div>
+            <div class="custom-modal-footer">
+                <button class="custom-modal-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="custom-modal-btn confirm" id="confirmButton">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Certificações -->
+    <div id="certificationModal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background: white; margin: 5% auto; padding: 20px; width: 50%; border-radius: 8px;">
+            <div>
+                <button class="btn-action btn-logout" onclick="closeCertificationModal()" style="float:right; cursor:pointer;font-size: 20px;">&times;</button>
+            </div>
+            
+            <div id="view-list">
+                <h3 class="page-title">Certificações - <span id="modal-norma-nome"></span></h3>
+                <button class="btn-add" onclick="showForm()">+ Nova Certificação</button>
+                <table class="table" style="width: 100%; margin-top: 15px;">
+                    <thead><tr><th>Nivel</th><th>Ações</th></tr></thead>
+                    <tbody id="certification-table-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="view-form" style="display:none;">
+                <h3 id="form-title">Adicionar Certificação</h3>
+                <form id="certificationForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="cert_id" name="certification_id">
+                    <input type="hidden" id="norma_id_hidden" name="norma_iso_id">
+                    
+                    <div class="mb-3">
+                        <label>Nivel:</label>
+                        <input type="text" id="cert_nivel" name="nivel" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Regras de Certificação:</label>
+                        <div class="input-group mb-2">
+                            <select id="select-req-tipo" class="form-select">
+                                <option value="" selected disabled>Tipo...</option>
+                                <option value="Principal">Principal</option>
+                                <option value="Apoio">Apoio</option>
+                                <option value="Perfil">Perfil</option>
+                            </select>
+                            <input type="number" id="input-req-qtd" class="form-control" placeholder="Qtd">
+                            <button class="btn btn-primary" type="button" onclick="addRequisito()">+</button>
+                        </div>
+                        
+                        <div id="lista-requisitos-visual" class="d-flex flex-wrap gap-2 mb-2"></div>
+
+                        <input type="hidden" id="cert_requisitos_json" name="requisitos">
+                    </div>
+                    <button type="button" onclick="saveCertification()" class="btn-save">Salvar</button>
+                    <button type="button" onclick="showList()" class="btn-cancel">Voltar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll('.year-button');
+            const btnPrev = document.getElementById('prev-btn');
+            const btnNext = document.getElementById('next-btn');
+            
+            let currentIndex = 0;
+            const displayCount = 3;
+
+            function updateVisibility() {
+                buttons.forEach((btn, index) => {
+
+                    if (index >= currentIndex && index < currentIndex + displayCount) {
+                        btn.hidden = false;
+                    } else {
+                        btn.hidden = true;
+                    }
+                });
+
+                btnPrev.disabled = (currentIndex === 0);
+                btnNext.disabled = (currentIndex + displayCount >= buttons.length);
+            }
+
+            btnNext.addEventListener('click', () => {
+                if (currentIndex + displayCount < buttons.length) {
+                    currentIndex += 1;
+                    updateVisibility();
+                }
+            });
+
+            btnPrev.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex -= 1;
+                    updateVisibility();
+                }
+            });
+
+            updateVisibility();
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const firstYearBtn = document.querySelector('.year-button');
+            
+            if (firstYearBtn) {
+                const maiorAno = firstYearBtn.getAttribute('data-year-value');
+                filterNormsByYear(maiorAno);
+            }
+        });
+
+
+
+        function filterNormsByYear(selectedYear) {
+            const rows = document.querySelectorAll('.norm-row');
+            
+            rows.forEach(row => {
+                if (row.getAttribute('data-year') === String(selectedYear)) {
+                    row.style.display = ""; 
+                } else {
+                    row.style.display = "none"; 
+                }
+            });
+
+            document.querySelectorAll('.year-button').forEach(btn => {
+                btn.style.border = (btn.getAttribute('data-year-value') === String(selectedYear)) ? "3px solid black" : "none";
+            });
+            const addBtn = document.getElementById('btn-add-norma-link');
+            if (addBtn) {
+                addBtn.href = `{% url 'add_norm' %}?ano=${selectedYear}`;
+                document.getElementById('ano-selecionado-texto').innerText = selectedYear;
+            }
+        }
+
+
+        // Toast Notification System
+        function showToast(message, type = 'success', title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+
+            const titles = {
+                success: title || 'Sucesso',
+                error: title || 'Erro',
+                warning: title || 'Atenção',
+                info: title || 'Informação'
+            };
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type]}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type]}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="closeToast(this)">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto-remove após 5 segundos
+            setTimeout(() => {
+                closeToast(toast.querySelector('.toast-close'));
+            }, 5000);
+        }
+
+        function closeToast(button) {
+            const toast = button.parentElement;
+            toast.classList.add('hiding');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }
+
+        // Custom Confirmation Modal
+        function showConfirmModal(title, message, onConfirm) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').innerHTML = message; 
+            document.getElementById('confirmModal').classList.add('active');
+
+            const confirmBtn = document.getElementById('confirmButton');
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+            newConfirmBtn.onclick = () => {
+                closeConfirmModal();
+                onConfirm();
+            };
+        }
+
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+        // Delete norm
+        function deleteNorm(normId, norm) {
+            fetch(`/dashboard/admin/norms/${normId}/check-related-records/`)
+                .then(res => res.json())
+                .then(data => {
+                    let avisoExtra = "";
+                    if (data.exists_indicator_values) {
+                        avisoExtra = `
+                            <div class='alert alert-danger mt-2'>
+                                <h6 class='fw-bold'>⚠️ PERIGO: Dados Existentes!</h6>
+                                Esta norma possui <b>valores e medições de indicadores</b> já lançados. 
+                                A exclusão apagará todo o histórico de dados!
+                            </div>`;
+                    } else if (data.has_indicators) {
+                        avisoExtra = "<div class='alert alert-warning mt-2'><strong>Atenção:</strong> Esta norma possui indicadores e categorias cadastrados que serão excluídos.</div>";
+                    } else if (data.has_categories) {
+                        avisoExtra = "<div class='alert alert-info mt-2'><strong>Nota:</strong> As categorias desta norma serão excluídas.</div>";
+                    }
+
+                    showConfirmModal(
+                        'Excluir Norma',
+                        `Tem certeza que deseja excluir a norma ${norm}? ${avisoExtra} Esta ação não pode ser desfeita.`,
+                        () => {
+                            fetch(`/dashboard/admin/norms/${normId}/delete/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': getCookie('csrftoken'),
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    showToast(data.message, 'success');
+                                    setTimeout(() => location.reload(), 1500);
+                                } else {
+                                    showToast(data.message, 'error');
+                                }
+                            });
+                        }
+                    );
+                });
+        }
+
+        // Get CSRF Cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+
+        //Modal Certificações
+        let currentNormaId = null;
+
+        function openManageCertification(normaId, normaNome) {
+            currentNormaId = normaId;
+            document.getElementById('modal-norma-nome').innerText = normaNome;
+            document.getElementById('norma_id_hidden').value = normaId;
+            document.getElementById('certificationModal').style.display = 'block';
+            showList(); 
+        }
+
+
+        function showList() {
+            document.getElementById('view-form').style.display = 'none';
+            document.getElementById('view-list').style.display = 'block';
+            
+            fetch(`/dashboard/admin/certifications/get/${currentNormaId}/`)
+                .then(res => res.json())
+                .then(data => {
+                    const body = document.getElementById('certification-table-body');
+                    body.innerHTML = data.map(cert => {
+                        const reqString = JSON.stringify(cert.requisitos).replace(/"/g, '&quot;');
+                        return `
+                            <tr>
+                                <td>${cert.nivel}</td>
+                                <td>
+                                    <button class="btn-edit" onclick="showForm(${cert.id}, '${cert.nivel}', ${reqString})">Editar</button>
+                                    <button class="btn-delete" onclick="deleteCert(${cert.id})">Excluir</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('') || '<tr><td colspan="2">Nenhuma certificação encontrada.</td></tr>';
+                });
+        }
+
+
+        function showForm(id = '', nivel = '', requisitos = '') {
+            document.getElementById('view-list').style.display = 'none';
+            document.getElementById('view-form').style.display = 'block';
+            
+            document.getElementById('cert_id').value = id;
+            document.getElementById('cert_nivel').value = nivel;
+            document.getElementById('cert_requisitos').value = requisitos;
+            document.getElementById('form-title').innerText = id ? 'Editar Certificação' : 'Nova Certificação';
+        }
+
+
+        function saveCertification() {
+            const formData = new FormData(document.getElementById('certificationForm'));
+            fetch("/dashboard/admin/certifications/save/", {
+                method: "POST",
+                body: formData,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            }).then(() => showList());
+        }
+
+
+        function deleteCert(id) {
+            // Usando o seu showConfirmModal se quiser manter o padrão visual, 
+            // ou mantendo o confirm nativo:
+            if(confirm("Tem certeza que deseja excluir esta certificação?")) {
+                fetch(`/dashboard/admin/certifications/delete/${id}/`, {
+                    method: "POST",
+                    headers: { 
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        showList(); // Atualiza a tabela
+                    } else {
+                        showToast(data.message || 'Erro ao excluir', 'error');
+                    }
+                })
+                .catch(err => {
+                    showToast('Erro de comunicação com o servidor', 'error');
+                });
+            }
+        }
+
+
+        let requisitosLista = [];
+
+        function addRequisito() {
+            const selectTipo = document.getElementById('select-req-tipo');
+            const inputQtd = document.getElementById('input-req-qtd');
+            
+            const tipo = selectTipo.value;
+            const qtd = parseInt(inputQtd.value);
+
+            if (!tipo) {
+                showToast('Selecione o tipo do requisito', 'warning');
+                return;
+            }
+            if (isNaN(qtd) || qtd <= 0) {
+                showToast('Insira uma quantidade válida de indicadores', 'warning');
+                inputQtd.focus();
+                return;
+            }
+
+            const existe = requisitosLista.some(r => r.tipo === tipo);
+            if (existe) {
+                showToast(`O requisito "${tipo}" já foi adicionado. Remova-o antes de alterar.`, 'warning');
+                return;
+            }
+
+            requisitosLista.push({
+                tipo: tipo,
+                qtd: qtd
+            });
+
+            inputQtd.value = '';
+            selectTipo.focus();
+            
+            renderRequisitos();
+        }
+
+
+        function removeRequisito(index) {
+            requisitosLista.splice(index, 1);
+            renderRequisitos();
+        }
+
+
+        function renderRequisitos() {
+            const container = document.getElementById('lista-requisitos-visual');
+            const inputHidden = document.getElementById('cert_requisitos_json');
+
+            container.innerHTML = requisitosLista.map((req, index) => `
+                <div class="badge bg-light text-dark border d-flex align-items-center p-2 shadow-sm">
+                    <span class="badge bg-primary me-2">${req.tipo}</span>
+                    <span class="me-2">Exigidos: <strong>${req.qtd}</strong></span>
+                    <button type="button" class="btn-close" style="font-size: 0.5rem" onclick="removeRequisito(${index})"></button>
+                </div>
+            `).join('');
+
+            inputHidden.value = JSON.stringify(requisitosLista);
+        }
+
+
+        function showForm(id = '', nivel = '', requisitos = '[]') {
+            document.getElementById('view-list').style.display = 'none';
+            document.getElementById('view-form').style.display = 'block';
+            
+            document.getElementById('cert_id').value = id;
+            document.getElementById('cert_nivel').value = nivel;
+            
+            try {
+                
+                requisitosLista = typeof requisitos === 'string' ? JSON.parse(requisitos) : requisitos;
+            } catch (e) {
+                requisitosLista = [];
+            }
+            renderRequisitos();
+        }
+
+
+        function closeCertificationModal() {
+            document.getElementById('certificationModal').style.display = 'none';
+        }
+
+
+
+        // Show Django messages as toasts
+        {% if messages %}
+        window.addEventListener('DOMContentLoaded', function() {
+            {% for message in messages %}
+            showToast('{{ message }}', '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}');
+            {% endfor %}
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "scraping.apps.ScrapingConfig",
+    "indicators.apps.IndicatorsConfig"
 ]
 
 # Configuração do modelo de usuário personalizado
@@ -131,7 +132,7 @@ STATICFILES_DIRS = [
 
 # Media files (uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Security Settings for Production
 if not DEBUG:
@@ -147,3 +148,8 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Email e senha para SMTP
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')

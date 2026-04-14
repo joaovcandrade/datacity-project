@@ -6,7 +6,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .forms import RegisterForm, LoginForm
-from .models import User, Platform, Norm, ISO37120Indicator, ISO37122Indicator, ISO37123Indicator, ISO37125Indicator
+from .models import User, Platform, Norm, ISO37120Indicator, ISO37122Indicator, ISO37123Indicator, ISO37125Indicator, Municipality, YearReference
 import json
 import os
 from django.conf import settings
@@ -16,6 +16,10 @@ from pathlib import Path
 from django.contrib.staticfiles import finders
 from django.templatetags.static import static
 from .decorators import admin_required, manager_required
+import smtplib
+from email.message import EmailMessage
+import random
+import string
 
 # Mock data for the application
 MOCK_DATA = {
@@ -67,6 +71,7 @@ def get_next_indicator_id(dimensao_id):
         return 1
     return max(ind['id'] for ind in indicadores) + 1
 
+
 # Authentication views
 @require_http_methods(["GET", "POST"])
 def register(request):
@@ -80,6 +85,7 @@ def register(request):
         form = RegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
 
+
 @require_http_methods(["GET", "POST"])
 def login(request):
     if request.method == 'POST':
@@ -87,25 +93,140 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            
-            if user is not None:
-                auth_login(request, user)
+
+            try:
+                # 1. Autentica primeiro para garantir que a senha (mesmo temporária) está correta
+                user = authenticate(request, username=username, password=password)
                 
-                # Mensagem personalizada baseada no tipo de usuário
-                tipo_usuario = {
-                    'ADMIN': 'Administrador',
-                    'MANAGER': 'Gestor',
-                    'COMMON': 'Usuário Comum'
-                }.get(user.user_type, 'Usuário')
-                
-                messages.success(request, f'Bem-vindo, {user.username}! (Nível de acesso: {tipo_usuario})')
-                return redirect('menu')
-            else:
-                messages.error(request, 'Usuário ou senha inválidos')
+                if user is not None:
+                    # 2. Se a senha for temporária, não loga ainda. Manda para a troca.
+                    if user.senha_temporaria_ativa:
+                        request.session['temp_user_id'] = user.id
+                        return redirect('first_access') 
+
+                    # 3. Se não for temporária, segue o login normal
+                    auth_login(request, user)
+                    tipo_usuario = {
+                        'ADMIN': 'Administrador', 'MANAGER': 'Gestor', 'COMMON': 'Usuário'
+                    }.get(user.user_type, 'Usuário')
+                    
+                    messages.success(request, f'Bem-vindo, {user.username}! ({tipo_usuario})')
+                    return redirect('menu')
+                else:
+                    messages.error(request, 'Usuário ou senha inválidos')
+            except User.DoesNotExist:
+                messages.error(request, 'Usuário não encontrado')
     else:
         form = LoginForm()
     return render(request, 'accounts/login.html', {'form': form})
+
+
+@require_http_methods(["GET", "POST"])
+def reset_password(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        email_usuario = request.POST.get('email')
+        codigo_gerado = str(random.randint(1000000, 9999999))
+
+        request.session['reset_username'] = username
+        request.session['reset_code'] = codigo_gerado
+        request.session['reset_email'] = email_usuario
+
+        def _send_email_token(destinatario, codigo):
+            email_user = os.getenv('EMAIL_HOST_USER')
+            email_pass = os.getenv('EMAIL_HOST_PASSWORD')
+            
+            msg = EmailMessage()
+            msg.set_content(f'Olá! Seu código de verificação DataCity é: {codigo}')
+            msg['Subject'] = 'Código de Recuperação - DataCity'
+            msg['From'] = email_user  # Usando a variável do ambiente
+            msg['To'] = destinatario
+ 
+            try:
+                # CORREÇÃO AQUI: Endereço correto do Gmail
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login(email_user, email_pass)
+                    smtp.send_message(msg)
+                return True
+            except Exception as e:
+                print(f"Erro ao enviar: {e}")
+                return False
+
+        if _send_email_token(email_usuario, codigo_gerado):
+            messages.success(request, "Código enviado para o seu e-mail!")
+            # CORREÇÃO AQUI: Nome da URL definido no path()
+            return redirect('verify_code') 
+        else:
+            messages.error(request, "Erro ao enviar e-mail. Tente novamente.")
+
+    return render(request, 'accounts/reset-password.html')
+
+
+@require_http_methods(["GET", "POST"])
+def verify_and_change_password(request):
+    # Recupera os dados que guardamos na sessão na função anterior
+    username = request.session.get('reset_username')
+    codigo_correto = request.session.get('reset_code')
+    email_alvo = request.session.get('reset_email')
+
+    if request.method == "POST":
+        codigo_digitado = request.POST.get('codigo')
+        nova_senha = request.POST.get('nova_senha')
+        confirmar_senha = request.POST.get('confirmar_senha')
+
+        # 1. Validações básicas
+        if codigo_digitado != codigo_correto:
+            messages.error(request, "Código de verificação incorreto!")
+        elif nova_senha != confirmar_senha:
+            messages.error(request, "As senhas não coincidem!")
+        else:
+            # 2. Se tudo OK, busca o usuário e altera a senha
+            try:
+                user = User.objects.get(email=email_alvo, username = username)
+                user.set_password(nova_senha)
+                user.save()
+                
+                # 3. Limpa a sessão para segurança
+                del request.session['reset_code']
+                del request.session['reset_email']
+                
+                messages.success(request, "Senha alterada com sucesso!")
+                return redirect('login') # Redireciona para sua tela de login
+            except User.DoesNotExist:
+                messages.error(request, "Usuário não encontrado.")
+
+    return render(request, 'accounts/verify-code.html')
+
+
+@require_http_methods(["GET", "POST"])
+def first_access(request):
+    # Recupera o ID que salvamos no login
+    user_id = request.session.get('temp_user_id')
+    if not user_id:
+        return redirect('login')
+
+    if request.method == "POST":
+        nova_senha = request.POST.get('nova_senha')
+        confirmar_senha = request.POST.get('confirmar_senha')
+
+        if nova_senha == confirmar_senha:
+            user = User.objects.get(id=user_id)
+            user.set_password(nova_senha)
+            user.senha_temporaria_ativa = False
+            user.save()
+
+            # Loga automaticamente
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            
+            # Limpa a sessão
+            del request.session['temp_user_id']
+            messages.success(request, "Senha alterada com sucesso!")
+            return redirect('menu')
+        else:
+            messages.error(request, "As senhas não coincidem.")
+
+    return render(request, 'accounts/first-access.html')
+
 
 def logout(request):
     auth_logout(request)
@@ -134,6 +255,10 @@ def menu(request):
         'indicadores_count': sum(len(inds) for inds in MOCK_DATA['indicadores'].values())
     }
     return render(request, 'new-screens/menu.html', context)
+
+
+
+
 
 @login_required
 @require_http_methods(["GET"])
@@ -586,855 +711,9 @@ def delete_iso37120_anexo(request):
 
     return JsonResponse({'success': False, 'message': 'Método não permitido'})
 
-# API to upload PDF attachment for ISO37122 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def upload_iso37122_anexo(request):
-    if request.method == 'POST':
-        try:
-            nome_indicador = request.POST.get('nome_indicador') or request.POST.get('indicator_id')
-            year = request.POST.get('year')
-            anexo_file = request.FILES.get('anexo')
-            categoria = request.POST.get('categoria', '')
-            tipo = request.POST.get('tipo', 'core')
-            ods = request.POST.get('ods', '')
-            unidade = request.POST.get('unidade', '')
-            cidade = request.POST.get('cidade', 'Londrina')
-            estado = request.POST.get('estado', 'PR')
 
-            if not nome_indicador or not year or not anexo_file:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
 
-            # Validate file type
-            if not anexo_file.name.lower().endswith('.pdf'):
-                return JsonResponse({'success': False, 'message': 'Apenas arquivos PDF são permitidos'})
 
-            # Validate file size (max 10MB)
-            if anexo_file.size > 10 * 1024 * 1024:
-                return JsonResponse({'success': False, 'message': 'Arquivo muito grande. Máximo permitido: 10MB'})
-
-            # Get or create indicator by name
-            indicator, created = ISO37122Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                }
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete old file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-
-            # Save new file
-            setattr(indicator, anexo_field, anexo_file)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Anexo enviado com sucesso',
-                'anexo_url': getattr(indicator, anexo_field).url if getattr(indicator, anexo_field) else None
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to delete PDF attachment for ISO37122 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def delete_iso37122_anexo(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            nome_indicador = data.get('nome_indicador') or data.get('indicator_id')
-            year = data.get('year')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            if not nome_indicador or not year:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
-
-            indicator = ISO37122Indicator.objects.get(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-                setattr(indicator, anexo_field, None)
-                indicator.save()
-                return JsonResponse({
-                    'success': True,
-                    'message': 'Anexo removido com sucesso'
-                })
-            else:
-                return JsonResponse({'success': False, 'message': 'Nenhum anexo encontrado'})
-
-        except ISO37122Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to upload PDF attachment for ISO37123 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def upload_iso37123_anexo(request):
-    if request.method == 'POST':
-        try:
-            nome_indicador = request.POST.get('nome_indicador') or request.POST.get('indicator_id')
-            year = request.POST.get('year')
-            anexo_file = request.FILES.get('anexo')
-            categoria = request.POST.get('categoria', '')
-            tipo = request.POST.get('tipo', 'core')
-            ods = request.POST.get('ods', '')
-            unidade = request.POST.get('unidade', '')
-            cidade = request.POST.get('cidade', 'Londrina')
-            estado = request.POST.get('estado', 'PR')
-
-            if not nome_indicador or not year or not anexo_file:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
-
-            # Validate file type
-            if not anexo_file.name.lower().endswith('.pdf'):
-                return JsonResponse({'success': False, 'message': 'Apenas arquivos PDF são permitidos'})
-
-            # Validate file size (max 10MB)
-            if anexo_file.size > 10 * 1024 * 1024:
-                return JsonResponse({'success': False, 'message': 'Arquivo muito grande. Máximo permitido: 10MB'})
-
-            # Get or create indicator by name
-            indicator, created = ISO37123Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                }
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete old file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-
-            # Save new file
-            setattr(indicator, anexo_field, anexo_file)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Anexo enviado com sucesso',
-                'anexo_url': getattr(indicator, anexo_field).url if getattr(indicator, anexo_field) else None
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to delete PDF attachment for ISO37123 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def delete_iso37123_anexo(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            nome_indicador = data.get('nome_indicador') or data.get('indicator_id')
-            year = data.get('year')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            if not nome_indicador or not year:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
-
-            indicator = ISO37123Indicator.objects.get(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-                setattr(indicator, anexo_field, None)
-                indicator.save()
-                return JsonResponse({
-                    'success': True,
-                    'message': 'Anexo removido com sucesso'
-                })
-            else:
-                return JsonResponse({'success': False, 'message': 'Nenhum anexo encontrado'})
-
-        except ISO37123Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to upload PDF attachment for ISO37125 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def upload_iso37125_anexo(request):
-    if request.method == 'POST':
-        try:
-            nome_indicador = request.POST.get('nome_indicador') or request.POST.get('indicator_id')
-            year = request.POST.get('year')
-            anexo_file = request.FILES.get('anexo')
-            categoria = request.POST.get('categoria', '')
-            tipo = request.POST.get('tipo', 'core')
-            ods = request.POST.get('ods', '')
-            unidade = request.POST.get('unidade', '')
-            cidade = request.POST.get('cidade', 'Londrina')
-            estado = request.POST.get('estado', 'PR')
-
-            if not nome_indicador or not year or not anexo_file:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
-
-            # Validate file type
-            if not anexo_file.name.lower().endswith('.pdf'):
-                return JsonResponse({'success': False, 'message': 'Apenas arquivos PDF são permitidos'})
-
-            # Validate file size (max 10MB)
-            if anexo_file.size > 10 * 1024 * 1024:
-                return JsonResponse({'success': False, 'message': 'Arquivo muito grande. Máximo permitido: 10MB'})
-
-            # Get or create indicator by name
-            indicator, created = ISO37125Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                }
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete old file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-
-            # Save new file
-            setattr(indicator, anexo_field, anexo_file)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Anexo enviado com sucesso',
-                'anexo_url': getattr(indicator, anexo_field).url if getattr(indicator, anexo_field) else None
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to delete PDF attachment for ISO37125 indicator
-@csrf_exempt
-@login_required
-@manager_required
-def delete_iso37125_anexo(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            nome_indicador = data.get('nome_indicador') or data.get('indicator_id')
-            year = data.get('year')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            if not nome_indicador or not year:
-                return JsonResponse({'success': False, 'message': 'Parâmetros obrigatórios ausentes'})
-
-            indicator = ISO37125Indicator.objects.get(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado
-            )
-
-            # Get the appropriate field name based on year
-            anexo_field = f'anexo_{year}'
-
-            # Delete file if exists
-            old_file = getattr(indicator, anexo_field)
-            if old_file:
-                old_file.delete(save=False)
-                setattr(indicator, anexo_field, None)
-                indicator.save()
-                return JsonResponse({
-                    'success': True,
-                    'message': 'Anexo removido com sucesso'
-                })
-            else:
-                return JsonResponse({'success': False, 'message': 'Nenhum anexo encontrado'})
-
-        except ISO37125Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to save/update ISO37122 indicator data
-@csrf_exempt
-@login_required
-@manager_required
-def save_iso37122_data(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            categoria = data.get('categoria')
-            nome_indicador = data.get('nome_indicador')
-            tipo = data.get('tipo')
-            ods = data.get('ods')
-            unidade = data.get('unidade')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            # Data fields
-            dado_2022 = data.get('dado_2022')
-            dado_2023 = data.get('dado_2023')
-            dado_2024 = data.get('dado_2024')
-            dado_2025 = data.get('dado_2025')
-
-            # Source fields
-            fonte_2022 = data.get('fonte_2022')
-            fonte_2023 = data.get('fonte_2023')
-            fonte_2024 = data.get('fonte_2024')
-            fonte_2025 = data.get('fonte_2025')
-
-            # Create or update indicator
-            indicator, created = ISO37122Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                    'dado_2022': dado_2022,
-                    'dado_2023': dado_2023,
-                    'dado_2024': dado_2024,
-                    'dado_2025': dado_2025,
-                    'fonte_2022': fonte_2022,
-                    'fonte_2023': fonte_2023,
-                    'fonte_2024': fonte_2024,
-                    'fonte_2025': fonte_2025,
-                }
-            )
-
-            if not created:
-                # Update existing indicator - only update provided fields
-                indicator.categoria = categoria
-                indicator.tipo = tipo
-                indicator.ods = ods
-                indicator.unidade = unidade
-
-                # Only update data fields if they are provided (not None)
-                if dado_2022 is not None:
-                    indicator.dado_2022 = dado_2022
-                if dado_2023 is not None:
-                    indicator.dado_2023 = dado_2023
-                if dado_2024 is not None:
-                    indicator.dado_2024 = dado_2024
-                if dado_2025 is not None:
-                    indicator.dado_2025 = dado_2025
-
-                # Only update source fields if they are provided (not None)
-                if fonte_2022 is not None:
-                    indicator.fonte_2022 = fonte_2022
-                if fonte_2023 is not None:
-                    indicator.fonte_2023 = fonte_2023
-                if fonte_2024 is not None:
-                    indicator.fonte_2024 = fonte_2024
-                if fonte_2025 is not None:
-                    indicator.fonte_2025 = fonte_2025
-
-                indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Dados salvos com sucesso',
-                'id': indicator.id
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to get ISO37122 indicator data
-@login_required
-def get_iso37122_data(request):
-    try:
-        cidade = request.GET.get('cidade', 'Londrina')
-        estado = request.GET.get('estado', 'PR')
-
-        indicators = ISO37122Indicator.objects.filter(
-            cidade=cidade,
-            estado=estado
-        )
-
-        # Build response with anexo URLs
-        data = []
-        for indicator in indicators:
-            indicator_data = {
-                'id': indicator.id,
-                'categoria': indicator.categoria,
-                'nome_indicador': indicator.nome_indicador,
-                'tipo': indicator.tipo,
-                'ods': indicator.ods,
-                'unidade': indicator.unidade,
-                'dado_2022': indicator.dado_2022,
-                'dado_2023': indicator.dado_2023,
-                'dado_2024': indicator.dado_2024,
-                'dado_2025': indicator.dado_2025,
-                'fonte_2022': indicator.fonte_2022,
-                'fonte_2023': indicator.fonte_2023,
-                'fonte_2024': indicator.fonte_2024,
-                'fonte_2025': indicator.fonte_2025,
-                'anexo_2022': indicator.anexo_2022.url if indicator.anexo_2022 else None,
-                'anexo_2023': indicator.anexo_2023.url if indicator.anexo_2023 else None,
-                'anexo_2024': indicator.anexo_2024.url if indicator.anexo_2024 else None,
-                'anexo_2025': indicator.anexo_2025.url if indicator.anexo_2025 else None,
-                'cidade': indicator.cidade,
-                'estado': indicator.estado,
-                'created_at': indicator.created_at.isoformat() if indicator.created_at else None,
-                'updated_at': indicator.updated_at.isoformat() if indicator.updated_at else None,
-            }
-            data.append(indicator_data)
-
-        return JsonResponse({
-            'success': True,
-            'data': data
-        })
-
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)})
-
-# API to save/update ISO37123 indicator data
-@csrf_exempt
-@login_required
-@manager_required
-def save_iso37123_data(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            categoria = data.get('categoria')
-            nome_indicador = data.get('nome_indicador')
-            tipo = data.get('tipo')
-            ods = data.get('ods')
-            unidade = data.get('unidade')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            # Data fields
-            dado_2022 = data.get('dado_2022')
-            dado_2023 = data.get('dado_2023')
-            dado_2024 = data.get('dado_2024')
-            dado_2025 = data.get('dado_2025')
-
-            # Source fields
-            fonte_2022 = data.get('fonte_2022')
-            fonte_2023 = data.get('fonte_2023')
-            fonte_2024 = data.get('fonte_2024')
-            fonte_2025 = data.get('fonte_2025')
-
-            # Create or update indicator
-            indicator, created = ISO37123Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                    'dado_2022': dado_2022,
-                    'dado_2023': dado_2023,
-                    'dado_2024': dado_2024,
-                    'dado_2025': dado_2025,
-                    'fonte_2022': fonte_2022,
-                    'fonte_2023': fonte_2023,
-                    'fonte_2024': fonte_2024,
-                    'fonte_2025': fonte_2025,
-                }
-            )
-
-            if not created:
-                # Update existing indicator - only update provided fields
-                indicator.categoria = categoria
-                indicator.tipo = tipo
-                indicator.ods = ods
-                indicator.unidade = unidade
-
-                # Only update data fields if they are provided (not None)
-                if dado_2022 is not None:
-                    indicator.dado_2022 = dado_2022
-                if dado_2023 is not None:
-                    indicator.dado_2023 = dado_2023
-                if dado_2024 is not None:
-                    indicator.dado_2024 = dado_2024
-                if dado_2025 is not None:
-                    indicator.dado_2025 = dado_2025
-
-                # Only update source fields if they are provided (not None)
-                if fonte_2022 is not None:
-                    indicator.fonte_2022 = fonte_2022
-                if fonte_2023 is not None:
-                    indicator.fonte_2023 = fonte_2023
-                if fonte_2024 is not None:
-                    indicator.fonte_2024 = fonte_2024
-                if fonte_2025 is not None:
-                    indicator.fonte_2025 = fonte_2025
-
-                indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Dados salvos com sucesso',
-                'id': indicator.id
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to get ISO37123 indicator data
-@login_required
-def get_iso37123_data(request):
-    try:
-        cidade = request.GET.get('cidade', 'Londrina')
-        estado = request.GET.get('estado', 'PR')
-
-        indicators = ISO37123Indicator.objects.filter(
-            cidade=cidade,
-            estado=estado
-        )
-
-        # Build response with anexo URLs
-        data = []
-        for indicator in indicators:
-            indicator_data = {
-                'id': indicator.id,
-                'categoria': indicator.categoria,
-                'nome_indicador': indicator.nome_indicador,
-                'tipo': indicator.tipo,
-                'ods': indicator.ods,
-                'unidade': indicator.unidade,
-                'dado_2022': indicator.dado_2022,
-                'dado_2023': indicator.dado_2023,
-                'dado_2024': indicator.dado_2024,
-                'dado_2025': indicator.dado_2025,
-                'fonte_2022': indicator.fonte_2022,
-                'fonte_2023': indicator.fonte_2023,
-                'fonte_2024': indicator.fonte_2024,
-                'fonte_2025': indicator.fonte_2025,
-                'anexo_2022': indicator.anexo_2022.url if indicator.anexo_2022 else None,
-                'anexo_2023': indicator.anexo_2023.url if indicator.anexo_2023 else None,
-                'anexo_2024': indicator.anexo_2024.url if indicator.anexo_2024 else None,
-                'anexo_2025': indicator.anexo_2025.url if indicator.anexo_2025 else None,
-                'cidade': indicator.cidade,
-                'estado': indicator.estado,
-                'created_at': indicator.created_at.isoformat() if indicator.created_at else None,
-                'updated_at': indicator.updated_at.isoformat() if indicator.updated_at else None,
-            }
-            data.append(indicator_data)
-
-        return JsonResponse({
-            'success': True,
-            'data': data
-        })
-
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)})
-
-# API to save/update ISO37125 indicator data
-@csrf_exempt
-@login_required
-@manager_required
-def save_iso37125_data(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            categoria = data.get('categoria')
-            nome_indicador = data.get('nome_indicador')
-            tipo = data.get('tipo')
-            ods = data.get('ods')
-            unidade = data.get('unidade')
-            cidade = data.get('cidade', 'Londrina')
-            estado = data.get('estado', 'PR')
-
-            # Data fields
-            dado_2022 = data.get('dado_2022')
-            dado_2023 = data.get('dado_2023')
-            dado_2024 = data.get('dado_2024')
-            dado_2025 = data.get('dado_2025')
-
-            # Source fields
-            fonte_2022 = data.get('fonte_2022')
-            fonte_2023 = data.get('fonte_2023')
-            fonte_2024 = data.get('fonte_2024')
-            fonte_2025 = data.get('fonte_2025')
-
-            # Create or update indicator
-            indicator, created = ISO37125Indicator.objects.get_or_create(
-                nome_indicador=nome_indicador,
-                cidade=cidade,
-                estado=estado,
-                defaults={
-                    'categoria': categoria,
-                    'tipo': tipo,
-                    'ods': ods,
-                    'unidade': unidade,
-                    'dado_2022': dado_2022,
-                    'dado_2023': dado_2023,
-                    'dado_2024': dado_2024,
-                    'dado_2025': dado_2025,
-                    'fonte_2022': fonte_2022,
-                    'fonte_2023': fonte_2023,
-                    'fonte_2024': fonte_2024,
-                    'fonte_2025': fonte_2025,
-                }
-            )
-
-            if not created:
-                # Update existing indicator - only update provided fields
-                indicator.categoria = categoria
-                indicator.tipo = tipo
-                indicator.ods = ods
-                indicator.unidade = unidade
-
-                # Only update data fields if they are provided (not None)
-                if dado_2022 is not None:
-                    indicator.dado_2022 = dado_2022
-                if dado_2023 is not None:
-                    indicator.dado_2023 = dado_2023
-                if dado_2024 is not None:
-                    indicator.dado_2024 = dado_2024
-                if dado_2025 is not None:
-                    indicator.dado_2025 = dado_2025
-
-                # Only update source fields if they are provided (not None)
-                if fonte_2022 is not None:
-                    indicator.fonte_2022 = fonte_2022
-                if fonte_2023 is not None:
-                    indicator.fonte_2023 = fonte_2023
-                if fonte_2024 is not None:
-                    indicator.fonte_2024 = fonte_2024
-                if fonte_2025 is not None:
-                    indicator.fonte_2025 = fonte_2025
-
-                indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Dados salvos com sucesso',
-                'id': indicator.id
-            })
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to get ISO37125 indicator data
-@login_required
-def get_iso37125_data(request):
-    try:
-        cidade = request.GET.get('cidade', 'Londrina')
-        estado = request.GET.get('estado', 'PR')
-
-        indicators = ISO37125Indicator.objects.filter(
-            cidade=cidade,
-            estado=estado
-        )
-
-        # Build response with anexo URLs
-        data = []
-        for indicator in indicators:
-            indicator_data = {
-                'id': indicator.id,
-                'categoria': indicator.categoria,
-                'nome_indicador': indicator.nome_indicador,
-                'tipo': indicator.tipo,
-                'ods': indicator.ods,
-                'unidade': indicator.unidade,
-                'dado_2022': indicator.dado_2022,
-                'dado_2023': indicator.dado_2023,
-                'dado_2024': indicator.dado_2024,
-                'dado_2025': indicator.dado_2025,
-                'fonte_2022': indicator.fonte_2022,
-                'fonte_2023': indicator.fonte_2023,
-                'fonte_2024': indicator.fonte_2024,
-                'fonte_2025': indicator.fonte_2025,
-                'anexo_2022': indicator.anexo_2022.url if indicator.anexo_2022 else None,
-                'anexo_2023': indicator.anexo_2023.url if indicator.anexo_2023 else None,
-                'anexo_2024': indicator.anexo_2024.url if indicator.anexo_2024 else None,
-                'anexo_2025': indicator.anexo_2025.url if indicator.anexo_2025 else None,
-                'cidade': indicator.cidade,
-                'estado': indicator.estado,
-                'created_at': indicator.created_at.isoformat() if indicator.created_at else None,
-                'updated_at': indicator.updated_at.isoformat() if indicator.updated_at else None,
-            }
-            data.append(indicator_data)
-
-        return JsonResponse({
-            'success': True,
-            'data': data
-        })
-
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)})
-
-# API to update specific field for ISO37122 (for edit functionality)
-@csrf_exempt
-@login_required
-@manager_required
-def update_iso37122_field(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            indicator_id = data.get('indicator_id')
-            field_name = data.get('field_name')
-            field_value = data.get('field_value')
-
-            indicator = ISO37122Indicator.objects.get(id=indicator_id)
-            setattr(indicator, field_name, field_value)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Campo atualizado com sucesso'
-            })
-
-        except ISO37122Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to update specific field for ISO37123 (for edit functionality)
-@csrf_exempt
-@login_required
-@manager_required
-def update_iso37123_field(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            indicator_id = data.get('indicator_id')
-            field_name = data.get('field_name')
-            field_value = data.get('field_value')
-
-            indicator = ISO37123Indicator.objects.get(id=indicator_id)
-            setattr(indicator, field_name, field_value)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Campo atualizado com sucesso'
-            })
-
-        except ISO37123Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-# API to update specific field for ISO37125 (for edit functionality)
-@csrf_exempt
-@login_required
-@manager_required
-def update_iso37125_field(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            indicator_id = data.get('indicator_id')
-            field_name = data.get('field_name')
-            field_value = data.get('field_value')
-
-            indicator = ISO37125Indicator.objects.get(id=indicator_id)
-            setattr(indicator, field_name, field_value)
-            indicator.save()
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Campo atualizado com sucesso'
-            })
-
-        except ISO37125Indicator.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Indicador não encontrado'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
-
-@login_required
-@require_http_methods(["GET"])
-def iso37122(request):
-    context = {
-        'dimensoes': MOCK_DATA['dimensoes'],
-        'username': request.user.username
-    }
-    return render(request, 'accounts/normas/iso37122.html', context)
-
-@login_required
-def iso37123(request):
-    context = {
-        'dimensoes': MOCK_DATA['dimensoes'],
-        'username': request.user.username
-    }
-    return render(request, 'accounts/normas/iso37123.html', context)
-
-@login_required
-def iso37125(request):
-    context = {
-        'dimensoes': MOCK_DATA['dimensoes'],
-        'username': request.user.username
-    }
-    return render(request, 'accounts/normas/iso37125.html', context)
 
 # API for dimensions
 @require_http_methods(["GET"])
@@ -1738,6 +1017,10 @@ def serve_static(request, path):
     # If file not found
     return HttpResponse(f'Arquivo {path} não encontrado.', status=404)
 
+
+
+
+
 # Dashboard view
 def dashboard(request):
     # Check if user is logged in
@@ -1763,6 +1046,12 @@ def dashboard(request):
     }
     
     return render(request, 'screens/dashboard.html', context)
+
+
+
+
+
+
 
 # View for detailed indicators
 def indicador_detalhes(request, dimensao_id, indicador_id):
@@ -1809,83 +1098,18 @@ def modal_dimensoes(request):
 def modal_indicadores(request):
     return render(request, 'screens/modals-indicadores.html')
 
-@login_required
-@admin_required
-def adicionar_norma(request):
-    if request.method == 'POST':
-        try:
-            import json
-            data = json.loads(request.body)
-            name = data.get('name')
-            link = data.get('link')
-        except (json.JSONDecodeError, AttributeError):
-            # Fallback para dados de formulário
-            name = request.POST.get('name')
-            link = request.POST.get('link')
-            
-        if not name or not link:
-            return JsonResponse({'success': False, 'message': 'Nome e link são obrigatórios'})
 
-        # Normalizar URL
-        link = normalize_url(link)
 
-        try:
-            Norm.objects.create(Nome=name, Direcionamento=link)
-            return JsonResponse({'success': True, 'message': 'Norma adicionada com sucesso'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
 
-@login_required
-@admin_required
-def editar_norma(request, norm_id):
-    norm = get_object_or_404(Norm, id_norma=norm_id)
-    
-    if request.method == 'POST':
-        try:
-            import json
-            data = json.loads(request.body)
-            name = data.get('name')
-            link = data.get('link')
-        except (json.JSONDecodeError, AttributeError):
-            name = request.POST.get('name')
-            link = request.POST.get('link')
-        
-        if name and link:
-            # Normalizar URL
-            link = normalize_url(link)
 
-            norm.Nome = name
-            norm.Direcionamento = link
-            norm.save()
-            return JsonResponse({'success': True, 'message': 'Norma editada com sucesso'})
-        else:
-            return JsonResponse({'success': False, 'message': 'Nome e link são obrigatórios'})
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
 
-@login_required
-@admin_required
-def remover_norma(request, norm_id):
-    norm = get_object_or_404(Norm, id_norma=norm_id)
-    
-    if request.method == 'DELETE':
-        norm.delete()
-        return JsonResponse({'success': True, 'message': 'Norma removida com sucesso'})
-    return JsonResponse({'success': False, 'message': 'Método não permitido'})
 
-@login_required
-def listar_normas(request):
-    norms = list(Norm.objects.all().values('id_norma', 'Nome', 'Direcionamento'))
-    # Adiciona a norma estática
-    norms.append({
-        'id_norma': 9999,  # Use um ID que não conflite com o banco
-        'Nome': 'ISO 37120',
-        'Direcionamento': 'http://localhost:8000/dashboard/normas/iso37120/'
-    })
-    return JsonResponse({
-        'status': 'success',
-        'normas': norms
-    })
+
+
+
+
+
+
 
 # Admin User Management Views
 @login_required
@@ -1897,6 +1121,73 @@ def admin_menu(request):
         'user_type': request.user.user_type,
     }
     return render(request, 'accounts/admin/menu.html', context)
+
+
+@login_required
+@admin_required
+def list_years(request):
+    """Listar todos os anos cadastrados do sistema"""
+    years_list = YearReference.objects.all().order_by('-ano')
+    
+    context = {
+        'years': years_list,
+        'username': request.user.username,
+        'user_type': request.user.user_type,
+    }
+    return render(request, 'accounts/admin/list_years.html', context)
+
+
+@login_required
+@admin_required
+def add_year(request):
+    if request.method == 'POST':
+        try:
+            last_year_obj = YearReference.objects.order_by('-ano').first()
+            novo_ano = (last_year_obj.ano + 1) if last_year_obj else 2022
+
+            YearReference.objects.create(
+                ano=novo_ano,
+                ativo=True
+            )
+            
+            messages.success(request, f"Ano {novo_ano} adicionado com sucesso!")
+            return redirect('list_years')
+            
+        except Exception as e:
+            messages.error(request, f"Erro ao criar ano: {str(e)}")
+            return redirect('add_year')
+
+    return render(request, 'accounts/admin/add_year.html')
+
+
+@login_required
+@admin_required
+def change_year_status(request, year_id):
+    if request.method == 'POST':
+        try:
+            year_to_change = get_object_or_404(YearReference, id=year_id)
+            
+            new_status_raw = request.POST.get('ativo')
+
+            if new_status_raw not in ['True', 'False']:
+                return JsonResponse({'success': False, 'message': 'Status inválido'})
+
+            is_active = new_status_raw == 'True'
+            
+            year_to_change.ativo = is_active
+            year_to_change.save()
+
+            status_text = 'Ativo' if is_active else 'Desativado'
+
+            return JsonResponse({
+                'success': True,
+                'message': f'Status do ano {year_to_change.ano} alterado para {status_text}'
+            })
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'Erro: {str(e)}'})
+
+    return JsonResponse({'success': False, 'message': 'Método não permitido'}, status=405)
+
 
 @login_required
 @admin_required
@@ -1910,10 +1201,53 @@ def list_users(request):
     }
     return render(request, 'accounts/admin/list_users.html', context)
 
+
 @login_required
 @admin_required
 def add_user(request):
     """Adicionar novo usuário"""
+
+    def _generate_random_password(tamanho=15):
+        caracteres = string.ascii_letters + string.digits
+        password = ''.join(random.choice(caracteres) for _ in range(tamanho))
+        return password
+
+
+    def _valid_cpf(cpf):
+        cpf = ''.join(filter(str.isdigit, cpf))
+
+        if len(cpf) != 11 or cpf == cpf[0] * 11:
+            return False
+
+        soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
+        digito_1 = (soma * 10 % 11) % 10
+
+        soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
+        digito_2 = (soma * 10 % 11) % 10
+
+        return cpf[-2:] == f"{digito_1}{digito_2}"
+    
+
+    def _send_credentials(username, password, email):
+        email_user = os.getenv('EMAIL_HOST_USER')
+        email_pass = os.getenv('EMAIL_HOST_PASSWORD')
+        
+        msg = EmailMessage()
+        msg.set_content(f'Olá!\nAbaixo estão suas credenciais para logar no sistema.\nUsuário: {username}\nSenha Temporária: {password}')
+        msg['Subject'] = 'Credenciais de Login - DataCity'
+        msg['From'] = email_user
+        msg['To'] = email
+
+        try:
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                smtp.login(email_user, email_pass)
+                smtp.send_message(msg)
+            return True
+        except Exception as e:
+            print(f"Erro ao enviar: {e}")
+            return False
+
+
     if request.method == 'POST':
         try:
             # Pegar dados do formulário
@@ -1922,17 +1256,29 @@ def add_user(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
             cpf = request.POST.get('cpf')
-            cidade = request.POST.get('cidade')
             categoria = request.POST.get('categoria')
+            cidade = request.POST.get('cidade')
 
             # Validar campos obrigatórios
-            if not all([nome, username, email, password, cpf, cidade, categoria]):
+            if not all([nome, username, email, cpf, cidade, categoria]):
                 messages.error(request, 'Todos os campos são obrigatórios')
                 return redirect('add_user')
+            
+            if not password:
+                random_password = _generate_random_password()
+                password = random_password
 
             # Verificar se o email já existe
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'Já existe um usuário com este email')
+                return redirect('add_user')
+            
+            if not _valid_cpf(cpf):
+                messages.error(request, 'O CPF informado é inválido.')
+                return redirect('add_user')
+            
+            if User.objects.filter(cpf=cpf).exists():
+                messages.error(request, 'Já existe um usuário com este CPF')
                 return redirect('add_user')
 
             # Verificar se o username já existe
@@ -1947,12 +1293,13 @@ def add_user(request):
                 password=password,
                 nome=nome,
                 cpf=cpf,
-                cidade=cidade,
+                municipio=Municipality.objects.get(id=cidade),
                 categoria=categoria,
                 user_type=categoria
             )
 
             messages.success(request, f'Usuário {username} criado com sucesso!')
+            _send_credentials(username, password,email)
             return redirect('list_users')
 
         except Exception as e:
@@ -1965,11 +1312,26 @@ def add_user(request):
     }
     return render(request, 'accounts/admin/add_user.html', context)
 
+
 @login_required
 @admin_required
 def edit_user(request, user_id):
     """Editar usuário existente"""
     user_to_edit = get_object_or_404(User, id=user_id)
+
+    def _cpf_valido(cpf):
+        cpf = ''.join(filter(str.isdigit, cpf))
+
+        if len(cpf) != 11 or cpf == cpf[0] * 11:
+            return False
+
+        soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
+        digito_1 = (soma * 10 % 11) % 10
+
+        soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
+        digito_2 = (soma * 10 % 11) % 10
+
+        return cpf[-2:] == f"{digito_1}{digito_2}"
 
     if request.method == 'POST':
         try:
@@ -1979,7 +1341,7 @@ def edit_user(request, user_id):
             email = request.POST.get('email')
             password = request.POST.get('password')
             cpf = request.POST.get('cpf')
-            cidade = request.POST.get('cidade')
+            cidade = Municipality.objects.get(id=request.POST.get('cidade'))
             categoria = request.POST.get('categoria')
 
             # Validar campos obrigatórios
@@ -1991,6 +1353,14 @@ def edit_user(request, user_id):
             if User.objects.filter(email=email).exclude(id=user_id).exists():
                 messages.error(request, 'Já existe um usuário com este email')
                 return redirect('edit_user', user_id=user_id)
+            
+            if User.objects.filter(cpf=cpf).exists():
+                messages.error(request, 'Já existe um usuário com este CPF')
+                return redirect('add_user')
+            
+            if not _cpf_valido(cpf):
+                messages.error(request, 'O CPF informado é inválido.')
+                return redirect('add_user')
 
             # Verificar se o username já existe (exceto para o usuário atual)
             if User.objects.filter(username=username).exclude(id=user_id).exists():
@@ -2002,7 +1372,7 @@ def edit_user(request, user_id):
             user_to_edit.username = username
             user_to_edit.email = email
             user_to_edit.cpf = cpf
-            user_to_edit.cidade = cidade
+            user_to_edit.municipio = cidade
             user_to_edit.categoria = categoria
             user_to_edit.user_type = categoria
 
@@ -2025,6 +1395,7 @@ def edit_user(request, user_id):
         'user_type': request.user.user_type,
     }
     return render(request, 'accounts/admin/edit_user.html', context)
+
 
 @login_required
 @admin_required
@@ -2058,6 +1429,7 @@ def delete_user(request, user_id):
         'success': False,
         'message': 'Método não permitido'
     })
+
 
 @login_required
 @admin_required
@@ -2105,3 +1477,37 @@ def change_user_role(request, user_id):
         'success': False,
         'message': 'Método não permitido'
     })
+
+
+@login_required
+def list_states(request):
+    try:
+        # Busca estados únicos e transforma em lista de dicionários
+        states = Municipality.objects.values('estado').distinct().order_by('estado')
+        
+        return JsonResponse({
+            'success': True,
+            'data': list(states)
+        })
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
+
+@login_required
+def list_municipalities(request):
+    estado_filtrado = request.GET.get('estado')
+    
+    try:
+        query = Municipality.objects.all()
+        if estado_filtrado:
+            query = query.filter(estado=estado_filtrado)
+            
+        municipalities = query.values('id', 'nome').order_by('nome')
+        
+        return JsonResponse({
+            'success': True,
+            'data': list(municipalities)
+        })
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
