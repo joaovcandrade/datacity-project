@@ -198,7 +198,8 @@
             <div class="buttons-container">
                 <a href="{% url 'plataformas' %}" class="btn">Plataformas</a>
                 <a href="{% url 'normas' %}" class="btn">Normas</a>
-                {% if user_type == 'ADMIN' %}
+                <a href="{% url 'completions_goals_home' %}" class="btn" style="background: #6B4FB5;">Pontuação e Metas</a>
+                {% if user_type == 'ADMIN' or user_type == 'MANAGER' %}
                 <a href="{% url 'admin_menu' %}" class="btn" style="background: #004505;">Administração</a>
                 {% endif %}
             </div>

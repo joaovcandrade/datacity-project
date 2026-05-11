@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>DataCity - Nova Designação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family:'Poppins', sans-serif; background:#f5f5f5; margin:0; color:#333; }
+        .header { background:#513C9A; padding:20px 0; box-shadow:0 2px 10px rgba(0,0,0,.1); }
+        .header-content { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; gap:15px; flex-wrap:wrap; }
+        .header-title { color:white; font-size:24px; font-weight:700; margin:0; }
+        .btn-header { padding:8px 20px; border-radius:6px; font-size:14px; font-weight:600; text-decoration:none; transition:.3s; }
+        .btn-back { background:white; color:#513C9A; }
+        .btn-back:hover { background:#f5f5f5; color:#513C9A; }
+        .main-content { max-width:1000px; margin:40px auto; padding:0 20px; }
+        .page-title { color:#513C9A; font-size:32px; font-weight:700; margin:0 0 10px; }
+        .page-description { color:#666; margin:0 0 25px; }
+        .form-card { background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.1); padding:25px; }
+        .form-group { margin-bottom:18px; }
+        label { display:block; font-weight:600; color:#513C9A; margin-bottom:6px; }
+        input, select, textarea { width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:6px; font-family:'Poppins', sans-serif; }
+        input:focus, select:focus, textarea:focus { outline:none; border-color:#513C9A; box-shadow:0 0 0 3px rgba(81,60,154,.12); }
+        textarea { min-height:110px; resize:vertical; }
+        .info-box { background:#eef7ff; border-left:4px solid #2196F3; padding:14px 16px; border-radius:8px; color:#155b8a; margin-bottom:20px; }
+        .warning-box { background:#fff3cd; border-left:4px solid #FF9800; padding:14px 16px; border-radius:8px; color:#856404; margin-bottom:20px; }
+        .filters-card { background:#fafafa; border:1px solid #eee; border-radius:10px; padding:16px; margin-bottom:18px; }
+        .filters-title { color:#513C9A; font-weight:700; margin-bottom:12px; }
+        .filters-grid { display:grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap:12px; align-items:end; }
+        .btn-filter, .btn-clear, .btn-submit { border:none; border-radius:6px; font-weight:600; cursor:pointer; text-decoration:none; text-align:center; font-family:'Poppins', sans-serif; transition:.3s; }
+        .btn-filter { background:#513C9A; color:white; padding:10px 18px; }
+        .btn-filter:hover, .btn-submit:hover { background:#6B4FB5; }
+        .btn-clear { background:#666; color:white; padding:10px 18px; display:inline-block; }
+        .btn-clear:hover { background:#444; color:white; }
+        .btn-submit { background:#513C9A; color:white; padding:12px 28px; width:100%; margin-top:10px; }
+        .indicators-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+        .counter { font-size:13px; color:#666; font-weight:600; }
+        .select-actions { display:flex; gap:8px; flex-wrap:wrap; }
+        .mini-btn { border:1px solid #513C9A; color:#513C9A; background:white; border-radius:20px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+        .mini-btn:hover { background:#513C9A; color:white; }
+        .indicators-box { max-height:380px; overflow-y:auto; border:1px solid #ddd; border-radius:8px; padding:12px; background:#fafafa; }
+        .indicator-item { display:flex; align-items:flex-start; gap:10px; padding:10px; border-bottom:1px solid #eee; background:white; border-radius:8px; margin-bottom:8px; }
+        .indicator-item:last-child { margin-bottom:0; }
+        .indicator-item input { width:auto; margin-top:4px; }
+        .indicator-name { color:#333; font-weight:700; }
+        .indicator-meta { font-size:12px; color:#666; margin-top:4px; line-height:1.5; }
+        .empty { color:#999; text-align:center; padding:28px; }
+        .messages { margin-bottom:18px; }
+        .message { padding:12px 14px; border-radius:8px; margin-bottom:8px; font-weight:600; }
+        .message.success { background:#d4edda; color:#155724; }
+        .message.error { background:#f8d7da; color:#721c24; }
+        .message.warning { background:#fff3cd; color:#856404; }
+        @media(max-width: 800px) { .filters-grid { grid-template-columns:1fr; } .page-title { font-size:26px; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">Nova Designação</h1>
+            <a href="{% url 'designacoes' %}" class="btn-header btn-back">Voltar</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title">Criar Designação de Preenchimento</h2>
+        <p class="page-description">Escolha um gestor do seu município e indique quais indicadores ele deverá preencher.</p>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-card">
+            {% if municipio_escopo %}
+                <div class="info-box">
+                    <strong>Município da designação:</strong> {{ municipio_escopo.nome }}/{{ municipio_escopo.estado }}.<br>
+                    O campo município foi removido porque a designação sempre usa o município da conta com acesso total.
+                </div>
+            {% else %}
+                <div class="warning-box">
+                    Sua conta não possui município vinculado. Administradores globais podem criar designações usando automaticamente o município do gestor selecionado.
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" name="titulo" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea name="descricao"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Gestor responsável</label>
+                    <select name="gestor_responsavel" required>
+                        <option value="">Selecione</option>
+                        {% for gestor in gestores %}
+                            <option value="{{ gestor.id }}">
+                                {{ gestor.nome|default:gestor.username }} - {{ gestor.email }}{% if gestor.municipio %} - {{ gestor.municipio.nome }}/{{ gestor.municipio.estado }}{% endif %}
+                            </option>
+                        {% empty %}
+                            <option value="">Nenhum gestor disponível para o seu município</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Prazo</label>
+                    <input type="date" name="prazo">
+                </div>
+
+                <div class="filters-card">
+                    <div class="filters-title">Filtrar indicadores</div>
+                    <div class="filters-grid">
+                        <div>
+                            <label for="filtro-nome">Nome</label>
+                            <input id="filtro-nome" type="text" placeholder="Buscar indicador..." value="{{ filtros.nome|default:'' }}" oninput="filtrarIndicadores()">
+                        </div>
+                        <div>
+                            <label for="filtro-categoria">Categoria</label>
+                            <select id="filtro-categoria" onchange="filtrarIndicadores()">
+                                <option value="">Todas</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" {% if filtros.categoria == categoria.id|stringformat:'s' %}selected{% endif %}>{{ categoria.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="filtro-plataforma">Plataforma</label>
+                            <select id="filtro-plataforma" onchange="filtrarIndicadores()">
+                                <option value="">Todas</option>
+                                {% for plataforma in plataformas %}
+                                    <option value="{{ plataforma.id }}" {% if filtros.plataforma == plataforma.id|stringformat:'s' %}selected{% endif %}>{{ plataforma.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <a href="{% url 'criar_designacao' %}" class="btn-clear">Limpar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="indicators-toolbar">
+                        <label style="margin:0;">Indicadores que o gestor poderá preencher</label>
+                        <div class="select-actions">
+                            <span class="counter" id="contador-indicadores">0 indicador(es) visível(is)</span>
+                            <button type="button" class="mini-btn" onclick="marcarVisiveis(true)">Marcar visíveis</button>
+                            <button type="button" class="mini-btn" onclick="marcarVisiveis(false)">Desmarcar visíveis</button>
+                        </div>
+                    </div>
+
+                    <div class="indicators-box" id="indicators-box">
+                        {% for indicador in indicadores %}
+                            <label
+                                class="indicator-item"
+                                data-name="{{ indicador.nome|lower }}"
+                                data-categories="{% for categoria in indicador.categorias.all %}{{ categoria.id }} {% endfor %}"
+                                data-platforms="{% for categoria in indicador.categorias.all %}{% if categoria.plataforma_id %}{{ categoria.plataforma_id }} {% endif %}{% endfor %}"
+                            >
+                                <input type="checkbox" name="indicadores" value="{{ indicador.id }}">
+                                <span>
+                                    <span class="indicator-name">{{ indicador.nome }}</span>
+                                    <span class="indicator-meta">
+                                        Tipo: {{ indicador.get_tipo_display }}<br>
+                                        Categorias:
+                                        {% for categoria in indicador.categorias.all %}
+                                            {{ categoria.nome }}{% if categoria.plataforma %} / {{ categoria.plataforma.nome }}{% endif %}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            Sem categoria
+                                        {% endfor %}
+                                    </span>
+                                </span>
+                            </label>
+                        {% empty %}
+                            <div class="empty">Nenhum indicador encontrado.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar Designação</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function filtrarIndicadores() {
+            const nome = document.getElementById('filtro-nome').value.toLowerCase().trim();
+            const categoria = document.getElementById('filtro-categoria').value;
+            const plataforma = document.getElementById('filtro-plataforma').value;
+            const items = document.querySelectorAll('.indicator-item');
+            let visiveis = 0;
+
+            items.forEach(item => {
+                const nomeItem = item.dataset.name || '';
+                const categorias = item.dataset.categories || '';
+                const plataformas = item.dataset.platforms || '';
+
+                const matchNome = !nome || nomeItem.includes(nome);
+                const matchCategoria = !categoria || categorias.split(' ').includes(categoria);
+                const matchPlataforma = !plataforma || plataformas.split(' ').includes(plataforma);
+                const mostrar = matchNome && matchCategoria && matchPlataforma;
+
+                item.style.display = mostrar ? 'flex' : 'none';
+                if (mostrar) visiveis += 1;
+            });
+
+            document.getElementById('contador-indicadores').textContent = `${visiveis} indicador(es) visível(is)`;
+        }
+
+        function marcarVisiveis(marcar) {
+            document.querySelectorAll('.indicator-item').forEach(item => {
+                if (item.style.display !== 'none') {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    if (checkbox) checkbox.checked = marcar;
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', filtrarIndicadores);
+    </script>
+</body>
+</html>

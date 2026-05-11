@@ -33,7 +33,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "scraping.apps.ScrapingConfig",
-    "indicators.apps.IndicatorsConfig"
+    "indicators.apps.IndicatorsConfig",
+    "indicators_csc.apps.IndicatorsCscConfig",
+    "reference_years.apps.ReferenceYearsConfig",
 ]
 
 # Configuração do modelo de usuário personalizado

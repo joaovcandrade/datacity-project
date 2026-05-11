@@ -1,0 +1,622 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Pontuação e Metas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f5f5f5; color: #333; min-height: 100vh; }
+        .page { max-width: 1280px; margin: 0 auto; padding: 32px 24px 48px; }
+        .topbar { background: #513C9A; border-radius: 14px; padding: 22px; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(81,60,154,.18); }
+        .platform-row { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .top-actions { display:flex; gap: 10px; align-items:center; flex-wrap: wrap; }
+        .back-main { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.45); color: white; padding: 10px 14px; border-radius: 8px; text-decoration:none; font-weight: 800; transition: all .2s; }
+        .back-main:hover { background: white; color: #513C9A; transform: translateY(-1px); }
+        .platform-title { color: white; font-size: 26px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .platform-title:before { content: ''; display:inline-block; width:24px; height:24px; margin-right:8px; vertical-align:-5px; background:url('/static/imgs/icons/target.png') center/contain no-repeat; }
+        .platform-select { border: none; border-radius: 8px; padding: 12px 14px; min-width: 280px; font-family: 'Poppins', sans-serif; font-weight: 700; color: #513C9A; background: white; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+        .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 22px; }
+        .tab { background: white; color: #513C9A; padding: 11px 18px; text-decoration: none; font-weight: 800; border-radius: 8px; transition: all .2s; box-shadow: 0 2px 10px rgba(0,0,0,.08); border: 1px solid rgba(81,60,154,.12); }
+        .tab:hover, .tab.active { background: #513C9A; color: white; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(81,60,154,.22); }
+        .panel { background: white; border-radius: 14px; padding: 26px; min-height: 580px; box-shadow: 0 2px 12px rgba(0,0,0,.1); overflow: visible; }
+        .meta-box { background: #f8f6ff; border: 1px solid rgba(81,60,154,.18); border-left: 5px solid #513C9A; padding: 18px; border-radius: 12px; margin-bottom: 24px; }
+        .meta-title { color: #513C9A; font-weight: 800; margin-bottom: 10px; font-size: 17px; }
+        .meta-form { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field label { font-size: 13px; color: #513C9A; font-weight: 800; }
+        .input, .select { border: 1px solid #ddd; border-radius: 8px; padding: 11px 12px; font-family: 'Poppins', sans-serif; min-width: 220px; background: white; }
+        .input:focus, .select:focus { outline: none; border-color: #513C9A; box-shadow: 0 0 0 3px rgba(81,60,154,.12); }
+        .btn { border: none; background: #513C9A; color: white; padding: 11px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items:center; justify-content:center; transition: all .2s; }
+        .btn:hover { background: #6B4FB5; color: white; transform: translateY(-1px); }
+        .btn-outline { border: 2px solid #513C9A; background: white; color: #513C9A; }
+        .btn-outline:hover { background: #513C9A; color: white; }
+        h3 { color: #513C9A; font-size: 17px; font-weight: 800; margin-bottom: 12px; }
+        .summary-grid { display: grid; grid-template-columns: 1.2fr .8fr 1fr; gap: 26px; align-items: start; }
+        .summary-grid > div { background: #fafafa; border: 1px solid #eee; border-radius: 12px; padding: 16px; min-height: 100%; }
+        .summary-list { list-style: none; }
+        .summary-list li { margin-bottom: 6px; font-size: 15px; line-height: 1.35; }
+        .muted { color: #666; }
+        .chart-wrap { min-height: 360px; display: flex; align-items: center; justify-content: center; }
+        .radar-card { background: #fff; border: 1px solid #eee; border-radius: 12px; margin-top: 22px; padding: 18px; }
+        .filters { display: grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .table-wrap { overflow-x: auto; overflow-y: visible; border-radius: 12px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; min-width: 1180px; background: white; }
+        th, td { padding: 13px 14px; text-align: center; border-bottom: 1px solid #eee; vertical-align: middle; }
+        th { background: #513C9A; color: white; font-size: 14px; font-weight: 800; }
+        td:first-child, th:first-child { text-align: left; }
+        tbody tr:hover { background: rgba(81,60,154,.04); }
+        .status-cards { display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 14px; margin: 24px 0; }
+        .status-card { border: 1px solid #e3e3e3; border-radius: 12px; padding: 18px; background: #fafafa; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+        .status-number { color: #513C9A; font-size: 32px; font-weight: 900; }
+        .badge { display: inline-block; padding: 5px 11px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .completion-form { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(130px, 1fr); gap: 8px; min-width: 300px; }
+        .completion-form .input, .completion-form .select { min-width: 0; width: 100%; padding: 9px 10px; }
+        .completion-actions { display:flex; gap: 8px; align-items:center; flex-wrap: wrap; grid-column: 1 / -1; }
+        .file-input { display:none; }
+        .attachments-cell { min-width: 150px; }
+        .anexo-hover-wrapper { position: relative; display: inline-block; padding-bottom:10px; }
+        .anexo-count-badge { background:#f8f9fa; color:#513C9A; border:1px solid #d9d9d9; border-radius:16px; padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; min-width:78px; text-align:center; transition:all .2s ease; }
+        .anexo-count-badge:hover { background:#f1edff; border-color:#513C9A; transform:translateY(-1px); }
+        .anexo-hover-popup { display:none; position:absolute; top:100%; left:50%; transform:translateX(-50%); min-width:270px; max-width:360px; background:white; border:1px solid #ddd; border-radius:12px; padding:12px; box-shadow:0 10px 25px rgba(0,0,0,.15); z-index:2000; text-align:left; }
+        .anexo-hover-wrapper:hover .anexo-hover-popup, .anexo-hover-popup:hover { display:block; } .anexo-hover-popup:before{content:'';position:absolute;left:0;right:0;top:-12px;height:12px;} 
+        .anexo-popup-item { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+        .anexo-popup-item:last-child { margin-bottom:0; }
+        .anexo-popup-upload { margin-top:10px; padding-top:10px; border-top:1px solid #eee; display:flex; justify-content:center; }
+        .anexo-btn { background:white; color:#513C9A; border:2px solid #513C9A; padding:8px 14px; border-radius:20px; cursor:pointer; font-size:12px; font-family:'Poppins',sans-serif; font-weight:700; transition:all .2s ease; display:inline-flex; align-items:center; gap:6px; }
+        .anexo-btn:hover { background:#513C9A; color:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(81,60,154,.28); }
+        .attachment-link, .anexo-link { background:linear-gradient(135deg,#513C9A 0%,#6B4FB5 100%); color:white; text-decoration:none; font-size:12px; font-family:'Poppins',sans-serif; font-weight:600; display:flex; align-items:center; gap:5px; padding:6px 12px; border-radius:20px; transition:all .2s ease; max-width:205px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .attachment-link:hover, .anexo-link:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(81,60,154,.3); color:white; text-decoration:none; }
+        .attachment-delete, .anexo-delete-btn { background:white; color:#dc3545; border:2px solid #dc3545; border-radius:20px; padding:6px 10px; font-size:11px; font-weight:700; cursor:pointer; transition:all .2s ease; }
+        .attachment-delete:hover, .anexo-delete-btn:hover { background:#dc3545; color:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(220,53,69,.25); }
+        .pendency-box { background:#fff3cd; color:#856404; border-left:4px solid #FF9800; padding: 12px 14px; border-radius: 8px; margin: 14px 0 20px; font-weight:600; }
+        .help-text { color:#666; font-size: 13px; margin-top: 4px; }
+        .badge-ok { background: #d4edda; color: #155724; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .city-layout { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        .city-selects { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; background: #fafafa; border: 1px solid #eee; border-radius: 12px; padding: 14px; }
+
+        .inline-editor { display:flex; align-items:flex-end; gap:10px; min-width:520px; flex-wrap:nowrap; }
+        .inline-field { display:flex; flex-direction:column; gap:4px; min-width:165px; }
+        .inline-field.source-field { min-width:210px; }
+        .input-container { display:flex; align-items:center; gap:7px; }
+        .data-input, .source-input { width:100%; border:1px solid #ddd; border-radius:8px; padding:9px 10px; font-family:'Poppins',sans-serif; background:#f7f7f7; }
+        .data-input:disabled, .source-input:disabled { color:#333; background:#f7f7f7; cursor:not-allowed; }
+        .data-input.editing, .source-input.editing { background:#fff; border-color:#513C9A; box-shadow:0 0 0 3px rgba(81,60,154,.12); }
+        .data-input.error, .source-input.error { border-color:#f44336; box-shadow:0 0 0 3px rgba(244,67,54,.12); }
+        .edit-btn { border:none; background:#513C9A; color:white; width:34px; height:34px; border-radius:8px; font-weight:900; cursor:pointer; flex:0 0 34px; }
+        .edit-btn:hover { background:#6B4FB5; }
+        .save-state { min-height:18px; min-width:120px; font-size:12px; font-weight:700; align-self:center; }
+        .save-state.ok { color:#2e7d32; }
+        .save-state.error { color:#c62828; }
+        .upload-form { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:0; }
+        .upload-form .file-input { display:none; }
+        .messages { margin-bottom: 14px; }
+        .message { padding: 12px 14px; border-radius: 8px; background: #e8f5e9; color: #2e7d32; border-left: 4px solid #4caf50; margin-bottom: 8px; }
+        @media (max-width: 992px) { .summary-grid, .filters, .status-cards { grid-template-columns: 1fr; } .panel { padding: 18px; } .page { padding: 18px 12px; } .input, .select, .platform-select { min-width: 100%; width: 100%; } .inline-editor { flex-wrap:wrap; min-width:360px; } .inline-field, .inline-field.source-field { min-width:160px; } }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div class="platform-row">
+            <div class="platform-title">{{ platform.nome|default:"Plataforma" }}</div>
+            <div class="top-actions">
+                <a class="back-main" href="{% url 'menu' %}">Menu principal</a>
+                <select class="platform-select" onchange="if(this.value) window.location.href=this.value">
+                    {% for item in platforms %}
+                        <option value="{% url 'completions_goals_platform' item.id %}?tab={{ active_tab }}" {% if item.id == platform.id %}selected{% endif %}>
+                            {{ item.nome }} - {{ item.ano_referencia.ano }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <a class="tab {% if active_tab == 'indicators' %}active{% endif %}" href="{% url 'completions_goals_platform' platform.id %}?tab=indicators">Indicadores</a>
+        <a class="tab {% if active_tab == 'scores' %}active{% endif %}" href="{% url 'completions_goals_platform' platform.id %}?tab=scores">Pontuação/Metas</a>
+        <a class="tab {% if active_tab == 'cities' %}active{% endif %}" href="{% url 'completions_goals_platform' platform.id %}?tab=cities">Consultar Cidades</a>
+    </div>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="panel">
+        <div class="meta-box">
+            <div class="meta-title">Meta de referência da plataforma</div>
+            <form method="post" action="{% url 'save_platform_goal_reference' platform.id %}" class="meta-form">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'completions_goals_platform' platform.id %}?tab={{ active_tab }}">
+                <div class="field" style="flex:1; min-width:260px;">
+                    <label>Cidade referência/meta do município</label>
+                    <select class="select" name="municipio_referencia" required>
+                        <option value="">Selecione a cidade referência</option>
+                        {% for cidade in municipalities %}
+                            <option value="{{ cidade.id }}" {% if goal_reference and goal_reference.municipio_referencia_id == cidade.id %}selected{% endif %}>
+                                {{ cidade.nome }}/{{ cidade.estado }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn" type="submit">Salvar meta</button>
+                {% if goal_reference %}
+                    <span class="muted">Atual do município: {{ goal_reference.municipio_referencia.nome }}/{{ goal_reference.municipio_referencia.estado }}</span>
+                {% endif %}
+            </form>
+        </div>
+
+        {% if active_tab == 'scores' %}
+            <div class="summary-grid">
+                <div>
+                    <h3>Pontuação Por Eixo Temático{% if municipality %}: {{ municipality.nome }}/{{ municipality.estado }}{% endif %}</h3>
+                    <ul class="summary-list">
+                        {% for row in category_rows %}
+                            <li>{{ row.name }} : {{ row.score }} | {{ row.label }}</li>
+                        {% empty %}
+                            <li class="muted">Nenhum eixo encontrado para esta plataforma.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Posição no Ranking do Eixo</h3>
+                    <ul class="summary-list">
+                        {% for row in category_rows %}
+                            <li>{{ row.name }}: {{ row.position }}{% if row.position != '-' %}º{% endif %}</li>
+                        {% empty %}
+                            <li class="muted">-</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Maior Pontuação no Eixo</h3>
+                    <ul class="summary-list">
+                        {% for row in category_rows %}
+                            {% if row.best %}
+                                <li>{{ row.name }}: {{ row.best.city }} : {{ row.best.score }}</li>
+                            {% else %}
+                                <li>{{ row.name }}: -</li>
+                            {% endif %}
+                        {% empty %}
+                            <li class="muted">Nenhuma pontuação disponível.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="radar-card">
+                <h3>Gráfico de desempenho por eixo</h3>
+                <div class="chart-wrap">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+        {% elif active_tab == 'cities' %}
+            <div class="city-layout">
+                <form method="get" class="city-selects">
+                    <input type="hidden" name="tab" value="cities">
+
+                    <select class="select" name="estado" onchange="this.form.submit()">
+                        <option value="">Todos os estados</option>
+                        {% for estado in states %}
+                            <option value="{{ estado }}" {% if selected_state == estado %}selected{% endif %}>{{ estado }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <select class="select" name="municipio" onchange="this.form.submit()">
+                        <option value="">Selecione a cidade</option>
+                        {% for cidade in municipalities %}
+                            <option value="{{ cidade.id }}" {% if selected_city_id == cidade.id %}selected{% endif %}>
+                                {{ cidade.nome }}/{{ cidade.estado }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+
+                <div class="summary-grid">
+                    <div>
+                        <h3>Pontuação por eixo{% if municipality %}: {{ municipality.nome }}/{{ municipality.estado }}{% endif %}</h3>
+                        <ul class="summary-list">
+                            {% for row in category_rows %}
+                                <li>{{ row.name }} : {{ row.score }} | {{ row.label }}</li>
+                            {% empty %}
+                                <li class="muted">Selecione uma cidade para consultar.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3>Ranking por eixo</h3>
+                        <ul class="summary-list">
+                            {% for row in category_rows %}
+                                <li>{{ row.name }}: {{ row.position }}{% if row.position != '-' %}º{% endif %}</li>
+                            {% empty %}
+                                <li class="muted">-</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3>Pendências da cidade</h3>
+                        <ul class="summary-list">
+                            <li>Total de indicadores: {{ total_indicators }}</li>
+                            <li>Preenchidos: {{ filled_count }}</li>
+                            <li>Pendentes: {{ unfilled_count }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="table-wrap" style="margin-top:20px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Eixo Temático</th>
+                                <th>Valor</th>
+                                <th>Nota</th>
+                                <th>Fonte</th>
+                                <th>Anexos</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in indicator_rows %}
+                                <tr>
+                                    <td><strong>{{ item.name }}</strong></td>
+                                    <td>{{ item.category }}</td>
+                                    <td>{{ item.value|default:"-" }}</td>
+                                    <td><strong>{{ item.score }}</strong></td>
+                                    <td>{{ item.source|default:"-" }}</td>
+                                    <td>{{ item.attachments_count }}</td>
+                                    <td>
+                                        {% if item.filled %}
+                                            <span class="badge badge-ok">Preenchido</span>
+                                        {% else %}
+                                            <span class="badge badge-pending">Pendente</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="6">Nenhum indicador encontrado para esta plataforma.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="pendency-box">
+                Esta aba serve para preencher os indicadores da sua cidade, anexar PDFs de evidência e conferir pendências. Indicadores sem valor salvo aparecem como <strong>Pendente</strong>.
+            </div>
+
+            <div class="filters">
+                <input class="input" id="filter-name" type="text" placeholder="Pesquisar indicador" oninput="filterIndicatorsTable()">
+                <select class="select" id="filter-category" onchange="filterIndicatorsTable()">
+                    <option value="">Todos os eixos</option>
+                    {% for category in categories %}
+                        <option value="{{ category.nome|lower }}">{{ category.nome }}</option>
+                    {% endfor %}
+                </select>
+                <select class="select" id="filter-status" onchange="filterIndicatorsTable()">
+                    <option value="">Todos</option>
+                    <option value="filled">Preenchidos</option>
+                    <option value="pending">Não preenchidos</option>
+                </select>
+                <button class="btn btn-outline" onclick="clearIndicatorFilters()" type="button">Limpar filtros</button>
+            </div>
+
+            <div class="table-wrap">
+                <table id="indicators-table">
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th>Eixo Temático</th>
+                            <th>Preenchimento</th>
+                            <th>Nota</th>
+                            <th>Anexos</th>
+                            <th>Cidade com Melhor Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in indicator_rows %}
+                            <tr data-name="{{ item.name|lower }}" data-category="{{ item.category|lower }}" data-status="{% if item.filled %}filled{% else %}pending{% endif %}">
+                                <td>
+                                    <strong>{{ item.name }}</strong>
+                                    {% if item.description %}<div class="help-text">{{ item.description }}</div>{% endif %}
+                                </td>
+                                <td>{{ item.category }}</td>
+                                <td>
+                                    <div class="inline-editor" data-indicator-id="{{ item.id }}" data-save-url="{% url 'save_platform_indicator_completion' platform.id item.id %}">
+                                        <div class="inline-field">
+                                            <label class="help-text">Valor{% if item.unit %} ({{ item.unit }}){% endif %}</label>
+                                            <div class="input-container">
+                                                {% if item.options %}
+                                                    <select class="data-input" data-field="value" disabled>
+                                                        <option value="">Selecione</option>
+                                                        {% for option in item.options %}
+                                                            <option value="{{ option.label }}" {% if item.raw_value|stringformat:'s' == option.label|stringformat:'s' %}selected{% endif %}>{{ option.label }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                {% else %}
+                                                    <input class="data-input" data-field="value" type="text" value="{{ item.raw_value|default:'' }}" placeholder="Informe o valor" disabled>
+                                                {% endif %}
+                                                <button type="button" class="edit-btn" title="Clique para editar" onclick="enableCompletionEdit(this, 'value')"><img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></button>
+                                            </div>
+                                        </div>
+                                        <div class="inline-field source-field">
+                                            <label class="help-text">Fonte</label>
+                                            <div class="input-container">
+                                                <input class="source-input" data-field="source" type="text" value="{{ item.source|default:'' }}" placeholder="Ex.: DataSUS" disabled>
+                                                <button type="button" class="edit-btn" title="Clique para editar" onclick="enableCompletionEdit(this, 'source')"><img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></button>
+                                            </div>
+                                        </div>
+                                        <div class="save-state"></div>
+                                    </div>
+                                </td>
+                                <td><strong class="indicator-score">{{ item.score }}</strong></td>
+                                <td class="attachments-cell">
+                                    <div class="anexo-hover-wrapper">
+                                        <div class="anexo-count-badge"><img src="/static/imgs/icons/attachment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> {{ item.attachments_count }} anexo{% if item.attachments_count != 1 %}s{% endif %}</div>
+                                        <div class="anexo-hover-popup">
+                                            {% if item.attachments %}
+                                                {% for attachment in item.attachments %}
+                                                    <div class="anexo-popup-item">
+                                                        <a class="anexo-link" href="{{ attachment.caminho_arquivo }}" target="_blank"><img src="/static/imgs/icons/file.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> {{ attachment.descricao|default:'Ver PDF'|truncatechars:24 }}</a>
+                                                        <form method="post" action="{% url 'delete_platform_indicator_attachment' platform.id item.id attachment.id %}" style="display:inline;" onsubmit="return confirm('Remover este anexo? Ele poderá ser recuperado na auditoria.');">
+                                                            {% csrf_token %}
+                                                            <button class="anexo-delete-btn" type="submit">remover</button>
+                                                        </form>
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="anexo-popup-item" style="justify-content:center; color:#666;">Nenhum anexo</div>
+                                            {% endif %}
+                                            <div class="anexo-popup-upload">
+                                                <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'save_platform_indicator_completion' platform.id item.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="value" value="{{ item.raw_value|default:'' }}">
+                                                    <input type="hidden" name="source" value="{{ item.source|default:'' }}">
+                                                    <input id="anexo-input-{{ item.id }}" class="file-input" type="file" name="anexos" accept="application/pdf" multiple onchange="this.form.submit()">
+                                                    <button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-{{ item.id }}').click()"><img src="/static/imgs/icons/attachment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Adicionar PDF(s)</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if item.best_value %}
+                                        {{ item.best_value.city }} | {{ item.best_value.value }}{% if item.best_value.unit %} {{ item.best_value.unit }}{% endif %}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="6">Nenhum indicador encontrado para esta plataforma.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="status-cards">
+                <div class="status-card"><div class="status-number">{{ total_indicators }}</div><div>Total de indicadores</div></div>
+                <div class="status-card"><div class="status-number">{{ filled_count }}</div><div>Indicadores preenchidos</div></div>
+                <div class="status-card"><div class="status-number">{{ unfilled_count }}</div><div>Indicadores não preenchidos</div></div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const radarLabels = {{ radar_labels_json|safe }};
+    const radarValues = {{ radar_values_json|safe }};
+    const goalRadarValues = {{ goal_radar_values_json|safe }};
+    const radarCityLabel = '{{ radar_city_label|default:"Cidade do gestor"|escapejs }}';
+    const goalRadarCityLabel = '{{ goal_radar_city_label|default:"Cidade meta"|escapejs }}';
+
+    if (document.getElementById('radarChart')) {
+        const radarDatasets = [{
+            label: radarCityLabel || 'Cidade do gestor',
+            data: radarValues,
+            backgroundColor: 'rgba(81, 60, 154, 0.18)',
+            borderColor: '#513C9A',
+            borderWidth: 3,
+            pointBackgroundColor: '#513C9A',
+            pointBorderColor: '#513C9A',
+            pointRadius: 4,
+            tension: 0.2
+        }];
+
+        if (Array.isArray(goalRadarValues) && goalRadarValues.length) {
+            radarDatasets.push({
+                label: goalRadarCityLabel || 'Cidade meta',
+                data: goalRadarValues,
+                backgroundColor: 'rgba(220, 53, 69, 0.06)',
+                borderColor: '#DC3545',
+                borderWidth: 3,
+                borderDash: [8, 6],
+                pointBackgroundColor: '#DC3545',
+                pointBorderColor: '#DC3545',
+                pointRadius: 4,
+                tension: 0.2
+            });
+        }
+
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: radarDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            padding: 16,
+                            color: '#333',
+                            font: { family: 'Poppins', size: 12, weight: '600' }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { stepSize: 20 },
+                        pointLabels: { color: '#333', font: { family: 'Poppins', size: 11 } },
+                        grid: { color: 'rgba(0,0,0,0.08)' },
+                        angleLines: { color: 'rgba(0,0,0,0.08)' }
+                    }
+                }
+            }
+        });
+    }
+
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function getInlineEditorData(editor) {
+        return {
+            value: editor.querySelector('[data-field="value"]')?.value || '',
+            source: editor.querySelector('[data-field="source"]')?.value || '',
+        };
+    }
+
+    function setSaveState(editor, message, type) {
+        const state = editor.querySelector('.save-state');
+        if (!state) return;
+        state.textContent = message || '';
+        state.className = 'save-state' + (type ? ` ${type}` : '');
+    }
+
+    function enableCompletionEdit(button, field) {
+        const container = button.closest('.input-container');
+        const editor = button.closest('.inline-editor');
+        const input = container.querySelector(field === 'value' ? '[data-field="value"]' : '[data-field="source"]');
+        if (!input) return;
+        input.disabled = false;
+        input.classList.add('editing');
+        input.classList.remove('error');
+        input.focus();
+        if (input.select) input.select();
+        button.innerHTML = '<img src="/static/imgs/icons/success.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
+        button.title = 'Salvar';
+        button.onclick = async function() { await saveCompletionInline(this, field); };
+        input.onblur = async () => { await saveCompletionInline(button, field); };
+        input.onkeydown = async (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                await saveCompletionInline(button, field);
+            }
+        };
+        setSaveState(editor, '', '');
+    }
+
+    async function saveCompletionInline(button, field) {
+        const container = button.closest('.input-container');
+        const editor = button.closest('.inline-editor');
+        const input = container.querySelector(field === 'value' ? '[data-field="value"]' : '[data-field="source"]');
+        if (!input || input.disabled) return;
+
+        input.onblur = null;
+        input.disabled = true;
+        input.classList.remove('editing');
+        button.innerHTML = '<img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
+        button.title = 'Clique para editar';
+        button.onclick = function() { enableCompletionEdit(this, field); };
+        setSaveState(editor, 'Salvando...', '');
+
+        const payload = getInlineEditorData(editor);
+        try {
+            const response = await fetch(editor.dataset.saveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken') || '',
+                },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                input.classList.add('error');
+                setSaveState(editor, data.message || 'Erro de inconsistência.', 'error');
+                input.disabled = false;
+                input.classList.add('editing');
+                input.focus();
+                input.onblur = async () => { await saveCompletionInline(button, field); };
+                return;
+            }
+
+            input.classList.remove('error');
+            setSaveState(editor, '', 'ok');
+
+            const row = editor.closest('tr');
+            if (row && data.score !== undefined) {
+                const scoreCell = row.querySelector('.indicator-score');
+                if (scoreCell) scoreCell.textContent = data.score;
+                row.dataset.status = payload.value || payload.source ? 'filled' : 'pending';
+            }
+
+            const uploadScope = row || editor;
+            uploadScope.querySelectorAll('.upload-form input[type="hidden"][name="value"]').forEach(el => el.value = payload.value);
+            uploadScope.querySelectorAll('.upload-form input[type="hidden"][name="source"]').forEach(el => el.value = payload.source);
+        } catch (error) {
+            input.classList.add('error');
+            setSaveState(editor, 'Erro ao salvar. Verifique sua conexão.', 'error');
+            input.disabled = false;
+            input.classList.add('editing');
+            input.focus();
+            input.onblur = async () => { await saveCompletionInline(button, field); };
+        }
+    }
+
+    function filterIndicatorsTable() {
+        const name = (document.getElementById('filter-name')?.value || '').toLowerCase();
+        const category = (document.getElementById('filter-category')?.value || '').toLowerCase();
+        const status = (document.getElementById('filter-status')?.value || '');
+        document.querySelectorAll('#indicators-table tbody tr').forEach(row => {
+            const matchesName = !name || row.dataset.name.includes(name);
+            const matchesCategory = !category || row.dataset.category.includes(category);
+            const matchesStatus = !status || row.dataset.status === status;
+            row.style.display = matchesName && matchesCategory && matchesStatus ? '' : 'none';
+        });
+    }
+
+    function clearIndicatorFilters() {
+        document.getElementById('filter-name').value = '';
+        document.getElementById('filter-category').value = '';
+        document.getElementById('filter-status').value = '';
+        filterIndicatorsTable();
+    }
+</script>
+</body>
+</html>

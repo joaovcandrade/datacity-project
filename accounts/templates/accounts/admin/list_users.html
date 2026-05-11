@@ -590,7 +590,7 @@
             </table>
             {% else %}
             <div class="no-users">
-                <div class="no-users-icon">👥</div>
+                <div class="no-users-icon"><img src="/static/imgs/icons/users.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
                 <h3>Nenhum usuário encontrado</h3>
                 <p>Comece adicionando um novo usuário ao sistema</p>
             </div>
@@ -605,7 +605,7 @@
     <div class="custom-modal-overlay" id="confirmModal">
         <div class="custom-modal">
             <div class="custom-modal-header danger">
-                <span class="custom-modal-icon danger">⚠️</span>
+                <span class="custom-modal-icon danger"><img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></span>
                 <h3 class="custom-modal-title" id="confirmTitle">Confirmar ação</h3>
             </div>
             <div class="custom-modal-body">
@@ -657,10 +657,10 @@
             toast.className = `toast ${type}`;
 
             const icons = {
-                success: '✓',
-                error: '✕',
-                warning: '⚠',
-                info: 'ℹ'
+                success: '<img src="/static/imgs/icons/success.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                error: '<img src="/static/imgs/icons/error.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                warning: '<img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                info: '<img src="/static/imgs/icons/info.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">'
             };
 
             const titles = {
@@ -676,7 +676,7 @@
                     <div class="toast-title">${titles[type]}</div>
                     <div class="toast-message">${message}</div>
                 </div>
-                <button class="toast-close" onclick="closeToast(this)">×</button>
+                <button class="toast-close" onclick="closeToast(this)">x</button>
             `;
 
             container.appendChild(toast);

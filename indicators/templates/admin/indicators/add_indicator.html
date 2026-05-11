@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Adicionar Indicador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box} body{font-family:'Poppins',sans-serif;background:#f5f5f5;min-height:100vh;color:#333;padding-bottom:40px}.header{background:#513C9A;padding:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.1)}.header-content{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.header-title{color:white;font-size:24px;font-weight:800}.btn-header{padding:8px 20px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none}.btn-back{background:white;color:#513C9A}.btn-logout{background:#9e1220;color:white}.main-content{max-width:1000px;margin:40px auto;padding:0 20px}.page-title{color:#513C9A;font-size:32px;font-weight:800;margin-bottom:8px}.page-description{color:#666;margin-bottom:26px}.form-container{background:white;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.1);padding:32px}.section-title{color:#513C9A;font-size:18px;font-weight:800;margin:10px 0 18px;padding-bottom:10px;border-bottom:1px solid #eee}.form-label{font-weight:700;color:#333}.form-control,.form-select{border:1px solid #ddd;border-radius:8px;padding:10px 14px;font-family:'Poppins',sans-serif}.form-control:focus,.form-select:focus{border-color:#513C9A;box-shadow:0 0 0 .2rem rgba(81,60,154,.15)}.btn-submit{background:#513C9A;color:#fff;padding:12px 38px;border-radius:8px;font-weight:800;border:none;width:100%;margin-top:20px}.btn-submit:hover{background:#6B4FB5}.required{color:#f44336}.info-box{background:#f4f1ff;border-left:4px solid #513C9A;padding:14px 16px;margin-bottom:24px;border-radius:8px;color:#4b3b8f}.platform-box{border:1px solid #e3e3e3;border-radius:10px;padding:14px;margin-bottom:12px;background:#fafafa}.category-checkbox-scroll{max-height:160px;overflow-y:auto;border:1px solid #ddd;border-radius:8px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:7px}.category-checkbox-scroll.disabled{background:#f1f1f1;opacity:.7}.category-checkbox-item{display:flex;align-items:center;gap:8px;font-size:14px;color:#333}.category-checkbox-item input{width:auto}.category-empty{font-size:13px;color:#777;padding:4px 0}.platform-row{display:grid;grid-template-columns:28px 1fr 1.4fr;gap:12px;align-items:center}.switch{position:relative;display:inline-block;width:60px;height:34px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;inset:0;background:#ccc;transition:.3s}.slider:before{position:absolute;content:"";height:26px;width:26px;left:4px;bottom:4px;background:white;transition:.3s}input:checked+.slider{background:#513C9A}input:checked+.slider:before{transform:translateX(26px)}.slider.round{border-radius:34px}.slider.round:before{border-radius:50%}.toast-container{position:fixed;top:20px;right:20px;z-index:9999}.toast{min-width:300px;max-width:420px;padding:16px 20px;background:white;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex!important;gap:12px;border-left:4px solid #513C9A}.toast-title{font-weight:700}.toast-message{font-size:14px;color:#666}.toast-close{border:0;background:none;font-size:20px;color:#999}@media(max-width:768px){.platform-row{grid-template-columns:1fr}.form-container{padding:22px}.page-title{font-size:26px}}
+    </style>
+</head>
+<body>
+<div class="header"><div class="header-content"><h1 class="header-title">Adicionar Novo Indicador</h1><div><a href="{% url 'list_indicators' %}" class="btn-header btn-back">Voltar</a> <a href="{% url 'logout' %}" class="btn-header btn-logout">Sair</a></div></div></div>
+<main class="main-content">
+    <h2 class="page-title">Cadastrar Indicador</h2>
+    <p class="page-description">Cadastre o indicador uma única vez e vincule-o a uma norma ISO e a nenhuma, uma ou várias plataformas. Cada contexto usa sua própria categoria/eixo.</p>
+    <div class="form-container">
+        <div class="info-box">A nota da área de Pontuação/Metas usa a metodologia CSC simplificada: normalização de 0 a 100 usando mínimo, máximo e direção de melhoria.</div>
+        <form method="POST" action="{% url 'add_indicator' %}">
+            {% csrf_token %}
+            <div class="section-title">Vínculos com norma e plataformas</div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Norma ISO vinculada</label>
+                    <select class="form-select" id="norm_id" name="norm_id" onchange="loadNormCategories()">
+                        <option value="">Nenhuma norma ISO</option>
+                        {% for norm in norms %}<option value="{{ norm.id }}" {% if selected_norm_id == norm.id|stringformat:'s' %}selected{% endif %}>{{ norm.codigo_norma }} - {{ norm.ano_referencia.ano }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Categoria da norma</label>
+                    <select class="form-select" id="norm_category_id" name="norm_category_id"><option value="">Selecione uma norma primeiro</option>{% for category in norm_categories %}<option value="{{ category.id }}">{{ category.nome }}</option>{% endfor %}</select>
+                </div>
+            </div>
+            <label class="form-label">Plataformas vinculadas</label>
+            {% for platform in platforms %}
+                <div class="platform-box">
+                    <div class="platform-row">
+                        <input type="checkbox" name="platform_ids" value="{{ platform.id }}" id="platform_{{ platform.id }}" onchange="togglePlatformCategory('{{ platform.id }}')">
+                        <label for="platform_{{ platform.id }}" class="mb-0"><strong>{{ platform.nome }}</strong><br><small>{{ platform.ano_referencia.ano }}</small></label>
+                        <div class="category-checkbox-scroll platform-category" id="platform_category_{{ platform.id }}" data-name="platform_category_{{ platform.id }}"></div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="section-title">Dados do indicador</div>
+            <div class="mb-3"><label class="form-label">Indicador <span class="required">*</span></label><input type="text" class="form-control" name="nome" required></div>
+            <div class="mb-3"><label class="form-label">Descrição</label><textarea class="form-control" name="descricao" rows="3"></textarea></div>
+            <div class="row"><div class="col-md-6 mb-3"><label class="form-label">Tipo <span class="required">*</span></label><select class="form-select" name="tipo_indicador" required><option value="">Selecione...</option><option value="principal">Principal</option><option value="apoio">Apoio</option><option value="perfil">Perfil</option></select></div><div class="col-md-6 mb-3"><label class="form-label">ODS</label><input type="text" oninput="this.value=this.value.replace(/[^0-9, ]/g,'');" class="form-control" name="ods_indicador" placeholder="Ex: 1, 7, 13"></div></div>
+            <div class="mb-3 d-flex align-items-center gap-2 flex-wrap"><span>Valor variável</span><label class="switch"><input type="checkbox" id="toggle-tipo-valor" name="usar_predefinidos"><span class="slider round"></span></label><span>Valores predefinidos</span></div>
+            <div id="campo-unidade" class="mb-3"><label class="form-label">Unidade de medida <span class="required">*</span></label><input type="text" class="form-control" name="unidade_medida" placeholder="Ex: %, dispositivos/1000 alunos"></div>
+            <div id="campo-opcoes" class="mb-3" style="display:none;"><label class="form-label">Valores predefinidos <span class="required">*</span></label><div class="row g-2 mb-2"><div class="col-md-7"><input type="text" id="input-opcao-nome" class="form-control" placeholder="Ex: A, B+, Sim, Não"></div><div class="col-md-3"><input type="number" id="input-opcao-score" class="form-control" min="0" max="100" step="0.01" placeholder="Pontuação"></div><div class="col-md-2"><button type="button" onclick="addOpcao()" class="btn btn-secondary w-100">Adicionar</button></div></div><div id="lista-opcoes-visual" class="d-flex flex-wrap gap-2 mb-2"></div><input type="hidden" id="opcoes_predefinidas_json" name="opcoes_predefinidas" value="[]"></div>
+            <div class="row"><div class="col-md-4 mb-3"><label class="form-label">Mínimo de referência <span class="required">*</span></label><input type="number" step="0.0001" class="form-control" name="valor_referencia_minimo" required placeholder="Ex: 0"></div><div class="col-md-4 mb-3"><label class="form-label">Máximo de referência <span class="required">*</span></label><input type="number" step="0.0001" class="form-control" name="valor_referencia_maximo" required placeholder="Ex: 991"></div><div class="col-md-4 mb-3"><label class="form-label">Direção de melhoria <span class="required">*</span></label><select class="form-select" name="direcao_melhoria" required><option value="">Selecione...</option><option value="1">Quanto maior melhor</option><option value="-1">Quanto menor melhor</option></select></div></div>
+            <div class="mb-3"><label class="form-label">Fonte do valor de referência</label><input type="text" class="form-control" name="fonte_valor_referencia" placeholder="Ex: Meta ODS, melhor município, OMS, ONU"></div>
+            <button type="submit" class="btn-submit">Cadastrar Indicador</button>
+        </form>
+    </div>
+</main>
+<div class="toast-container" id="toastContainer"></div>
+<script>
+const normCategories = {{ norm_categories_json|safe }};
+const platformCategories = {{ platform_categories_json|safe }};
+let opcoesLista=[];
+function normalizeOption(o){
+    if(typeof o === 'string') return {label:o, score:''};
+    return {label:String(o.label || o.nome || o.value || o.valor || '').trim(), score:String(o.score ?? o.pontuacao ?? '').trim()};
+}
+function addOpcao(){
+    const input=document.getElementById('input-opcao-nome');
+    const scoreInput=document.getElementById('input-opcao-score');
+    const label=input.value.trim();
+    const score=scoreInput.value.trim();
+    if(!label){alert('Informe o nome da opção.');return;}
+    if(score==='' || isNaN(Number(score)) || Number(score)<0 || Number(score)>100){alert('Informe uma pontuação entre 0 e 100.');return;}
+    if(opcoesLista.some(o=>normalizeOption(o).label===label)){alert('Essa opção já foi adicionada.');return;}
+    opcoesLista.push({label, score});
+    input.value='';scoreInput.value='';renderOpcoes();
+}
+function removeOpcao(i){opcoesLista.splice(i,1);renderOpcoes();}
+function renderOpcoes(){
+    opcoesLista=opcoesLista.map(normalizeOption).filter(o=>o.label);
+    document.getElementById('lista-opcoes-visual').innerHTML=opcoesLista.map((o,i)=>`<span class="badge bg-primary d-flex align-items-center p-2">${o.label} <small class="ms-1">(${o.score} pts)</small><button type="button" class="btn-close btn-close-white ms-2" style="font-size:.6rem" onclick="removeOpcao(${i})"></button></span>`).join('');
+    document.getElementById('opcoes_predefinidas_json').value=JSON.stringify(opcoesLista);
+}
+document.getElementById('toggle-tipo-valor').addEventListener('change',function(){document.getElementById('campo-unidade').style.display=this.checked?'none':'block';document.getElementById('campo-opcoes').style.display=this.checked?'block':'none';if(!this.checked){opcoesLista=[];renderOpcoes();}});
+async function loadNormCategories(){const normId=document.getElementById('norm_id').value;const select=document.getElementById('norm_category_id');select.innerHTML='<option value="">Carregando...</option>'; if(!normId){select.innerHTML='<option value="">Nenhuma norma selecionada</option>';return;} const r=await fetch(`{% url 'indicator_categories_by_context' %}?contexto_tipo=norma&contexto_id=${normId}`); const data=await r.json(); select.innerHTML='<option value="">Selecione...</option>'+(data.categories||[]).map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');}
+function loadPlatformCategories(id, selected=[]){
+    const box=document.getElementById(`platform_category_${id}`);
+    const items=platformCategories[String(id)]||[];
+    const selectedList=Array.isArray(selected)?selected.map(String):(selected?[String(selected)]:[]);
+    const checked=document.getElementById(`platform_${id}`)?.checked;
+    if(!items.length){
+        box.innerHTML='<div class="category-empty">Nenhuma categoria cadastrada para esta plataforma.</div>';
+        box.classList.toggle('disabled',!checked);
+        return;
+    }
+    box.innerHTML=items.map(c=>`<label class="category-checkbox-item"><input type="checkbox" name="platform_category_${id}" value="${c.id}" ${selectedList.includes(String(c.id))?'checked':''} ${checked?'':'disabled'}> <span>${c.nome}</span></label>`).join('');
+    box.classList.toggle('disabled',!checked);
+}
+function togglePlatformCategory(id){
+    const checked=document.getElementById(`platform_${id}`).checked;
+    loadPlatformCategories(id, []);
+    document.querySelectorAll(`#platform_category_${id} input[type="checkbox"]`).forEach(input=>{
+        input.disabled=!checked;
+        if(!checked) input.checked=false;
+    });
+}
+document.addEventListener('DOMContentLoaded',()=>{
+    document.querySelectorAll('.platform-category').forEach(box=>{
+        const id=box.id.replace('platform_category_','');
+        loadPlatformCategories(id, []);
+    });
+});
+function showToast(message,type='success',title=''){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<div><div class="toast-title">${title||'Mensagem'}</div><div class="toast-message">${message}</div></div><button class="toast-close" onclick="this.parentElement.remove()">x</button>`;c.appendChild(t);setTimeout(()=>t.remove(),5000);} {% if messages %}window.addEventListener('DOMContentLoaded',function(){% for message in messages %}showToast('{{ message|escapejs }}','{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}');{% endfor %});{% endif %}
+</script>
+</body>
+</html>

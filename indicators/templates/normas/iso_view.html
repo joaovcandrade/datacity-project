@@ -1,6 +1,9 @@
-            {% load static %}
+{% load static %}
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DataCity - {{norm.codigo_norma}}</title>
@@ -398,7 +401,7 @@
             align-items: flex-start;
         }
 
-        /* Profile Indicators */
+        /* Profile Indicators Container */
         .profile-indicators-container {
             background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
             border-radius: 12px;
@@ -819,11 +822,25 @@
             flex: 1;
         }
 
+        .data-input[type="text"], .source-input, .data-input:not([type="text"]) {
+            background: #f8f9fa;
+        }
+
+        .data-input:not([type="text"]) {
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
         .data-input:focus, .source-input:focus {
             outline: none;
             border-color: #513C9A;
             background: white;
             box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.1);
+        }
+
+        .data-input.filled:not(select) {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
         }
 
         .data-input.filled {
@@ -890,6 +907,12 @@
             box-shadow: 0 4px 12px rgba(81, 60, 154, 0.3);
         }
 
+        .anexo-inline-btn {
+            margin-top: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
         .anexo-btn.has-file {
             background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
             color: white;
@@ -909,6 +932,10 @@
             padding: 6px 12px;
             border-radius: 20px;
             transition: all 0.3s ease;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .anexo-link:hover {
@@ -1585,9 +1612,9 @@
         .anexo-hover-popup {
             display: none;
             position: absolute;
-            top: calc(85% + 8px);
+            top: calc(75% + 8px);
             left: 50%;
-            transform: translateX(-65%);
+            transform: translateX(-75%);
             min-width: 260px;
             max-width: 340px;
             background: white;
@@ -1773,7 +1800,7 @@
         <!-- Header -->
         <div class="header">
             <a href="#" class="back-button" onclick="history.back(); return false;">
-                ← Voltar para Normas
+                Voltar para Normas
             </a>
            <div class="logo-header">
             <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
@@ -1814,7 +1841,7 @@
                     </div>
                     <div class="selection-display" id="clear-selection" style="display: none; margin-top: 15px;">
                         <button type="button" class="generate-btn" onclick="clearSelection()" style="background: #dc3545;">
-                            🗑️ Limpar Seleção
+                            <img src="/static/imgs/icons/delete.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Limpar Seleção
                         </button>
                     </div>
                 </div>
@@ -1832,8 +1859,8 @@
                         <h2 class="section-title">Resumo dos indicadores</h2>
                         <div class="summary-stats">
                             <div class="stat-item">
-                                <div class="stat-number">{{ num_principal_indicators }}</div>
-                                <div class="stat-label">Indicadores Principais</div>
+                                <div class="stat-number">{{ num_indicators }}</div>
+                                <div class="stat-label">Total de Indicadores</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-number">{{ num_main_indicators }}</div>
@@ -1893,9 +1920,9 @@
                         </div>
                     </div>
                     <div class="chart-info-container">
-                        <button class="info-button" onclick="toggleLegendPopup()">ℹ️ Ver Progresso por Categoria</button>
+                        <button class="info-button" onclick="toggleLegendPopup()"><img src="/static/imgs/icons/info.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Ver Progresso por Categoria</button>
                         <div class="legend-popup" id="legend-popup">
-                            <h4>📊 Progresso por Categoria</h4>
+                            <h4><img src="/static/imgs/icons/chart.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Progresso por Categoria</h4>
                             <div id="category-progress-list">
                                 <!-- Será preenchido dinamicamente -->
                             </div>
@@ -1905,14 +1932,15 @@
 
                 
                 <!-- Certification Levels -->
-                
-                <div class="white-section">
-                    <h2 class="white-section-title">Níveis de Certificação</h2>
-                    <div class="certification-grid" id="certification-grid">
-                        <!-- preenchido dinamicamente -->
+                <div id="certification-div">
+                    <div class="white-section">
+                        <h2 class="white-section-title">Níveis de Certificação</h2>
+                        <div class="certification-grid" id="certification-grid">
+                            <!-- preenchido dinamicamente -->
+                        </div>
                     </div>
                 </div>
-                <!-- Indicators -->
+                <!-- Indicadores -->
                  <div class="white-section">
                     <h2 class="white-section-title">Indicadores</h2>
                     
@@ -1932,21 +1960,21 @@
                     </div>
                     <div class="controls-section">
                         <div class="year-selector">
-                            <label>📅 Ano:</label>
+                            <label><img src="/static/imgs/icons/calendar.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Ano:</label>
                             <div class="year-buttons" id="year-buttons">
                                 
                             </div>
                         </div>
                         
                         <div class="filter-section">
-                            <label>🔍 Filtrar por categoria:</label>
+                            <label><img src="/static/imgs/icons/search.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Filtrar por categoria:</label>
                             <select class="category-filter" id="category-filter" onchange="filterByCategory()">
                                 <option value="all">Todas as categorias</option>
                             </select>
                         </div>
                         
                         <div>
-                            <button class="generate-btn" onclick="generateReport()">📊 Visualização histórica</button>
+                            <button class="generate-btn" onclick="generateReport()"><img src="/static/imgs/icons/chart.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Visualização histórica</button>
                         </div>
                     </div>
                     <div class="controls-section">
@@ -1989,13 +2017,13 @@
                 <!-- Trends summary will be inserted here -->
             </div>
             <div class="indicator-charts-section">
-                <h3 class="chart-title">📈 Evolução dos Indicadores (2022-2025)</h3>
+                <h3 class="chart-title"><img src="/static/imgs/icons/trend-up.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Evolução dos Indicadores (2022-2025)</h3>
                 <div id="indicator-charts-container" class="charts-grid">
                     <!-- Individual indicator charts will be rendered here -->
                 </div>
             </div>
             <div class="modal-export-buttons">
-                <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+                <button class="export-btn" onclick="exportToPDF()"><img src="/static/imgs/icons/file.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Exportar PDF</button>
             </div>
         </div>
     </div>
@@ -2006,7 +2034,7 @@
     <!-- Confirm Modal -->
     <div id="confirmModal" class="confirm-modal">
         <div class="confirm-modal-content">
-            <div class="confirm-modal-icon" id="confirmModalIcon">🗑️</div>
+            <div class="confirm-modal-icon" id="confirmModalIcon"><img src="/static/img/icons/wastebasket-icon.png" alt="Excluir" style='width: 30px; height:30px;'></div>
             <h3 class="confirm-modal-title" id="confirmModalTitle">Confirmar ação</h3>
             <p class="confirm-modal-message" id="confirmModalMessage">Tem certeza que deseja continuar?</p>
             <div class="confirm-modal-buttons">
@@ -2032,21 +2060,15 @@
 
 
 
-
-
-
-
-
-
-
     <script>
         const indicatorsData = JSON.parse('{{ indicators_json|safe|escapejs }}');
         const certificationsData = JSON.parse('{{ certifications_json|default:"[]"|safe|escapejs }}');
         const initialNormId = {{ norm.id }};
         const normsData = JSON.parse('{{ norms_json|safe|escapejs }}');
-        const currentNormYear = {{ current_norm_year }};
+        const currentNormYear = {{ current_norm_year|default:"null" }};
         const userType = '{{ user_type }}';
-        const userMunicipalityId = {{ user_municipality_id|default:'null' }};
+        const userMunicipalityData = {{ user_municipality_data|safe }};
+        const normName = '{{ norm.codigo_norma }}';
 
         let selectedMunicipalityId = null;
         let municipalityData = null;
@@ -2055,6 +2077,29 @@
         let selectedYear = currentNormYear;
         let reportCharts = [];
         let lastReportData = [];
+
+        function getCookie(name) {
+            const cookies = document.cookie ? document.cookie.split(';') : [];
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(`${name}=`)) {
+                    return decodeURIComponent(cookie.substring(name.length + 1));
+                }
+            }
+            return null;
+        }
+
+        const csrfToken = getCookie('csrftoken');
+
+        function ensureCurrentNorm() {
+            if (!selectedYear && normsData && normsData.length) {
+                selectedYear = Number(normsData[0].year);
+            }
+            if (!currentNormId && normsData && normsData.length) {
+                const match = normsData.find(item => Number(item.year) === Number(selectedYear));
+                currentNormId = match ? match.id : normsData[0].id;
+            }
+        }
 
         function getTypeLabel(type) {
             if (type === 'principal') return 'Principal';
@@ -2110,7 +2155,7 @@
         }
 
         async function saveIndicator(indicatorId, field, value) {
-            if (!selectedMunicipalityCanEdit()) return;
+            if (!selectedMunicipalityCanEdit() || !selectedMunicipalityId) return;
 
             const indicator = municipalityData.indicators.find(item => item.id === indicatorId);
             if (!indicator) return;
@@ -2122,23 +2167,22 @@
 
             const response = await fetch(`/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/save/`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {})
+                },
                 body: JSON.stringify(payload)
             });
 
             const data = await response.json();
-            if (!data.success) {
+            if (!response.ok || !data.success) {
                 alert(data.message || 'Erro ao salvar indicador.');
                 return;
             }
 
-            indicator.value = payload.value;
-            indicator.source = payload.source;
-            renderTable();
-            renderProfileIndicators();
-            updateRadarChart();
-            updateCategorySummary();
-            updateCertificationLevels();
+            // Recarrega os dados do município para atualizar categories_progress
+            await carregarDadosMunicipio();
         }
 
         function enableEdit(button, indicatorId, field) {
@@ -2150,7 +2194,7 @@
             input.classList.add('editing');
             input.focus();
             input.select();
-            button.innerHTML = '✓';
+            button.innerHTML = '<img src="/static/imgs/icons/success.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
             button.title = 'Salvar';
             button.onclick = async function() { await saveInlineEdit(this, indicatorId, field); };
             input.onblur = async () => { await saveInlineEdit(button, indicatorId, field); };
@@ -2162,7 +2206,7 @@
             if (!input || input.disabled) return;
             input.disabled = true;
             input.classList.remove('editing');
-            button.innerHTML = '✎';
+            button.innerHTML = '<img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
             button.title = 'Clique para editar';
             button.onclick = function() { enableEdit(this, indicatorId, field); };
             input.onblur = null;
@@ -2170,26 +2214,28 @@
         }
 
         function renderYearButtons() {
+            ensureCurrentNorm();
             const container = document.getElementById('year-buttons');
             if (!container) return;
-            const years = [...normsData].sort((a, b) => b.year - a.year);
+            const years = [...normsData].sort((a, b) => Number(b.year) - Number(a.year));
             container.innerHTML = years.map(item => `
                 <button type="button" class="year-btn ${Number(item.year) === Number(selectedYear) ? 'active' : ''}" onclick="selectYear(${item.year})">${item.year}</button>
             `).join('');
         }
 
         function syncExportYearCheckboxes() {
+            ensureCurrentNorm();
             const exportSection = document.querySelector('.export-section');
             if (!exportSection) return;
-            const years = [...normsData].sort((a, b) => b.year - a.year);
+            const years = [...normsData].sort((a, b) => Number(b.year) - Number(a.year));
             const labels = years.map(item => {
                 const checked = Number(item.year) === Number(selectedYear) ? 'checked' : '';
                 return `<label style="margin-right:6px"><input type="checkbox" class="export-year" value="${item.year}" ${checked}> ${item.year}</label>`;
             }).join('');
             exportSection.innerHTML = `
-                <label style="margin-right:8px">📅 Anos para exportar:</label>
+                <label style="margin-right:8px"><img src="/static/imgs/icons/calendar.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Anos para exportar:</label>
                 ${labels}
-                <button class="export-btn" onclick="exportToPDF()">📄 Exportar PDF</button>
+                <button class="export-btn" onclick="exportToPDF()"><img src="/static/imgs/icons/file.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Exportar PDF</button>
             `;
         }
 
@@ -2200,22 +2246,27 @@
             currentNormId = selectedNorm.id;
             renderYearButtons();
             syncExportYearCheckboxes();
+            populateCategoryFilter(selectedYear);
             if (selectedMunicipalityId) {
                 await carregarDadosMunicipio();
             }
         }
 
-        function populateCategoryFilter() {
+        function populateCategoryFilter(year) {
             const select = document.getElementById('category-filter');
             if (!select) return;
 
+            const targetYear = Number(year);
             const options = ['<option value="all">Todas as categorias</option>'];
 
-            Object.values(indicatorsData).forEach(category => {
-                options.push(`<option value="${category.key}">${category.name}</option>`);
+            Object.values(indicatorsData || {}).forEach(category => {
+                if (Number(category.reference_year) === targetYear) {
+                    options.push(`<option value="${category.key}">${category.name}</option>`);
+                }
             });
 
-            const hasProfile = Object.values(indicatorsData).some(category =>
+            const hasProfile = Object.values(indicatorsData || {}).some(category =>
+                Number(category.reference_year) === targetYear &&
                 (category.indicators || []).some(ind => String(ind.type || '').toLowerCase() === 'perfil')
             );
 
@@ -2235,29 +2286,30 @@
             Object.values(indicatorsData || {}).forEach(category => {
                 const indicators = category.indicators || [];
 
-                const principalCount = indicators.filter(i => i.type === 'PRINCIPAL').length;
-                const apoioCount = indicators.filter(i => i.type === 'APOIO').length;
+                const principalCount = indicators.filter(i => String(i.type || '').toLowerCase() === 'principal').length;
+                const apoioCount = indicators.filter(i => String(i.type || '').toLowerCase() === 'apoio').length;
 
-                const totalCount = indicators.length - indicators.filter(i => i.type === 'PERFIL').length;
+                const totalCount = indicators.filter(i => String(i.type || '').toLowerCase() !== 'perfil').length;
 
                 if (totalCount != 0) {
 
                     const card = document.createElement('div');
                     card.className = 'category-card';
-
-                    card.innerHTML = `
-                        <div class="category-title">${category.name}</div>
-                        <div class="category-description">${category.description || ''}</div>
-                        <div class="category-stats">
-                            <div class="indicator-count">${totalCount} indicadores</div>
-                            <div class="core-info">
-                                ${principalCount !== 0 ? `${principalCount} principais<br>` : ''}
-                                ${apoioCount !== 0 ? `${apoioCount} apoio` : ''}
+                    if (Number(category.reference_year) === Number(currentNormYear)){
+                        card.innerHTML = `
+                            <div class="category-title">${category.name}</div>
+                            <div class="category-description">${category.description || ''}</div>
+                            <div class="category-stats">
+                                <div class="indicator-count">${totalCount} indicadores</div>
+                                <div class="core-info">
+                                    ${principalCount !== 0 ? `${principalCount} principais<br>` : ''}
+                                    ${apoioCount !== 0 ? `${apoioCount} apoio` : ''}
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
 
-                    grid.appendChild(card);
+                        grid.appendChild(card);
+                    }
                 }
             });
         }
@@ -2278,8 +2330,11 @@
                 if (data.success) {
                     data.data.forEach(mun => municipalitySelect.add(new Option(mun.nome, mun.id)));
                     municipalitySelect.disabled = false;
+                } else {
+                    municipalitySelect.innerHTML = '<option value="">Erro ao carregar</option>';
                 }
             } catch (error) {
+                console.error('Erro:', error);
                 municipalitySelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
             }
         }
@@ -2317,6 +2372,8 @@
             renderTable();
             updateRadarChart();
             updateCategorySummary();
+            updateSummaryStats();
+            renderCertificationCards();
             updateCertificationLevels();
         }
 
@@ -2366,7 +2423,6 @@
             const canEdit = selectedMunicipalityCanEdit();
 
             const allIndicators = municipalityData.indicators || [];
-
             const profileIndicators = allIndicators.filter(
                 item => String(item.type || '').toLowerCase() === 'perfil'
             );
@@ -2398,76 +2454,118 @@
                     html += `<div class="category-divider">${groupName}</div>`;
                     lastGroup = groupName;
                 }
+                if(item.reference_year == selectedYear){
 
-                html += `
-                    <div class="table-row" style="grid-template-columns: 3fr 0.8fr 1.2fr 1fr 1.3fr 1.3fr;">
-                        <div class="table-cell indicator-name">
-                            <div>
-                                <span class="indicator-name-text ${getTypeClass(item.type)}">${item.name}</span>
-                            </div>
-                        </div>
-
-                        <div class="table-cell ods-cell">${(item.ods || []).join(', ') || '-'}</div>
-
-                        <div class="table-cell">
-                            <div class="input-container">
-                                <input
-                                    type="text"
-                                    class="data-input ${item.value ? 'filled' : ''}"
-                                    value="${item.value || ''}"
-                                    placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
-                                    disabled
-                                >
-                                ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'value')">✎</button>` : ''}
-                            </div>
-                        </div>
-                        
-                        <div class="table-cell unit-cell">${item.unit || '-'}</div>
-
-                        <div class="table-cell">
-                            <div class="input-container">
-                                <input
-                                    type="url"
-                                    class="source-input"
-                                    value="${item.source || ''}"
-                                    placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
-                                    disabled
-                                >
-                                ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'source')">✎</button>` : ''}
-                            </div>
-                        </div>
-
-                        <div class="table-cell" style="justify-content:center; position:relative;">
-                            <div class="anexo-hover-wrapper">
-                                <div class="anexo-count-badge">
-                                    <button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-${item.id}').click()">
-                                        📎 Adicionar PDF(s)
-                                    </button>
-                                    ${item.attachments && item.attachments.length ? `${item.attachments.length} anexo(s)` : '-'}
+                    html += `
+                        <div class="table-row" style="grid-template-columns: 3fr 0.8fr 1.2fr 1fr 1.3fr 1.3fr;">
+                            <div class="table-cell indicator-name">
+                                <div>
+                                    <span class="indicator-name-text ${getTypeClass(item.type)}">${item.name}</span>
                                 </div>
+                            </div>
 
-                                ${
-                                    item.attachments && item.attachments.length
+                            <div class="table-cell ods-cell">${(item.ods || []).join(', ') || '-'}</div>
+
+                            <div class="table-cell">
+                                <div class="input-container">
+                                    ${!item.unit && item.options && (typeof item.options === 'string' ? JSON.parse(item.options) : item.options).length > 0
                                         ? `
-                                        <div class="anexo-hover-popup">
-                                            ${item.attachments.map(att => `
-                                                <div class="anexo-popup-item">
-                                                    <a href="${att.url}" target="_blank" class="anexo-link">
-                                                        📄 ${att.descricao || 'Ver PDF'}
-                                                    </a>
-                                                    ${canEdit ? `
-                                                        <button
-                                                            class="anexo-delete-btn"
-                                                            type="button"
-                                                            onclick="deleteAnexo(${item.id}, ${att.id})"
-                                                        >
-                                                            🗑️
-                                                        </button>
-                                                    ` : ''}
-                                                </div>
-                                            `).join('')}
+                                        <select
+                                            class="data-input ${item.value ? 'filled' : ''}"
+                                            ${canEdit ? '' : 'disabled'}
+                                            onchange="saveIndicator(${item.id}, 'value', this.value)"
+                                        >
+                                            <option value="">Selecione uma opção</option>
+                                            ${(typeof item.options === 'string' ? JSON.parse(item.options) : item.options)
+                                            .map(opt => {
+                                                // Garantir que opt seja uma string
+                                                const optValue = typeof opt === 'string' ? opt : String(opt);
+                                                return `<option value="${optValue}" ${item.value === optValue ? 'selected' : ''}>${optValue}</option>`;
+                                            })
+                                            .join('')}
+                                        </select>
+                                        `
+                                        : `
+                                        <input
+                                            type="text"
+                                            class="data-input ${item.value ? 'filled' : ''}"
+                                            value="${item.value || ''}"
+                                            placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                            disabled
+                                        >
+                                        ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'value')"><img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></button>` : ''}
+                                        `
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="table-cell unit-cell">${item.unit || '-'}</div>
 
-                                            ${canEdit ? `
+                            <div class="table-cell">
+                                <div class="input-container">
+                                    <input
+                                        type="url"
+                                        class="source-input"
+                                        value="${item.source || ''}"
+                                        placeholder="${canEdit ? 'Clique no lápis para editar' : ''}"
+                                        disabled
+                                    >
+                                    ${canEdit ? `<button class="edit-icon" type="button" title="Clique para editar" onclick="enableEdit(this, ${item.id}, 'source')"><img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></button>` : ''}
+                                </div>
+                            </div>
+
+                            <div class="table-cell" style="justify-content:center; position:relative;">
+                                <div class="anexo-hover-wrapper">
+                                    ${item.attachments && item.attachments.length ?`
+                                    <div class="anexo-count-badge">
+                                        ${item.attachments.length} anexo(s)
+                                    </div> `:
+                                    `<button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-${item.id}').click()">
+                                        <img src="/static/imgs/icons/attachment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Adicionar PDF(s)
+                                    </button>`}
+
+                                    ${
+                                        item.attachments && item.attachments.length
+                                            ? `
+                                            <div class="anexo-hover-popup">
+                                                ${item.attachments.map(att => `
+                                                    <div class="anexo-popup-item">
+                                                        <a href="${att.url}" target="_blank" class="anexo-link">
+                                                            ${att.descricao || 'Ver PDF'}
+                                                        </a>
+                                                        ${canEdit ? `
+                                                            <button
+                                                                class="anexo-delete-btn"
+                                                                type="button"
+                                                                onclick="deleteAnexo(${item.id}, ${att.id})">
+                                                                <img src="/static/img/icons/wastebasket-icon.png" alt="Excluir" style="width:16px; height:16px;">
+                                                            </button>
+                                                        ` : ''}
+                                                    </div>
+                                                `).join('')}
+
+                                                ${canEdit ? `
+                                                    <div class="anexo-popup-upload">
+                                                        <input
+                                                            type="file"
+                                                            id="anexo-input-${item.id}"
+                                                            class="anexo-input"
+                                                            accept=".pdf"
+                                                            multiple
+                                                            onchange="uploadAnexo(${item.id}, this)"
+                                                        >
+                                                        <button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-${item.id}').click()">
+                                                            <img src="/static/imgs/icons/attachment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Adicionar PDF(s)
+                                                        </button>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            `
+                                            : canEdit ? `
+                                            <div class="anexo-hover-popup">
+                                                <div class="anexo-popup-item" style="justify-content:center;">
+                                                    Nenhum anexo
+                                                </div>
                                                 <div class="anexo-popup-upload">
                                                     <input
                                                         type="file"
@@ -2477,37 +2575,23 @@
                                                         multiple
                                                         onchange="uploadAnexo(${item.id}, this)"
                                                     >
+                                                    <button class="anexo-btn" type="button" onclick="document.getElementById('anexo-input-${item.id}').click()">
+                                                        <img src="/static/imgs/icons/attachment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Adicionar PDF(s)
+                                                    </button>
                                                 </div>
-                                            ` : ''}
-                                        </div>
-                                        `
-                                        : canEdit ? `
-                                        <div class="anexo-hover-popup">
-                                            <div class="anexo-popup-item" style="justify-content:center;">
-                                                Nenhum anexo
                                             </div>
-                                            <div class="anexo-popup-upload">
-                                                <input
-                                                    type="file"
-                                                    id="anexo-input-${item.id}"
-                                                    class="anexo-input"
-                                                    accept=".pdf"
-                                                    multiple
-                                                    onchange="uploadAnexo(${item.id}, this)"
-                                                >
-                                            </div>
-                                        </div>
-                                        `
-                                        : ''
-                                }
+                                            `
+                                            : ''
+                                    }
 
-                                <div class="upload-progress" id="progress-${item.id}">
-                                    <div class="upload-progress-bar" id="progress-bar-${item.id}"></div>
+                                    <div class="upload-progress" id="progress-${item.id}">
+                                        <div class="upload-progress-bar" id="progress-bar-${item.id}"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
             });
 
             tableBody.innerHTML = html || `
@@ -2539,32 +2623,24 @@
                 parsed = [];
             }
 
-            let principalMin = 0;
-            let principalMax = 0;
-            let apoioMin = 0;
-            let apoioMax = 0;
+            let principal = 0;
+            let apoio = 0;
 
             parsed.forEach(item => {
                 const tipo = String(item.tipo || '').trim().toLowerCase();
 
                 const qtd = Number(item.qtd ?? 0);
-                const qtdMin = Number(item.qtd_min ?? item.min ?? qtd ?? 0);
-                const qtdMax = Number(item.qtd_max ?? item.max ?? qtd ?? 0);
 
                 if (tipo === 'principal' || tipo === 'core') {
-                    principalMin = qtdMin;
-                    principalMax = qtdMax;
+                    principal = qtd;
                 } else if (tipo === 'apoio' || tipo === 'supporting') {
-                    apoioMin = qtdMin;
-                    apoioMax = qtdMax;
+                    apoio = qtd;
                 }
             });
 
             return {
-                principal_min: principalMin,
-                principal_max: principalMax,
-                apoio_min: apoioMin,
-                apoio_max: apoioMax
+                principal: principal,
+                apoio: apoio
             };
         }
 
@@ -2578,19 +2654,13 @@
         }
 
         function buildCertificationRequirementText(req) {
-            const principalText =
-                req.principal_max > 0 && req.principal_max !== req.principal_min
-                    ? `${req.principal_min} a ${req.principal_max} indicadores principais`
-                    : `${req.principal_min} indicadores principais`;
+            const principalText =`${req.principal} indicadores principais`;
 
-            if (!req.apoio_min && !req.apoio_max) {
+            if (!req.apoio) {
                 return principalText;
             }
 
-            const apoioText =
-                req.apoio_max > 0 && req.apoio_max !== req.apoio_min
-                    ? `${req.apoio_min} a ${req.apoio_max} de apoio`
-                    : `${req.apoio_max || req.apoio_min} de apoio`;
+            const apoioText =`${req.apoio} de apoio`;
 
             return `${principalText} + ${apoioText}`;
         }
@@ -2598,10 +2668,11 @@
 
         function renderCertificationCards() {
             const grid = document.getElementById('certification-grid');
+            const div = document.getElementById('certification-div');
             if (!grid) return;
 
             if (!certificationsData || !certificationsData.length) {
-                grid.innerHTML = '';
+                div.innerHTML = '';
                 return;
             }
 
@@ -2610,13 +2681,11 @@
                 const progressClass = getCertificationProgressClass(cert.nivel);
                 const certId = `cert-${cert.id}`;
 
-                const principalTarget = req.principal_max || req.principal_min;
-                const apoioTarget = req.apoio_max || req.apoio_min;
 
                 const initialCountText =
-                    (!req.apoio_min && !req.apoio_max)
-                        ? `0/${principalTarget} core`
-                        : `0/${principalTarget} core + 0/${apoioTarget} apoio`;
+                    (!req.apoio)
+                        ? `0/${req.principal} core`
+                        : `0/${req.principal} core + 0/${req.apoio} apoio`;
 
                 return `
                     <div class="certification-card">
@@ -2631,6 +2700,7 @@
                     </div>
                 `;
             }).join('');
+            updateCertificationLevels();
         }
 
         function hasIndicatorValue(value) {
@@ -2639,7 +2709,6 @@
 
         function updateCertificationLevels() {
             if (!municipalityData || !certificationsData || !certificationsData.length) return;
-
             const indicators = municipalityData.indicators || [];
 
             const principalFilled = indicators.filter(item =>
@@ -2660,20 +2729,21 @@
                 const countEl = document.getElementById(`${certId}-count`);
                 if (!progressEl || !countEl) return;
 
-                const principalTarget = req.principal_max || req.principal_min;
-                const apoioTarget = req.apoio_max || req.apoio_min;
+                const principalTarget = req.principal;
+                const apoioTarget = req.apoio;
+                const targetTotal = principalTarget + apoioTarget;
+                let filledTotal = 0;
 
-                const principalProgress = req.principal_min > 0
-                    ? Math.min((principalFilled / req.principal_min) * 100, 100)
-                    : 100;
+                if (!req.apoio) {
+                    filledTotal = principalFilled;
+                } else {
+                    filledTotal = principalFilled + apoioFilled;
+                }
+                const progress = ((filledTotal / targetTotal) * 100);
 
-                const apoioProgress = req.apoio_min > 0
-                    ? Math.min((apoioFilled / req.apoio_min) * 100, 100)
-                    : 100;
+                progressEl.style.width = `${progress}%`;
 
-                progressEl.style.width = `${Math.min(principalProgress, apoioProgress)}%`;
-
-                if (!req.apoio_min && !req.apoio_max) {
+                if (!req.apoio) {
                     countEl.textContent = `${principalFilled}/${principalTarget} core`;
                 } else {
                     countEl.textContent = `${principalFilled}/${principalTarget} core + ${apoioFilled}/${apoioTarget} apoio`;
@@ -2681,11 +2751,19 @@
             });
         }
 
-        function updateRadarChart() {
+        function updateRadarChart(year) {
             const canvas = document.getElementById('categoryRadarChart');
             if (!canvas || !municipalityData) return;
-            const labels = municipalityData.categories_progress.map(item => item.name);
-            const values = municipalityData.categories_progress.map(item => item.percentage);
+            
+            // Filtrar categorias pelo ano recebido ou usar ano selecionado
+            const targetYear = year !== undefined ? year : selectedYear;
+            const filteredCategories = municipalityData.categories_progress.filter(
+                item => !item.reference_year || item.reference_year === targetYear
+            );
+            
+            const labels = filteredCategories.map(item => item.name);
+            const values = filteredCategories.map(item => item.percentage);
+            
             if (radarChart) radarChart.destroy();
             radarChart = new Chart(canvas, {
                 type: 'radar',
@@ -2713,9 +2791,41 @@
         function updateCategorySummary() {
             const container = document.getElementById('category-progress-list');
             if (!container || !municipalityData) return;
-            container.innerHTML = municipalityData.categories_progress.map(item => `
+            
+            // Filtrar categorias pelo ano selecionado
+            const filteredCategories = municipalityData.categories_progress.filter(
+                item => !item.reference_year || item.reference_year === selectedYear
+            );
+            
+            container.innerHTML = filteredCategories.map(item => `
                 <div class="legend-popup-category">${item.name}: <strong>${item.percentage}%</strong> (${item.filled}/${item.total})</div>
             `).join('');
+        }
+
+        function updateSummaryStats() {
+            if (!municipalityData || !municipalityData.summary) return;
+            
+            const summary = municipalityData.summary;
+            
+            // Atualizar estatísticas dos indicadores principais
+            const principalElements = document.querySelectorAll('.stat-label');
+            principalElements.forEach(element => {
+                if (element.textContent.includes('Indicadores Principais')) {
+                    const statNumber = element.previousElementSibling;
+                    if (statNumber && statNumber.classList.contains('stat-number')) {
+                        statNumber.textContent = summary.principal_filled || 0;
+                    }
+                }
+            });
+            
+            // Atualizar estatísticas dos indicadores de apoio
+            const apoioElement = document.querySelector('.stat-label');
+            if (apoioElement && apoioElement.textContent.includes('Indicadores de Apoio')) {
+                const statNumber = apoioElement.previousElementSibling;
+                if (statNumber && statNumber.classList.contains('stat-number')) {
+                    statNumber.textContent = summary.apoio_filled || 0;
+                }
+            }
         }
 
         function toggleLegendPopup() {
@@ -2855,65 +2965,299 @@
                 alert('Selecione um município antes de exportar.');
                 return;
             }
+            
             const years = Array.from(document.querySelectorAll('.export-year:checked')).map(el => Number(el.value)).sort((a,b)=>a-b);
             if (!years.length) {
                 alert('Selecione pelo menos um ano para exportar.');
                 return;
             }
+            
             const historicalData = lastReportData.length && years.every(y => lastReportData.some(item => item.year === y))
                 ? lastReportData.filter(item => years.includes(item.year))
                 : await fetchHistoricalData(years);
 
-            ensurePdfLibraries(() => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF('l', 'mm', 'a4');
-                const municipalityName = document.getElementById('selection-text').innerText || 'Município';
-                doc.setFontSize(16);
-                doc.text(`Relatório ISO - ${municipalityName}`, 14, 14);
-                doc.setFontSize(10);
-                doc.text(`Anos selecionados: ${years.join(', ')}`, 14, 21);
+            // Load required libraries
+            if (!window.PDFLib) {
+                alert('Biblioteca PDFLib não carregada.');
+                return;
+            }
 
-                const summaryBody = historicalData.map(item => {
-                    const s = item.data.summary || {};
-                    return [
-                        String(item.year),
-                        `${s.principal_filled || 0}/${s.principal_total || 0}`,
-                        `${s.apoio_filled || 0}/${s.apoio_total || 0}`
-                    ];
-                });
+            const { PDFDocument } = window.PDFLib;
 
-                doc.autoTable({
-                    startY: 28,
-                    head: [['Ano', 'Indicadores principais', 'Indicadores de apoio']],
-                    body: summaryBody,
-                    headStyles: { fillColor: [81, 60, 154] }
-                });
+            // Ensure jsPDF is available
+            if (!window.jspdf || !window.jspdf.jsPDF || !window.jspdf.jsPDF.API.autoTable) {
+                alert('Biblioteca jsPDF ou autoTable não carregada.');
+                return;
+            }
 
+            const { jsPDF } = window.jspdf;
+
+            try {
+                // Collect attachments and their metadata
+                const attachmentsMetadata = []; // {indicatorName, originalUrl, fileName}
+                const attachmentUrls = []; // URLs for fetching
+
+                // Organize indicators by category
+                const categoriesMap = {};
                 const current = historicalData.find(item => item.year === selectedYear) || historicalData[historicalData.length - 1];
-                const filter = document.getElementById('category-filter').value;
-                const body = (current.data.indicators || [])
-                    .filter(item => filter === 'all' || String(item.category_id) === String(filter))
-                    .map(item => [
-                        item.category_name || '-',
-                        item.name || '-',
-                        getTypeLabel(item.type),
-                        (item.ods || []).join(', ') || '-',
-                        item.value || '-',
-                        item.unit || '-',
-                        item.source || '-'
-                    ]);
+                
+                (current.data.indicators || []).forEach(indicator => {
+                    const categoryId = indicator.category_id || 'Sem Categoria';
+                    if (!categoriesMap[categoryId]) {
+                        categoriesMap[categoryId] = {
+                            categoryName: indicator.category_name || 'Sem Nome',
+                            indicators: []
+                        };
+                    }
+                    categoriesMap[categoryId].indicators.push(indicator);
 
-                doc.autoTable({
-                    startY: doc.lastAutoTable.finalY + 8,
-                    head: [['Categoria', 'Indicador', 'Tipo', 'ODS', `Valor (${selectedYear})`, 'Unidade', 'Fonte']],
-                    body,
-                    styles: { fontSize: 8 },
-                    headStyles: { fillColor: [81, 60, 154] }
+                    // Collect attachments
+                    if (indicator.attachments && indicator.attachments.length) {
+                        indicator.attachments.forEach(att => {
+                            attachmentsMetadata.push({
+                                indicatorName: indicator.name,
+                                originalUrl: att.url,
+                                fileName: att.descricao || 'Anexo'
+                            });
+                            attachmentUrls.push(att.url);
+                        });
+                    }
                 });
 
-                const fileName = municipalityName.replace(/\s+/g, '_').replace(/[^\w\-]/g, '').toLowerCase();
-                doc.save(`relatorio_iso_${fileName}.pdf`);
-            });
+                // 1. First, merge all attachments into a single PDF
+                const mergedAttachmentsPdf = await PDFDocument.create();
+                let attachmentPageMapping = {}; // Maps attachment index to page numbers
+                let currentPageIndex = 1; // Start from page 1 for attachments
+
+                // Fetch and merge each attachment
+                for (let i = 0; i < attachmentUrls.length; i++) {
+                    try {
+                        const url = attachmentUrls[i];
+                        const response = await fetch(url);
+                        const arrayBuffer = await response.arrayBuffer();
+                        const attachmentPdf = await PDFDocument.load(arrayBuffer);
+                        
+                        // Store the first page number of this attachment
+                        attachmentPageMapping[i] = currentPageIndex;
+                        
+                        // Copy all pages from this attachment
+                        const pages = await mergedAttachmentsPdf.copyPages(attachmentPdf, attachmentPdf.getPageIndices());
+                        pages.forEach(page => {
+                            mergedAttachmentsPdf.addPage(page);
+                            currentPageIndex++; // Increment for next page
+                        });
+                    } catch (e) {
+                        console.warn('Failed to load attachment:', attachmentUrls[i], e);
+                    }
+                }
+
+                // 2. Generate main PDF content with jsPDF
+                const municipalityName = document.getElementById('selection-text').innerText || 'Município';
+                const linkPositions = [];
+
+                const wrapIndicatorName = (text) => {
+                    const value = String(text || '-');
+                    const maxLength = 85;
+                    const lines = [];
+                    for (let start = 0; start < value.length; start += maxLength) {
+                        lines.push(value.slice(start, start + maxLength));
+                    }
+                    return lines.join('\n');
+                };
+
+                const shortFileName = (name) => {
+                    const value = String(name || 'Ver PDF');
+                    if (value.length <= 30) return value;
+                    return `${value.slice(0, 30)}...`;
+                };
+
+                const formatPdfValue = (rawValue, unit) => {
+                    if (rawValue === null || rawValue === undefined || rawValue === '') return '-';
+                    const normalized = String(rawValue).replace(',', '.').trim();
+                    const number = Number(normalized);
+                    if (!Number.isFinite(number)) return `${rawValue} ${unit || ''}`.trim();
+                    const formatter = new Intl.NumberFormat('pt-BR', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 10
+                    });
+                    const formattedNumber = formatter.format(number);
+                    return unit ? `${formattedNumber} ${unit}` : formattedNumber;
+                };
+
+                const buildPdfDoc = (attachmentPageOffset = 0, recordLinks = false) => {
+                    const docInstance = new jsPDF('l', 'mm', 'a4');
+                    docInstance.setFontSize(16);
+                    docInstance.text(`Relatório ${normName} - ${municipalityName}`, 14, 14);
+                    docInstance.setFontSize(10);
+                    docInstance.text(`Anos selecionados: ${years.join(', ')}`, 14, 21);
+
+                    let cursorY = 28;
+
+                    Object.keys(categoriesMap).forEach(categoryId => {
+                        const category = categoriesMap[categoryId];
+                        docInstance.setFontSize(14);
+                        docInstance.setTextColor(81, 60, 154);
+                        docInstance.text(category.categoryName, 14, cursorY + 10);
+                        docInstance.setFontSize(10);
+                        docInstance.setTextColor(0, 0, 0);
+                        cursorY += 15;
+
+                        const attachmentRows = category.indicators.map(indicator => {
+                            return (indicator.attachments || []).map(att => {
+                                const attIndex = attachmentsMetadata.findIndex(a => a.originalUrl === att.url);
+                                return {
+                                    attachmentPageIndex: attIndex >= 0 ? attachmentPageMapping[attIndex] : null,
+                                    label: att.descricao || 'Ver PDF',
+                                    pageLabel: attIndex >= 0 && attachmentPageMapping[attIndex] > 0
+                                        ? `pág. ${attachmentPageMapping[attIndex] + attachmentPageOffset}`
+                                        : 'N/A'
+                                };
+                            });
+                        });
+
+                        const body = category.indicators.map(indicator => {
+                            const attachmentsLinksText = (indicator.attachments || [])
+                                .map(att => {
+                                    const attIndex = attachmentsMetadata.findIndex(a => a.originalUrl === att.url);
+                                    const pageLabel = attIndex >= 0 && attachmentPageMapping[attIndex] > 0
+                                        ? `pág. ${attachmentPageMapping[attIndex] + attachmentPageOffset}`
+                                        : 'N/A';
+                                    return `${shortFileName(att.descricao || 'Ver PDF')} (${pageLabel})`;
+                                })
+                                .join('\n');
+
+                            return [
+                                wrapIndicatorName(indicator.name),
+                                getTypeLabel(indicator.type),
+                                (indicator.ods || []).join(', ') || '-',
+                                formatPdfValue(indicator.value, indicator.unit),
+                                indicator.source || '-',
+                                attachmentsLinksText
+                            ];
+                        });
+
+                        docInstance.autoTable({
+                            startY: cursorY,
+                            head: [['Indicador', 'Tipo', 'ODS', `Valor (${selectedYear})`, 'Fonte', 'Anexos']],
+                            body: body,
+                            styles: { fontSize: 8 },
+                            headStyles: { fillColor: [81, 60, 154] },
+                            didDrawCell: data => {
+                                if (recordLinks && data.cell.section === 'body' && data.column.index === 5) {
+                                    const rowIndex = data.row.index;
+                                    const attachmentsInfo = attachmentRows[rowIndex] || [];
+                                    if (attachmentsInfo.length) {
+                                        const lineHeight = data.cell.height / attachmentsInfo.length;
+                                        const currentPageNumber = docInstance.internal.getCurrentPageInfo
+                                            ? docInstance.internal.getCurrentPageInfo().pageNumber
+                                            : docInstance.internal.getNumberOfPages();
+
+                                        attachmentsInfo.forEach((info, index) => {
+                                            if (!info.attachmentPageIndex) return;
+
+                                            linkPositions.push({
+                                                pageNumber: currentPageNumber,
+                                                x: data.cell.x,
+                                                y: data.cell.y + index * lineHeight,
+                                                width: data.cell.width,
+                                                height: lineHeight,
+                                                attachmentPageIndex: info.attachmentPageIndex
+                                            });
+                                        });
+                                    }
+                                }
+                                if (data.cursor && data.cursor.y) {
+                                    cursorY = data.cursor.y;
+                                }
+                            },
+                            didDrawPage: data => {
+                                cursorY = data.cursor.y;
+                            }
+                        });
+
+                        cursorY += 10;
+                    });
+
+                    return docInstance;
+                };
+
+                // Build a preview document so we know how many pages the main PDF will take.
+                const previewDoc = buildPdfDoc(0, false);
+                const mainPageCount = previewDoc.internal.getNumberOfPages();
+
+                // Build the final document, now that we know the attachment page offset.
+                const doc = buildPdfDoc(mainPageCount, true);
+                const mainPdfBytes = doc.output('arraybuffer');
+
+                // 4. Load main PDF and merge with attachments
+                const mainPdfDoc = await PDFDocument.load(mainPdfBytes);
+                const finalPdf = await PDFDocument.create();
+                const { PDFName, PDFArray, PDFNumber } = window.PDFLib;
+
+                // Copy pages from main PDF first
+                const mainPages = await finalPdf.copyPages(mainPdfDoc, mainPdfDoc.getPageIndices());
+                mainPages.forEach(page => finalPdf.addPage(page));
+
+                // Then copy pages from merged attachments
+                const attachmentPages = await finalPdf.copyPages(mergedAttachmentsPdf, mergedAttachmentsPdf.getPageIndices());
+                attachmentPages.forEach(page => finalPdf.addPage(page));
+
+                const pdfPages = finalPdf.getPages();
+                const mmToPt = 72 / 25.4;
+
+                const addLinkAnnotation = (page, rect, targetPage) => {
+                    const [x1, y1, x2, y2] = rect;
+                    const actionDict = finalPdf.context.obj({
+                        Type: PDFName.of('Action'),
+                        S: PDFName.of('GoTo'),
+                        D: finalPdf.context.obj([targetPage.ref, PDFName.of('XYZ'), null, null, null])
+                    });
+
+                    const annotationDict = finalPdf.context.obj({
+                        Type: PDFName.of('Annot'),
+                        Subtype: PDFName.of('Link'),
+                        Rect: finalPdf.context.obj([PDFNumber.of(x1), PDFNumber.of(y1), PDFNumber.of(x2), PDFNumber.of(y2)]),
+                        Border: finalPdf.context.obj([PDFNumber.of(0), PDFNumber.of(0), PDFNumber.of(0)]),
+                        A: actionDict
+                    });
+
+                    const annotationRef = finalPdf.context.register(annotationDict);
+                    const existingAnnots = page.node.get(PDFName.of('Annots'));
+                    const annotsArray = existingAnnots ? existingAnnots : finalPdf.context.obj([]);
+                    annotsArray.push(annotationRef);
+                    page.node.set(PDFName.of('Annots'), annotsArray);
+                };
+
+                linkPositions.forEach(pos => {
+                    const pageIndex = pos.pageNumber - 1;
+                    const targetIndex = mainPageCount + pos.attachmentPageIndex - 1;
+                    const page = pdfPages[pageIndex];
+                    const targetPage = pdfPages[targetIndex];
+                    if (!page || !targetPage) return;
+
+                    const pageHeight = page.getSize().height;
+                    const x1 = pos.x * mmToPt;
+                    const y1 = pageHeight - (pos.y * mmToPt) - (pos.height * mmToPt);
+                    const x2 = x1 + pos.width * mmToPt;
+                    const y2 = y1 + pos.height * mmToPt;
+
+                    addLinkAnnotation(page, [x1, y1, x2, y2], targetPage);
+                });
+
+                // 6. Save and download final PDF
+                const pdfBytes = await finalPdf.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `relatorio_${normName}_${municipalityName.replace(/\s+/g, '_').replace(/[^\w\-]/g, '').toLowerCase()}_com_anexos.pdf`;
+                link.click();
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. See console for details.');
+            }
         }
 
         function clearSelection() {
@@ -2958,6 +3302,13 @@
                     return;
                 }
             }
+            for (const file of files) {
+                if (file.size > 15728640) {
+                    alert(`O arquivo "${file.name}" tem mais de 15MB.`);
+                    inputElement.value = '';
+                    return;
+                }
+            }
 
             const progressContainer = document.getElementById(`progress-${indicatorId}`);
             const progressBar = document.getElementById(`progress-bar-${indicatorId}`);
@@ -2974,6 +3325,11 @@
                 `/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/upload-anexo/`,
                 true
             );
+
+            if (csrfToken) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            }
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
             xhr.upload.onprogress = function (e) {
                 if (e.lengthComputable && progressBar) {
@@ -3016,26 +3372,35 @@
                 return;
             }
 
-            const response = await fetch(
-                `/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/anexos/${attachmentId}/delete/`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+            showConfirmModal(
+                'Confirmar exclusão',
+                'Tem certeza que deseja remover este anexo? Esta ação não pode ser desfeita.',
+                async () => {
+                    const response = await fetch(
+                        `/dashboard/api/normas/${currentNormId}/municipios/${selectedMunicipalityId}/indicadores/${indicatorId}/anexos/${attachmentId}/delete/`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {})
+                            }
+                        }
+                    );
+
+                    const data = await response.json();
+                    if (!data.success) {
+                        alert(data.message || 'Erro ao remover anexo.');
+                        return;
                     }
+
+                    await carregarDadosMunicipio();
                 }
             );
-
-            const data = await response.json();
-            if (!data.success) {
-                alert(data.message || 'Erro ao remover anexo.');
-                return;
-            }
-
-            await carregarDadosMunicipio();
         }
 
         document.addEventListener('DOMContentLoaded', async function() {
+            
             try {
                 const response = await fetch('/dashboard/api/estados/');
                 const data = await response.json();
@@ -3047,17 +3412,488 @@
             } catch (error) {
                 console.error('Erro ao carregar estados:', error);
             }
-            populateCategoryFilter();
+
+            // Pré-carregar município do usuário se existir
+            if (userMunicipalityData && userMunicipalityData.id) {
+                const estadoSelect = document.getElementById('selectEstado');
+                const municipioSelect = document.getElementById('selectMunicipio');
+                
+                // Selecionar o estado
+                estadoSelect.value = userMunicipalityData.estado || '';
+                
+                // Carregar municípios do estado
+                if (userMunicipalityData.estado) {
+                    await carregarMunicipios(userMunicipalityData.estado);
+                    
+                    // Aguardar um pouco para garantir que os municípios foram carregados
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    // Selecionar o município
+                    municipioSelect.value = userMunicipalityData.id || '';
+                    
+                    // Dispara o evento de seleção
+                    await selecionarMunicipio(municipioSelect);
+                }
+
+            }
+
+            populateCategoryFilter(selectedYear);
             renderCategoriesOverview();
             renderCertificationCards();
             renderYearButtons();
             syncExportYearCheckboxes();
         });
 
+
+        // Custom Confirmation Modal
+        function showConfirmModal(title, message, onConfirm) {
+            document.getElementById('confirmModalTitle').textContent = title;
+            document.getElementById('confirmModalMessage').textContent = message;
+            document.getElementById('confirmModal').classList.add('show');
+
+            const confirmBtn = document.getElementById('confirmModalBtn');
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+            newConfirmBtn.onclick = () => {
+                closeConfirmModal();
+                onConfirm();
+            };
+        }
+
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('show');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+
         window.onclick = function(event) {
             const modal = document.getElementById('reportModal');
             if (event.target === modal) closeReportModal();
         };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Calculate trends for all indicators
+        function calculateAllTrends() {
+            const trends = {
+                improving: [],
+                worsening: [],
+                stable: [],
+                byYear: {
+                    2022: { improving: 0, worsening: 0, stable: 0 },
+                    2023: { improving: 0, worsening: 0, stable: 0 },
+                    2024: { improving: 0, worsening: 0, stable: 0 },
+                    2025: { improving: 0, worsening: 0, stable: 0 }
+                }
+            };
+
+            const years = [2022, 2023, 2024, 2025];
+            
+            Object.keys(indicatorsData).forEach(categoryKey => {
+                if (categoryKey === 'perfil') return; // Skip profile indicators
+                
+                const category = indicatorsData[categoryKey];
+                category.indicators.forEach((indicator, index) => {
+                    const dataPoints = [];
+                    let hasValidData = false;
+                    
+                    years.forEach(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        if (data && data.value && data.value.trim() !== '') {
+                            hasValidData = true;
+                            dataPoints.push(parseFloat(data.value) || 0);
+                        } else {
+                            dataPoints.push(null);
+                        }
+                    });
+                    
+                    if (hasValidData && dataPoints.length >= 2) {
+                        // Compare each consecutive year
+                        for (let i = 1; i < dataPoints.length; i++) {
+                            if (dataPoints[i-1] !== null && dataPoints[i] !== null) {
+                                const year = years[i];
+                                const trend = calculateTrend([dataPoints[i-1], dataPoints[i]], indicator.name);
+                                if (trend === 'improving') {
+                                    trends.byYear[year].improving++;
+                                } else if (trend === 'worsening') {
+                                    trends.byYear[year].worsening++;
+                                } else {
+                                    trends.byYear[year].stable++;
+                                }
+                            }
+                        }
+                        
+                        // Overall trend (first vs last)
+                        const trend = calculateTrend(dataPoints.filter(p => p !== null), indicator.name);
+                        const indicatorInfo = {
+                            name: indicator.name,
+                            category: category.name,
+                            type: indicator.type
+                        };
+                        
+                        if (trend === 'improving') {
+                            trends.improving.push(indicatorInfo);
+                        } else if (trend === 'worsening') {
+                            trends.worsening.push(indicatorInfo);
+                        } else {
+                            trends.stable.push(indicatorInfo);
+                        }
+                    }
+                });
+            });
+            
+            return trends;
+        }
+
+        // Generate comprehensive report with charts
+    function generateReport() {
+        // Verificar se há município selecionado
+        if (!selectedMunicipalityData) {
+            alert('Por favor, selecione um município primeiro.');
+            return;
+        }
+
+        const counts = countFilledIndicators();
+        const totalFilled = counts.coreCount + counts.supportingCount;
+        const totalIndicators = counts.totalCore + counts.totalSupporting;
+        const completionRate = ((totalFilled / totalIndicators) * 100).toFixed(1);
+        
+        // Obter nome do município formatado
+        const municipalityName = selectedMunicipalityData.nome;
+        const stateName = selectedMunicipalityData.microrregiao.mesorregiao.UF.sigla;
+        const municipalityFullName = `${municipalityName} - ${stateName}`;
+        
+        // Create summary
+        const summaryHtml = `
+            <strong>Relatório Executivo - ${municipalityFullName.toUpperCase()}</strong><br><br>
+            <strong>Período:</strong> 2022-2025<br>
+            <strong>Data de Geração:</strong> ${new Date().toLocaleDateString('pt-BR')}<br><br>
+            
+            <strong>Resumo Geral de Preenchimento (${currentYear}):</strong><br>
+            • Indicadores Principais: <strong>${counts.coreCount}/${counts.totalCore}</strong> (${((counts.coreCount/counts.totalCore)*100).toFixed(1)}%)<br>
+            • Indicadores de Apoio: <strong>${counts.supportingCount}/${counts.totalSupporting}</strong> (${((counts.supportingCount/counts.totalSupporting)*100).toFixed(1)}%)<br>
+            • Taxa de Completude Total: <strong>${completionRate}%</strong><br><br>
+            
+            <strong>Status de Certificação:</strong><br>
+            ${getBestCertificationLevel(counts)}<br><br>
+            
+            <strong>Este relatório apresenta a evolução temporal de todos os indicadores com dados disponíveis para os anos 2022, 2023, 2024 e 2025.</strong>
+        `;
+        
+        document.getElementById('reportSummary').innerHTML = summaryHtml;
+        
+        // Update modal title with municipality name
+        document.querySelector('.modal-title').textContent = `Relatório Completo ISO 37120 - ${municipalityFullName}`;
+        
+        // Generate trends summary
+        const trendsHtml = generateTrendsSummary();
+        const trendsContainer = document.getElementById('trendsSummary');
+        trendsContainer.innerHTML = trendsHtml;
+        trendsContainer.style.display = 'block';
+        
+        // Generate charts for indicators with data
+        generateIndicatorCharts();
+        
+        // Show modal
+        document.getElementById('reportModal').style.display = 'block';
+    }
+
+        // Get best certification level achieved
+        function getBestCertificationLevel(counts) {
+            const { coreCount, supportingCount } = counts;
+            const totalFilled = coreCount + supportingCount;
+            
+            if (coreCount >= 45 && totalFilled >= 90) {
+                return '<strong>Nível Platina</strong> - Cidade atende aos requisitos para certificação Platina';
+            } else if (coreCount >= 45 && totalFilled >= 75) {
+                return '<strong>Nível Ouro</strong> - Cidade atende aos requisitos para certificação Ouro';
+            } else if (coreCount >= 45 && totalFilled >= 60) {
+                return '<strong>Nível Prata</strong> - Cidade atende aos requisitos para certificação Prata';
+            } else if (coreCount >= 45 && totalFilled >= 45) {
+                return '<strong>Nível Bronze</strong> - Cidade atende aos requisitos para certificação Bronze';
+            } else {
+                return '<strong>Em Desenvolvimento</strong> - Cidade ainda não atende aos requisitos mínimos para certificação';
+            }
+        }
+
+        // Generate trends summary
+        function generateTrendsSummary() {
+            const trends = calculateAllTrends();
+            
+            const trendsHtml = `
+                <h3 class="trends-title"><img src="/static/imgs/icons/trend-up.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Resumo de Tendências dos Indicadores</h3>
+                <div class="trends-grid">
+                    <div class="trends-card improving">
+                        <div class="trends-icon"><img src="/static/imgs/icons/trend-up.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
+                        <div class="trends-number">${trends.improving.length}</div>
+                        <div class="trends-label">Melhorando</div>
+                    </div>
+                    
+                    <div class="trends-card worsening">
+                        <div class="trends-icon"><img src="/static/imgs/icons/trend-down.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
+                        <div class="trends-number">${trends.worsening.length}</div>
+                        <div class="trends-label">Piorando</div>
+                    </div>
+                    
+                    <div class="trends-card stable">
+                        <div class="trends-icon"><img src="/static/imgs/icons/trend-flat.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
+                        <div class="trends-number">${trends.stable.length}</div>
+                        <div class="trends-label">Estáveis</div>
+                    </div>
+                </div>
+            `;
+            
+            return trendsHtml;
+        }
+
+        // Generate individual indicator charts organized by category sections
+        function generateIndicatorCharts() {
+            const chartsContainer = document.getElementById('indicator-charts-container');
+            chartsContainer.innerHTML = '';
+            
+            // Destroy existing modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+            
+            const years = [2022, 2023, 2024, 2025];
+            
+            // Process categories in order, excluding 'perfil'
+            const categoryOrder = Object.keys(indicatorsData).filter(key => key !== 'perfil');
+            
+            categoryOrder.forEach(categoryKey => {
+                const category = indicatorsData[categoryKey];
+                
+                // Check if category has any data
+                let hasDataInCategory = false;
+                const categoryIndicatorsWithData = [];
+                
+                category.indicators.forEach((indicator, index) => {
+                    const hasData = years.some(year => {
+                        const dataKey = `${categoryKey}_${index}_${year}`;
+                        const data = currentData[dataKey];
+                        return data && data.value && data.value.trim() !== '';
+                    });
+                    
+                    if (hasData) {
+                        hasDataInCategory = true;
+                        categoryIndicatorsWithData.push({ indicator, index });
+                    }
+                });
+                
+                // Only create section if category has data
+                if (hasDataInCategory) {
+                    // Create category section
+                    const categorySection = document.createElement('div');
+                    categorySection.className = 'category-charts-section';
+                    categorySection.innerHTML = `
+                        <div class="category-charts-header"> ${category.name}</div>
+                        <div class="category-charts-grid">
+                        </div>
+                    `;
+                    
+                    const categoryChartsGrid = categorySection.querySelector('.category-charts-grid');
+                    
+                    // Process indicators with data
+                    categoryIndicatorsWithData.forEach(({ indicator, index }) => {
+                        const dataPoints = [];
+                        
+                        years.forEach(year => {
+                            const dataKey = `${categoryKey}_${index}_${year}`;
+                            const data = currentData[dataKey];
+                            const value = data && data.value ? parseFloat(data.value) || 0 : 0;
+                            dataPoints.push(value);
+                        });
+                        
+                        // Calculate trend usando a nova função com direção de melhoria
+                        const trend = calculateTrend(dataPoints, indicator.name);
+                        
+                        // Create chart card
+                        const chartCard = document.createElement('div');
+                        chartCard.className = 'chart-card';
+                        chartCard.style.marginBottom = '20px';
+                        
+                        const chartId = `chart_${categoryKey}_${index}`;
+                        
+                        // Determine colors based on trend
+                        let borderColor, backgroundColor, trendIcon, trendText;
+                        if (trend === 'improving') {
+                            borderColor = 'rgba(40, 167, 69, 1)';
+                            backgroundColor = 'rgba(40, 167, 69, 0.1)';
+                            trendIcon = '<img src="/static/imgs/icons/trend-up.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
+                            trendText = 'Melhorando';
+                        } else if (trend === 'worsening') {
+                            borderColor = 'rgba(220, 53, 69, 1)';
+                            backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                            trendIcon = '<img src="/static/imgs/icons/trend-down.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
+                            trendText = 'Piorando';
+                        } else {
+                            borderColor = 'rgba(108, 117, 125, 1)';
+                            backgroundColor = 'rgba(108, 117, 125, 0.1)';
+                            trendIcon = '<img src="/static/imgs/icons/trend-flat.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
+                            trendText = 'Estável';
+                        }
+                        
+                        // Determine indicator type for badge
+                        const typeColor = indicator.type === 'core' ? '#513C9A' : '#6B4FB5';
+                        const typeText = indicator.type === 'core' ? 'PRINCIPAL' : 'APOIO';
+                        
+                        chartCard.innerHTML = `
+                            <h4>
+                                ${indicator.name}
+                                <br>
+                                <small style="color: ${typeColor}; font-weight: bold; font-size: 0.8rem;">
+                                    (Indicador ${typeText})
+                                </small>
+                                <small style="color: ${borderColor}; margin-left: 10px;">
+                                    ${trendIcon} ${trendText}
+                                </small>
+                            </h4>
+                            <canvas id="${chartId}" style="max-height: 300px;"></canvas>
+                        `;
+                        
+                        categoryChartsGrid.appendChild(chartCard);
+                        
+                        // Create chart after DOM insertion
+                        setTimeout(() => {
+                            const ctx = document.getElementById(chartId);
+                            if (ctx) {
+                                const chart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: years,
+                                        datasets: [{
+                                            label: `${indicator.unit}`,
+                                            data: dataPoints,
+                                            backgroundColor: backgroundColor,
+                                            borderColor: borderColor,
+                                            borderWidth: 4,
+                                            pointBackgroundColor: borderColor,
+                                            pointBorderColor: '#fff',
+                                            pointBorderWidth: 3,
+                                            pointRadius: 8,
+                                            pointHoverRadius: 10,
+                                            fill: true,
+                                            tension: 0.4
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                labels: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                }
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                                titleColor: '#fff',
+                                                bodyColor: '#fff',
+                                                borderColor: borderColor,
+                                                borderWidth: 2,
+                                                titleFont: {
+                                                    size: 14,
+                                                    weight: 'bold'
+                                                },
+                                                bodyFont: {
+                                                    size: 13
+                                                },
+                                                callbacks: {
+                                                    afterLabel: function(context) {
+                                                        const year = context.label;
+                                                        const dataKey = `${categoryKey}_${index}_${year}`;
+                                                        const data = currentData[dataKey];
+                                                        return data && data.source ? `Fonte: ${data.source}` : '';
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12,
+                                                        weight: 'bold'
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            },
+                                            y: {
+                                                ticks: {
+                                                    color: '#513C9A',
+                                                    font: {
+                                                        size: 12
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(81, 60, 154, 0.2)'
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                modalCharts.push(chart);
+                            }
+                        }, 100);
+                    });
+                    
+                    chartsContainer.appendChild(categorySection);
+                }
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            
+            // Destroy modal charts
+            modalCharts.forEach(chart => chart.destroy());
+            modalCharts = [];
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+
+
+
     </script>
 
 

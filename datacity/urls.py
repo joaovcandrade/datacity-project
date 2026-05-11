@@ -1,20 +1,3 @@
-<<<<<<< Updated upstream
-# In datacity/urls.py
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('api/scraping/', include('scraping.urls')),
-]
-
-# Add this to serve static and media files during development
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-=======
 # In datacity/urls.py
 from django.contrib import admin
 from django.urls import path, include
@@ -25,11 +8,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('', include('indicators.urls')),
+    path('', include('indicators_csc.urls')),
+    path('', include('reference_years.urls')),
     path('api/scraping/', include('scraping.urls')),
 ]
 
 # Add this to serve static and media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
->>>>>>> Stashed changes
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

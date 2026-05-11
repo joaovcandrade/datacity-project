@@ -1,0 +1,814 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSC - Connected Smart Cities</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafbfc;
+            min-height: 100vh;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .top-nav {
+            background: white;
+            border-bottom: 1px solid rgba(81, 60, 154, 0.1);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #fafbfc;
+            color: #513C9A;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-badge {
+            height: 50px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-badge img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #513C9A;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Purple Sections */
+        .purple-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.15);
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9375rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        /* Municipality Selection */
+        .municipality-selection-fixed {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.15);
+        }
+
+        .municipality-dropdowns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .municipality-select-container {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .municipality-select {
+            background: white;
+            color: #2c3e50;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            min-width: 200px;
+            transition: all 0.2s;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23513C9A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .municipality-select:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .municipality-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: #513C9A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            min-width: 160px;
+        }
+
+        .action-button:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(81, 60, 154, 0.2);
+        }
+
+        .action-button.secondary {
+            background: white;
+            color: #513C9A;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .action-button.secondary:hover {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .action-button.danger {
+            background: rgba(220, 53, 69, 0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .action-button.danger:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+
+        /* City Header */
+        .city-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #513C9A, #6B4FB5);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(81, 60, 154, 0.15);
+        }
+
+        .city-name {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* City Ranking Info */
+        .city-ranking-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ranking-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 110px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .ranking-year {
+            font-size: 0.8125rem;
+            opacity: 0.85;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .ranking-position {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Axis Grid */
+        .axis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .axis-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 3px solid #513C9A;
+            transition: all 0.2s;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .axis-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.1);
+            border-left-width: 4px;
+        }
+
+        .axis-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #513C9A;
+            font-size: 1rem;
+        }
+
+        .axis-values {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .year-value {
+            text-align: center;
+            flex: 1;
+        }
+
+        .year {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .value {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #1a1a1a;
+        }
+
+        .out-of-range {
+            color: #ef4444;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Indicators Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .indicators-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .indicators-table th {
+            background: #513C9A;
+            color: white;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .indicators-table td {
+            padding: 0.875rem 0.75rem;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.8125rem;
+        }
+
+        .indicators-table tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .indicators-table tr:hover {
+            background-color: rgba(81, 60, 154, 0.03);
+        }
+
+        /* Eixo badges */
+        .eixo-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .eixo-SAU { background-color: #9b59b6; }
+        .eixo-GOV { background-color: #8e44ad; }
+        .eixo-MOB { background-color: #f1c40f; color: #333; }
+        .eixo-URB { background-color: #1abc9c; }
+        .eixo-MAM { background-color: #e74c3c; }
+        .eixo-EMP { background-color: #f39c12; }
+        .eixo-ECO { background-color: #e67e22; }
+        .eixo-EDU { background-color: #e74c3c; }
+        .eixo-TIC { background-color: #3498db; }
+        .eixo-SEG { background-color: #27ae60; }
+        .eixo-ENE { background-color: #f1c40f; color: #333; }
+    .eixo-POP { background-color: #6c5ce7; }
+    .eixo-RS { background-color: #00b894; }
+
+        /* Charts Section */
+        .charts-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Trends summary cards (improving / worsening / stable) */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin: 16px 0 24px 0;
+        }
+
+        .trends-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--trend-color);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .trends-card.improving { --trend-color: #28a745; }
+        .trends-card.worsening { --trend-color: #dc3545; }
+        .trends-card.stable { --trend-color: #6c757d; }
+
+        .trends-icon { font-size: 22px; margin-bottom: 8px; }
+        .trends-number { font-size: 26px; font-weight: 700; color: var(--trend-color); margin-bottom: 6px; }
+        .trends-label { color: #666; font-size: 13px; }
+
+        .charts-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #513C9A;
+            font-weight: bold;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h4 {
+            color: #513C9A;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .chart-card canvas {
+            max-height: 300px;
+        }
+
+        /* Ranking Section */
+        .ranking-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .ranking-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Selection Display */
+        .selection-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            text-align: center;
+            color: white;
+            display: none;
+        }
+
+        .selection-display.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* White Sections */
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        /* Gráficos por eixo */
+        .axis-charts-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .axis-charts-header {
+            background: #513C9A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .axis-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* Small highlight for selected summary/ranking toggle */
+        .summary-toggle .action-button.active {
+            box-shadow: 0 6px 20px rgba(81,60,154,0.4);
+            transform: translateY(-2px);
+        }
+
+        .table-header {
+            background: #513C9A;
+            display: grid;
+            grid-template-columns: 3.5fr 0.9fr 0.8fr 0.8fr 0.8fr 0.8fr;
+            gap: 1px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .top-nav {
+                padding: 0 1rem;
+                height: 60px;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .logo-badge {
+                height: 40px;
+            }
+
+            .logo-badge img {
+                max-width: 120px;
+            }
+
+            .logo-title {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .city-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .axis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .indicators-table {
+                font-size: 0.8rem;
+            }
+
+            .indicators-table th,
+            .indicators-table td {
+                padding: 8px 5px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-dropdowns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .municipality-select-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .axis-charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+        
+        <nav class="top-nav" role="navigation" aria-label="Navegação principal">
+            <div class="nav-left">
+                <a href="#" class="back-link" onclick="history.back(); return false;" aria-label="Voltar para página anterior">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Voltar
+                </a>
+                <div class="logo-area">
+                    <div class="logo-badge">
+                        <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
+                    </div>
+                    <h1 class="logo-title">CSC - Connected Smart Cities</h1>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Fixed Municipality Selection (Always Visible) -->
+        <div class="municipality-selection-fixed">
+            <h2 class="section-title">Selecione um município</h2>
+            <p class="section-subtitle">Escolha o município para visualizar os indicadores CSC a serem preenchidos.</p>
+            
+            <div class="municipality-dropdowns">
+                <div class="municipality-select-container">
+                    <select id="selectEstado" class="municipality-select" onchange="carregarMunicipios(this.value)">
+                        <option value="">Selecione um estado...</option>
+                    </select>
+                </div>
+                <div class="municipality-select-container">
+                    <select id="selectMunicipio" class="municipality-select" disabled onchange="carregarIndicadoresMunicipio()">
+                        <option value="">Selecione um estado primeiro...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="selection-display" id="selection-display">
+                <h3>Município Selecionado:</h3>
+                <p id="selection-text"></p>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-button danger" onclick="clearSelection()">🗑️ Limpar Seleção</button>
+            </div>
+        </div>
+        
+        <div>
+            <!--Aqui serão carregados os indicadores-->    
+        </div>
+        
+        <div id="info-message" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">📊</div>
+            <h3 class="empty-title">Bem-vindo à area de preenchimento de indicadores para a plataforma CSC</h3>
+        </div>
+    </div>
+
+    <script>
+        // Carregar estados ao carregar a página
+        window.onload = function carregarEstados() {
+            fetch('/dashboard/api/estados/')
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById('selectEstado');
+                    data.data.forEach(item => {
+                        let option = new Option(item.estado, item.estado);
+                        select.add(option);
+                    });
+                });
+        }
+
+        // Carregar municípios quando o estado mudar
+        function carregarMunicipios(estado) {
+            const municipalitySelect = document.getElementById('selectMunicipio');
+            const stateSelect = document.getElementById('selectEstado');
+            const selectedStateId = stateSelect.value;
+
+            if(selectedStateId != ''){
+                fetch(`/dashboard/api/municipios/?estado=${estado}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const select = document.getElementById('selectMunicipio');
+                        select.innerHTML = '<option value="">Selecione...</option>';
+                        data.data.forEach(mun => {
+                            let option = new Option(mun.nome, mun.id);
+                            select.add(option);
+                        });
+                    });
+                municipalitySelect.disabled = false;
+            }else{
+                municipalitySelect.innerHTML = '<option value="">Selecione um estado primeiro...</option>';
+                municipalitySelect.disabled = true;
+
+            }
+        }
+
+        function carregarIndicadoresMunicipio(){
+            const municipalitySelect = document.getElementById('selectMunicipio');
+            const stateSelect = document.getElementById('selectEstado');
+            const selectedStateId = stateSelect.value;
+
+            if(selectedStateId != ''){
+                fetch(`dashboard/api/levantamento-csc/<int:ano_referencia>/municipios/<int:municipio_id>/`)
+                    .then(res => res.json())
+                    .then(data => { =========================== Continuar 
+                        const select = document.getElementById('selectMunicipio');
+                        select.innerHTML = '<option value="">Selecione...</option>';
+                        data.data.forEach(mun => {
+                            let option = new Option(mun.nome, mun.id);
+                            select.add(option);
+                        })})}
+                document.getElementById('municipality-dashboard').classList.remove('hidden');
+        }
+
+
+        // Limpar seleção
+        function clearSelection() {
+            selectedMunicipalityData = null;
+            selectedState = null;
+            
+            document.getElementById('selectEstado').value = '';
+            document.getElementById('selectMunicipio').value = '';
+            document.getElementById('selectMunicipio').innerHTML = '<option value="">Selecione um estado primeiro...</option>';
+            document.getElementById('selectMunicipio').disabled = true;
+            
+            document.getElementById('municipality-dashboard').classList.add('hidden');
+        }
+
+        
+        // Filter indicators
+        function filterIndicators() {
+            const axisFilter = document.getElementById('axis-filter').value;
+            const searchTerm = document.getElementById('indicator-search').value.toLowerCase();
+            
+            filteredData = indicatorsData.filter(item => {
+                const matchesAxis = !axisFilter || item.eixo === axisFilter;
+                const matchesSearch = !searchTerm || item.name.toLowerCase().includes(searchTerm);
+                return matchesAxis && matchesSearch;
+            });
+            arrumar ----
+        }
+
+    </script>
+</body>
+</html>

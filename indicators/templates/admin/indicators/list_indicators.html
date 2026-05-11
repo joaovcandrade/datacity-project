@@ -1,0 +1,598 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Gerenciar Indicadores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f5f5f5; min-height: 100vh; padding-bottom: 40px; color: #333; }
+        .header { background: #513C9A; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .header-title { color: white; font-size: 24px; font-weight: 700; }
+        .header-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-header { padding: 8px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; }
+        .btn-back { background: white; color: #513C9A; }
+        .btn-back:hover { background: #f5f5f5; color: #513C9A; }
+        .btn-logout { background: #9e1220; color: white; }
+        .btn-logout:hover { background: #bd2130; color: white; }
+        .main-content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .page-title { color: #513C9A; font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+        .page-description { color: #666; font-size: 16px; margin-bottom: 28px; }
+        .filters-card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 22px; margin-bottom: 20px; }
+        .filters-grid { display: grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap: 14px; align-items: end; }
+        .filter-group label { font-size: 13px; font-weight: 700; color: #513C9A; margin-bottom: 6px; }
+        .form-control, .form-select { border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-family: 'Poppins', sans-serif; }
+        .form-control:focus, .form-select:focus { border-color: #513C9A; box-shadow: 0 0 0 0.2rem rgba(81,60,154,.15); }
+        .actions-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+        .btn-add, .btn-filter, .btn-clear { border: none; border-radius: 6px; padding: 10px 22px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all .3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-add, .btn-filter { background: #513C9A; color: white; }
+        .btn-add:hover, .btn-filter:hover { background: #6B4FB5; color: white; }
+        .btn-clear { background: #666; color: white; }
+        .btn-clear:hover { background: #444; color: white; }
+        .table-card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .table { margin-bottom: 0; }
+        .table thead { background: #513C9A; color: white; }
+        .table thead th { border: none; padding: 15px; font-weight: 700; vertical-align: middle; }
+        .table tbody td { padding: 15px; vertical-align: middle; }
+        .badge-custom { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .badge-principal { background: #fff0e6; color: #b54708; }
+        .badge-apoio { background: #e8f5e9; color: #1b5e20; }
+        .badge-perfil { background: #ede7f6; color: #513C9A; }
+        .context-pill { display: inline-block; background: #f8f6ff; color: #513C9A; border: 1px solid rgba(81,60,154,.25); border-radius: 16px; padding: 4px 10px; font-size: 12px; font-weight: 700; margin: 2px; }
+        .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-action { padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; transition: all .3s ease; text-decoration: none; color: white; }
+        .btn-edit { background: #2196F3; }
+        .btn-edit:hover { background: #1976D2; color: white; }
+        .btn-delete { background: #f44336; }
+        .btn-delete:hover { background: #d32f2f; color: white; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 15px; }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { min-width: 300px; max-width: 400px; padding: 16px 20px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,.15); display: flex !important; align-items: center; gap: 12px; animation: slideIn .3s ease-out; border-left: 4px solid; }
+        .toast.success { border-left-color: #4CAF50; } .toast.error { border-left-color: #f44336; } .toast.warning { border-left-color: #FF9800; } .toast.info { border-left-color: #2196F3; }
+        .toast-icon { font-size: 24px; flex-shrink: 0; } .toast.success .toast-icon { color: #4CAF50; } .toast.error .toast-icon { color: #f44336; } .toast.warning .toast-icon { color: #FF9800; } .toast.info .toast-icon { color: #2196F3; }
+        .toast-content { flex: 1; } .toast-title { font-weight: 700; color: #333; margin-bottom: 4px; } .toast-message { font-size: 14px; color: #666; }
+        .toast-close { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; padding: 0; }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+        .toast.hiding { animation: slideOut .3s ease-in forwards; }
+        .custom-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 9998; }
+        .custom-modal-overlay.active { display: flex; }
+        .custom-modal { background: white; border-radius: 10px; max-width: 450px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,.3); }
+        .custom-modal-header { padding: 20px 24px; background: #ffebee; display: flex; gap: 12px; align-items: center; border-radius: 10px 10px 0 0; }
+        .custom-modal-title { margin: 0; font-size: 20px; font-weight: 700; color: #333; }
+        .custom-modal-body { padding: 24px; color: #666; }
+        .custom-modal-footer { padding: 16px 24px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 12px; }
+        .custom-modal-btn { padding: 10px 24px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; }
+        .custom-modal-btn.cancel { background: #f5f5f5; color: #666; } .custom-modal-btn.confirm { background: #f44336; color: white; }
+
+        .category-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 9997; padding: 20px; }
+        .category-modal-overlay.active { display: flex; }
+        .category-modal { background: white; border-radius: 12px; width: min(980px, 96vw); max-height: 92vh; overflow: hidden; box-shadow: 0 12px 45px rgba(0,0,0,.28); }
+        .category-modal-header { background: #513C9A; color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .category-modal-title { margin: 0; font-size: 20px; font-weight: 800; }
+        .category-modal-subtitle { margin: 4px 0 0; font-size: 13px; opacity: .9; }
+        .category-modal-close { border: none; background: rgba(255,255,255,.15); color: white; font-size: 24px; width: 38px; height: 38px; border-radius: 8px; cursor: pointer; }
+        .category-modal-body { padding: 22px; overflow-y: auto; max-height: calc(92vh - 80px); }
+        .category-manager-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; }
+        .category-panel { border: 1px solid #eee; border-radius: 10px; overflow: hidden; background: #fff; }
+        .category-panel-title { background: #f8f6ff; color: #513C9A; font-weight: 800; padding: 13px 16px; border-bottom: 1px solid #eee; }
+        .category-panel-body { padding: 16px; }
+        .category-search { margin-bottom: 12px; }
+        .category-list-table { width: 100%; border-collapse: collapse; }
+        .category-list-table th { background: #513C9A; color: white; padding: 10px; font-size: 13px; text-align: left; }
+        .category-list-table td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; font-size: 14px; }
+        .category-row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+        .btn-category-edit { background: #2196F3; color: white; border: none; border-radius: 5px; padding: 6px 10px; font-size: 12px; font-weight: 700; }
+        .btn-category-delete { background: #f44336; color: white; border: none; border-radius: 5px; padding: 6px 10px; font-size: 12px; font-weight: 700; }
+        .category-form-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .category-context-note { background: #fff3cd; color: #856404; padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; font-size: 13px; font-weight: 600; }
+        .category-empty { text-align: center; color: #999; padding: 24px; }
+        @media (max-width: 900px) { .category-manager-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 992px) { .filters-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .header-content, .actions-row { flex-direction: column; align-items: stretch; } .filters-grid { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } .btn-action { width: 100%; text-align: center; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">Gerenciamento de Indicadores</h1>
+            <div class="header-buttons">
+                <a href="{% url 'admin_menu' %}" class="btn-header btn-back">Voltar</a>
+                <a href="{% url 'logout' %}" class="btn-header btn-logout">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <h2 class="page-title">Indicadores cadastrados</h2>
+        <p class="page-description">Filtre os indicadores por norma ou plataforma, categoria, tipo e nome.</p>
+
+        <div class="actions-row">
+            <a href="{% url 'add_indicator' %}" class="btn-add">+ Adicionar Indicador</a>
+            <button class="btn-add" type="button" onclick="openManageCategories()">Gerenciar Categorias</button>
+        </div>
+
+        <form method="get" class="filters-card" id="filterForm">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="contexto_tipo">Filtrar por</label>
+                    <select name="contexto_tipo" id="contexto_tipo" class="form-select" onchange="toggleContextFields(); this.form.submit();">
+                        <option value="norma" {% if contexto_tipo == 'norma' %}selected{% endif %}>Norma ISO</option>
+                        <option value="plataforma" {% if contexto_tipo == 'plataforma' %}selected{% endif %}>Plataforma</option>
+                    </select>
+                </div>
+
+                <div class="filter-group context-field" id="normaField">
+                    <label for="norma_id">Norma</label>
+                    <select name="norma_id" id="norma_id" class="form-select" onchange="this.form.submit()">
+                        {% for norm in norms %}
+                            <option value="{{ norm.id }}" {% if selected_norm and selected_norm.id == norm.id %}selected{% endif %}>{{ norm.codigo_norma }} - {{ norm.ano_referencia.ano }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group context-field" id="plataformaField">
+                    <label for="plataforma_id">Plataforma</label>
+                    <select name="plataforma_id" id="plataforma_id" class="form-select" onchange="this.form.submit()">
+                        {% for platform in platforms %}
+                            <option value="{{ platform.id }}" {% if selected_platform and selected_platform.id == platform.id %}selected{% endif %}>{{ platform.nome }} - {{ platform.ano_referencia.ano }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="categoria_id">Categoria</label>
+                    <select name="categoria_id" id="categoria_id" class="form-select" onchange="this.form.submit()">
+                        <option value="">Todas</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if categoria_id == category.id|stringformat:'s' %}selected{% endif %}>{{ category.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="tipo">Tipo</label>
+                    <select name="tipo" id="tipo" class="form-select" onchange="this.form.submit()">
+                        <option value="">Todos</option>
+                        <option value="principal" {% if tipo_filtro == 'principal' %}selected{% endif %}>Principal</option>
+                        <option value="apoio" {% if tipo_filtro == 'apoio' %}selected{% endif %}>Apoio</option>
+                        <option value="perfil" {% if tipo_filtro == 'perfil' %}selected{% endif %}>Perfil</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="busca">Buscar</label>
+                    <input type="text" class="form-control" id="busca" name="busca" value="{{ busca }}" placeholder="Nome, descrição ou categoria">
+                </div>
+
+                <div class="filter-group d-flex gap-2">
+                    <button type="submit" class="btn-filter w-100">Filtrar</button>
+                    <a href="{% url 'list_indicators' %}" class="btn-clear w-100">Limpar</a>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-card">
+            {% if indicators %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th>Categorias</th>
+                            <th>Contexto</th>
+                            <th>Tipo</th>
+                            <th>Unidade / Opções</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for indicator in indicators %}
+                            <tr>
+                                <td>
+                                    <strong>{{ indicator.nome }}</strong>
+                                    {% if indicator.descricao %}<br><small class="text-muted">{{ indicator.descricao|truncatechars:80 }}</small>{% endif %}
+                                </td>
+                                <td>
+                                    {% for category in indicator.categorias.all %}
+                                        <span class="context-pill">{{ category.nome }}</span>
+                                    {% empty %}
+                                        <span class="text-muted">Sem categoria</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for category in indicator.categorias.all %}
+                                        {% if category.norma_iso %}
+                                            <span class="context-pill">{{ category.norma_iso.codigo_norma }} - {{ category.norma_iso.ano_referencia.ano }}</span>
+                                        {% elif category.plataforma %}
+                                            <span class="context-pill">{{ category.plataforma.nome }} - {{ category.plataforma.ano_referencia.ano }}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% if indicator.tipo == 'principal' %}
+                                        <span class="badge-custom badge-principal">Principal</span>
+                                    {% elif indicator.tipo == 'apoio' %}
+                                        <span class="badge-custom badge-apoio">Apoio</span>
+                                    {% else %}
+                                        <span class="badge-custom badge-perfil">Perfil</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if indicator.opcoes_predefinidas %}
+                                        Opções predefinidas
+                                    {% else %}
+                                        {{ indicator.unidade_medida|default:'-' }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{% url 'edit_indicator' indicator.id %}" class="btn-action btn-edit">Editar</a>
+                                        <button type="button" class="btn-action btn-delete" onclick="deleteIndicator('{{ indicator.id }}')">Excluir</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon"><img src="/static/imgs/icons/chart.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
+                    <h3>Nenhum indicador encontrado</h3>
+                    <p>Altere os filtros ou adicione um novo indicador.</p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="custom-modal-overlay" id="confirmModal">
+        <div class="custom-modal">
+            <div class="custom-modal-header">
+                <span style="font-size:32px;color:#f44336;"><img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></span>
+                <h3 class="custom-modal-title">Excluir Indicador</h3>
+            </div>
+            <div class="custom-modal-body">Tem certeza que deseja excluir este indicador? A ação será registrada na auditoria.</div>
+            <div class="custom-modal-footer">
+                <button class="custom-modal-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="custom-modal-btn confirm" id="confirmButton">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="category-modal-overlay" id="categoryModal">
+        <div class="category-modal">
+            <div class="category-modal-header">
+                <div>
+                    <h3 class="category-modal-title">Gerenciar Categorias</h3>
+                    <p class="category-modal-subtitle" id="categoryModalContext">Categorias da norma/plataforma selecionada</p>
+                </div>
+                <button type="button" class="category-modal-close" onclick="closeCategoryModal()">x</button>
+            </div>
+
+            <div class="category-modal-body">
+                <div class="category-context-note">
+                    As categorias criadas, editadas ou deletadas aqui serão aplicadas somente à norma ou plataforma selecionada nos filtros da listagem.
+                </div>
+
+                <div class="category-manager-grid">
+                    <div class="category-panel">
+                        <div class="category-panel-title">Categorias cadastradas</div>
+                        <div class="category-panel-body">
+                            <input type="text" class="form-control category-search" id="categorySearchInput" placeholder="Buscar categoria..." oninput="filterCategoryModalRows()">
+                            <div style="overflow-x:auto;">
+                                <table class="category-list-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                            <th style="text-align:right;">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoryModalTableBody">
+                                        <tr><td colspan="3" class="category-empty">Carregando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-panel">
+                        <div class="category-panel-title" id="categoryFormTitle">Nova categoria</div>
+                        <div class="category-panel-body">
+                            <form id="categoryForm" onsubmit="saveCategoryFromModal(event)">
+                                {% csrf_token %}
+                                <input type="hidden" id="category_id" name="category_id">
+                                <input type="hidden" id="category_contexto_tipo" name="contexto_tipo">
+                                <input type="hidden" id="category_contexto_id" name="contexto_id">
+                                <input type="hidden" id="category_norma_iso_id" name="norma_iso_id">
+                                <input type="hidden" id="category_plataforma_id" name="plataforma_id">
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="category_nome">Nome <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="category_nome" name="nome" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="category_descricao">Descrição</label>
+                                    <textarea class="form-control" id="category_descricao" name="descricao" rows="4"></textarea>
+                                </div>
+
+                                <div class="category-form-actions">
+                                    <button type="submit" class="btn-filter" id="categorySaveButton">Salvar Categoria</button>
+                                    <button type="button" class="btn-clear" onclick="resetCategoryForm()">Limpar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleContextFields() {
+            const tipo = document.getElementById('contexto_tipo').value;
+            document.getElementById('normaField').style.display = tipo === 'norma' ? 'block' : 'none';
+            document.getElementById('plataformaField').style.display = tipo === 'plataforma' ? 'block' : 'none';
+        }
+        toggleContextFields();
+
+        function deleteIndicator(indicadorId) {
+            document.getElementById('confirmModal').classList.add('active');
+            const btn = document.getElementById('confirmButton');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.onclick = () => {
+                fetch(`/dashboard/admin/indicators/${indicadorId}/delete/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': getCookie('csrftoken') }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    closeConfirmModal();
+                    showToast(data.message, data.success ? 'success' : 'error');
+                    if (data.success) setTimeout(() => location.reload(), 1200);
+                })
+                .catch(() => {
+                    closeConfirmModal();
+                    showToast('Erro ao excluir indicador.', 'error');
+                });
+            };
+        }
+        function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); }
+        document.getElementById('confirmModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirmModal(); });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function showToast(message, type = 'success', title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { success: '<img src="/static/imgs/icons/success.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">', error: '<img src="/static/imgs/icons/error.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">', warning: '<img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">', info: '<img src="/static/imgs/icons/info.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">' };
+            const titles = { success: title || 'Sucesso', error: title || 'Erro', warning: title || 'Atenção', info: title || 'Informação' };
+            toast.innerHTML = `<span class="toast-icon">${icons[type] || '<img src="/static/imgs/icons/info.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">'}</span><div class="toast-content"><div class="toast-title">${titles[type] || 'Informação'}</div><div class="toast-message">${message}</div></div><button class="toast-close" onclick="closeToast(this)">x</button>`;
+            container.appendChild(toast);
+            setTimeout(() => closeToast(toast.querySelector('.toast-close')), 5000);
+        }
+        function closeToast(button) {
+            const toast = button.parentElement;
+            toast.classList.add('hiding');
+            setTimeout(() => toast.remove(), 300);
+        }
+
+        let categoryModalItems = [];
+        let categoryModalChanged = false;
+
+        function getSelectedCategoryContext() {
+            const tipo = document.getElementById('contexto_tipo').value;
+            const select = tipo === 'plataforma'
+                ? document.getElementById('plataforma_id')
+                : document.getElementById('norma_id');
+
+            const contextoId = select ? select.value : '';
+            const contextoLabel = select && select.selectedOptions.length
+                ? select.selectedOptions[0].textContent.trim()
+                : '';
+
+            return { tipo, contextoId, contextoLabel };
+        }
+
+        async function openManageCategories() {
+            const context = getSelectedCategoryContext();
+
+            if (!context.contextoId) {
+                showToast('Selecione uma norma ou plataforma antes de gerenciar categorias.', 'warning');
+                return;
+            }
+
+            document.getElementById('categoryModal').classList.add('active');
+            document.getElementById('categoryModalContext').textContent = `${context.tipo === 'plataforma' ? 'Plataforma' : 'Norma ISO'}: ${context.contextoLabel}`;
+            document.getElementById('category_contexto_tipo').value = context.tipo;
+            document.getElementById('category_contexto_id').value = context.contextoId;
+            document.getElementById('category_norma_iso_id').value = context.tipo === 'norma' ? context.contextoId : '';
+            document.getElementById('category_plataforma_id').value = context.tipo === 'plataforma' ? context.contextoId : '';
+            resetCategoryForm(false);
+            await loadCategoriesForSelectedContext();
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+            if (categoryModalChanged) {
+                location.reload();
+            }
+        }
+
+        document.getElementById('categoryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCategoryModal();
+        });
+
+        async function loadCategoriesForSelectedContext() {
+            const context = getSelectedCategoryContext();
+            const tbody = document.getElementById('categoryModalTableBody');
+            tbody.innerHTML = '<tr><td colspan="3" class="category-empty">Carregando...</td></tr>';
+
+            try {
+                const response = await fetch(`{% url 'indicator_categories_by_context' %}?contexto_tipo=${encodeURIComponent(context.tipo)}&contexto_id=${encodeURIComponent(context.contextoId)}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="category-empty">Erro ao carregar categorias.</td></tr>';
+                    return;
+                }
+
+                categoryModalItems = data.categories || [];
+                renderCategoryModalRows(categoryModalItems);
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="3" class="category-empty">Erro ao carregar categorias.</td></tr>';
+            }
+        }
+
+        function renderCategoryModalRows(items) {
+            const tbody = document.getElementById('categoryModalTableBody');
+
+            if (!items.length) {
+                tbody.innerHTML = '<tr><td colspan="3" class="category-empty">Nenhuma categoria cadastrada para este contexto.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = items.map(item => `
+                <tr data-category-name="${escapeHtml(item.nome || '').toLowerCase()}" data-category-description="${escapeHtml(item.descricao || '').toLowerCase()}">
+                    <td><strong>${escapeHtml(item.nome || '')}</strong></td>
+                    <td>${escapeHtml(item.descricao || '-')}</td>
+                    <td>
+                        <div class="category-row-actions">
+                            <button type="button" class="btn-category-edit" onclick="editCategoryInModal(${item.id})">Editar</button>
+                            <button type="button" class="btn-category-delete" onclick="deleteCategoryFromModal(${item.id})">Excluir</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterCategoryModalRows() {
+            const term = (document.getElementById('categorySearchInput').value || '').toLowerCase();
+            const rows = document.querySelectorAll('#categoryModalTableBody tr');
+
+            rows.forEach(row => {
+                const name = row.getAttribute('data-category-name') || '';
+                const description = row.getAttribute('data-category-description') || '';
+                row.style.display = (!term || name.includes(term) || description.includes(term)) ? '' : 'none';
+            });
+        }
+
+        function editCategoryInModal(categoryId) {
+            const item = categoryModalItems.find(cat => Number(cat.id) === Number(categoryId));
+            if (!item) return;
+
+            document.getElementById('categoryFormTitle').textContent = 'Editar categoria';
+            document.getElementById('categorySaveButton').textContent = 'Salvar Alterações';
+            document.getElementById('category_id').value = item.id;
+            document.getElementById('category_nome').value = item.nome || '';
+            document.getElementById('category_descricao').value = item.descricao || '';
+            document.getElementById('category_nome').focus();
+        }
+
+        function resetCategoryForm(clearSearch = true) {
+            document.getElementById('categoryFormTitle').textContent = 'Nova categoria';
+            document.getElementById('categorySaveButton').textContent = 'Salvar Categoria';
+            document.getElementById('category_id').value = '';
+            document.getElementById('category_nome').value = '';
+            document.getElementById('category_descricao').value = '';
+            if (clearSearch) {
+                document.getElementById('categorySearchInput').value = '';
+                renderCategoryModalRows(categoryModalItems);
+            }
+        }
+
+        async function saveCategoryFromModal(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('categoryForm');
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(`{% url 'save_category' %}`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showToast(data.message || 'Erro ao salvar categoria.', 'error');
+                    return;
+                }
+
+                showToast(data.message || 'Categoria salva com sucesso.', 'success');
+                categoryModalChanged = true;
+                resetCategoryForm();
+                await loadCategoriesForSelectedContext();
+            } catch (error) {
+                showToast('Erro ao salvar categoria.', 'error');
+            }
+        }
+
+        function deleteCategoryFromModal(categoryId) {
+            const item = categoryModalItems.find(cat => Number(cat.id) === Number(categoryId));
+            const categoryName = item ? item.nome : 'esta categoria';
+
+            if (!confirm(`Tem certeza que deseja excluir ${categoryName}?`)) return;
+
+            fetch(`/dashboard/admin/categories/delete/${categoryId}/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': getCookie('csrftoken') }
+            })
+            .then(response => response.json().then(data => ({ ok: response.ok, data })))
+            .then(({ ok, data }) => {
+                if (!ok || !data.success) {
+                    showToast(data.message || 'Erro ao excluir categoria.', 'error');
+                    return;
+                }
+                showToast(data.message || 'Categoria excluída com sucesso.', 'success');
+                categoryModalChanged = true;
+                resetCategoryForm();
+                loadCategoriesForSelectedContext();
+            })
+            .catch(() => showToast('Erro ao excluir categoria.', 'error'));
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        {% if messages %}
+        window.addEventListener('DOMContentLoaded', function() {
+            {% for message in messages %}
+                showToast('{{ message|escapejs }}', '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}');
+            {% endfor %}
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

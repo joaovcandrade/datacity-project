@@ -6,13 +6,18 @@ from django.contrib.postgres.fields import ArrayField
 #Models principais (necessários para o funcionamento de outros models).
 class Municipality(models.Model):
     nome = models.CharField(max_length=150)
-    estado = models.CharField(max_length=70, null=True)
+    estado = models.CharField(max_length=70, null=True, blank=True)
+    subdivision_id = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     codigo_ibge = models.CharField(max_length=20, unique=True, db_index=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    regiao = models.CharField(max_length=50, verbose_name="Região", null=True, blank=True)
+    porte = models.CharField(max_length=50, verbose_name="Porte da Cidade", null=True, blank=True)
 
     class Meta:
         db_table = 'municipio'
+        verbose_name = 'Município'
+        verbose_name_plural = 'Municípios'
 
     def __str__(self):
         return f'{self.nome}/{self.estado}'
@@ -58,6 +63,15 @@ class User(AbstractUser):
         blank=True,
         related_name='usuarios',
         db_column="FK_municipio_id",
+    )
+
+    criado_por = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='usuarios_criados',
+        help_text='Usuário administrador ou gestor que criou esta conta.',
     )
 
     ativo = models.BooleanField(default=True, db_index=True)
@@ -106,14 +120,32 @@ class YearReference(models.Model):
 
     class Meta:
         db_table = 'ano_referencia'
-        ordering = ['ano']
+        ordering = ['-ano']
 
     def __str__(self):
         return str(self.ano)
 
 
 
+class Platform(models.Model):
+    nome = models.CharField(max_length=150)
 
+    ano_referencia = models.ForeignKey(
+        YearReference,
+        on_delete=models.CASCADE,
+        db_column="FK_ano_referencia_id",
+        related_name="plataformas",
+    )
+
+    class Meta:
+        db_table = "plataforma"
+        verbose_name = "Plataforma"
+        verbose_name_plural = "Plataformas"
+        ordering = ["nome"]
+
+    def __str__(self):
+        return f"{self.nome} - {self.ano_referencia}"
+    
 #Models Normas ISO
 class NormISO(models.Model):
     codigo_norma = models.CharField(max_length=30, db_index=True)
@@ -135,16 +167,40 @@ class NormISO(models.Model):
 
 class Category(models.Model):
     nome = models.CharField(max_length=100)
-    descricao = models.TextField(blank=True, null=True)
+    descricao = models.CharField(max_length=255, null=True, blank=True)
+
     norma_iso = models.ForeignKey(
         NormISO,
         on_delete=models.CASCADE,
         db_column="FK_norma_iso_id",
+        related_name="categorias",
+        null=True,
+        blank=True,
+    )
+
+    plataforma = models.ForeignKey(
+        Platform,
+        on_delete=models.CASCADE,
+        db_column="FK_plataforma_id",
+        related_name="categorias",
+        null=True,
+        blank=True,
     )
 
     class Meta:
-        db_table = 'categoria'
-        ordering = ['nome']
+        db_table = "categoria"
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+        ordering = ["nome"]
+        constraints = [
+            models.CheckConstraint(
+                check=(
+                    models.Q(norma_iso__isnull=False) |
+                    models.Q(plataforma__isnull=False)
+                ),
+                name="categoria_tem_norma_ou_plataforma",
+            )
+        ]
 
     def __str__(self):
         return self.nome
@@ -153,55 +209,131 @@ class Category(models.Model):
 
 class Indicator(models.Model):
     class TipoChoices(models.TextChoices):
-        PRINCIPAL = 'principal', 'Principal'
-        APOIO = 'apoio', 'Apoio'
-        PERFIL = 'perfil', 'Perfil'
-    nome = models.CharField(max_length=255, null=True, blank=True)
-    descricao = models.CharField(max_length=100, null=True, blank=True)
+        PRINCIPAL = "principal", "Principal"
+        APOIO = "apoio", "Apoio"
+        PERFIL = "perfil", "Perfil"
+
+    nome = models.CharField(max_length=255)
+    descricao = models.CharField(max_length=255, null=True, blank=True)
+
     tipo = models.CharField(
         max_length=20,
         choices=TipoChoices.choices,
-        db_index=True
+        db_index=True,
     )
-    ods = ArrayField(models.CharField(max_length=50), blank=True, default=list)
-    unidade_medida = models.CharField(max_length=100, null=True, blank=True)
+
     opcoes_predefinidas = models.JSONField(null=True, blank=True)
-    direcao_melhoria = models.IntegerField(blank=True, null=True)
-    categoria = models.ForeignKey(
+    unidade_medida = models.CharField(max_length=100, null=True, blank=True)
+    direcao_melhoria = models.IntegerField(null=True, blank=True)
+
+    valor_referencia_minimo = models.DecimalField(max_digits=14, decimal_places=4, null=True, blank=True)
+    valor_referencia_maximo = models.DecimalField(max_digits=14, decimal_places=4, null=True, blank=True)
+    fonte_valor_referencia = models.CharField(max_length=255, null=True, blank=True)
+
+    ativo = models.BooleanField(default=True, db_index=True)
+    deletado = models.BooleanField(default=False, db_index=True)
+    deletado_em = models.DateTimeField(null=True, blank=True)
+    deletado_por = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="indicadores_deletados"
+    )
+
+    ods = ArrayField(
+        models.IntegerField(),
+        blank=True,
+        default=list,
+    )
+
+    categorias = models.ManyToManyField(
         Category,
-        on_delete=models.PROTECT,
-        db_column="FK_categoria_id",
+        through="IndicatorCategory",
+        related_name="indicadores",
+        blank=True,
     )
 
     class Meta:
-        db_table = 'indicador'
-        ordering = ['nome']
+        db_table = "indicador"
+        verbose_name = "Indicador"
+        verbose_name_plural = "Indicadores"
+        ordering = ["nome"]
 
     def __str__(self):
         return self.nome
+    
 
 
-
-class IndicatorValueYear(models.Model):
-    valor_numerico = models.DecimalField(max_digits=18, decimal_places=4, null=True, blank=True)
-    valor_texto = models.TextField(null=True, blank=True)
-    fonte = models.CharField(max_length=255, null=True, blank=True)
+class IndicatorCategory(models.Model):
     indicador = models.ForeignKey(
         Indicator,
         on_delete=models.CASCADE,
         db_column="FK_indicador_id",
+        related_name="indicador_categorias",
     )
+
+    categoria = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        db_column="FK_categoria_id",
+        related_name="categoria_indicadores",
+    )
+
+    class Meta:
+        db_table = "indicador_categoria"
+        verbose_name = "Indicador Categoria"
+        verbose_name_plural = "Indicadores Categorias"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["indicador", "categoria"],
+                name="uniq_indicador_categoria",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.indicador} - {self.categoria}"
+
+
+
+class IndicatorValueYear(models.Model):
+    valor_numerico = models.DecimalField(max_digits=14, decimal_places=4, null=True, blank=True)
+    valor_texto = models.CharField(max_length=255, null=True, blank=True)
+    fonte = models.CharField(max_length=255, null=True, blank=True)
+
+    atualizado_em = models.DateTimeField(auto_now=True)
+    atualizado_por = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="valores_indicadores_atualizados"
+    )
+
+    indicador = models.ForeignKey(
+        Indicator,
+        on_delete=models.CASCADE,
+        db_column="FK_indicador_id",
+        related_name="valores_ano",
+    )
+
     municipio = models.ForeignKey(
         Municipality,
         on_delete=models.CASCADE,
         db_column="FK_municipio_id",
+        related_name="valores_indicadores",
     )
 
     class Meta:
-        db_table = 'valor_indicador_ano'
+        db_table = "valor_indicador_ano"
+        verbose_name = "Valor do Indicador por Ano"
+        verbose_name_plural = "Valores dos Indicadores por Ano"
+        indexes = [
+            models.Index(fields=["municipio", "indicador"]),
+        ]
 
     def __str__(self):
-        return f'{self.indicador} - {self.municipio}'
+        return f"{self.indicador} - {self.municipio}"
 
 
 
@@ -209,6 +341,17 @@ class EvidencePDF(models.Model):
     descricao = models.CharField(max_length=255, null=True, blank=True)
     caminho_arquivo = models.CharField(max_length=500)
     data_upload = models.DateTimeField(auto_now_add=True)
+
+    apagado = models.BooleanField(default=False, db_index=True)
+    apagado_em = models.DateTimeField(null=True, blank=True)
+    apagado_por = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="evidencias_apagadas"
+    )
+
     valor_indicador_ano = models.ForeignKey(
         IndicatorValueYear,
         on_delete=models.CASCADE,
@@ -245,93 +388,218 @@ class Certification(models.Model):
 
 
 
+# model dos logs de auditoria
+class AuditLog(models.Model):
+    class AcaoChoices(models.TextChoices):
+        ANEXO_APAGADO = "ANEXO_APAGADO", "Anexo apagado"
+        VALOR_ALTERADO = "VALOR_ALTERADO", "Valor alterado"
+        INDICADOR_EDITADO = "INDICADOR_EDITADO", "Indicador editado"
+        INDICADOR_DELETADO = "INDICADOR_DELETADO", "Indicador deletado"
+        RECUPERACAO = "RECUPERACAO", "Recuperação"
+        ANEXO_ENVIADO = "ANEXO_ENVIADO", "Anexo enviado"
+        DESIGNACAO_CRIADA = "DESIGNACAO_CRIADA", "Designação criada"
+        DESIGNACAO_CANCELADA = "DESIGNACAO_CANCELADA", "Designação cancelada"
+        PREENCHIMENTO_DESIGNADO = "PREENCHIMENTO_DESIGNADO", "Preenchimento designado"
 
-#Models Levantamento Futuro CSC
-class CategoriaCSC(models.Model):
-    nome = models.CharField(max_length=255)
+    usuario = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="logs_auditoria"
+    )
 
-    class Meta:
-        db_table = "categoria_CSC"
-        verbose_name = "Categoria CSC"
-        verbose_name_plural = "Categorias CSC"
+    acao = models.CharField(max_length=50, choices=AcaoChoices.choices)
 
-    def __str__(self):
-        return self.nome
+    objeto_tipo = models.CharField(max_length=100)
+    objeto_id = models.PositiveIntegerField(null=True, blank=True)
 
-
-
-class FutureIndicatorCSC(models.Model):
-    nome_indicador = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, null=True)
-    opcoes_predefinidas = models.JSONField(null=True, blank=True)
-    ods = models.CharField(max_length=10)
-    unidade_medida = models.CharField(max_length=50)
-    categoria = models.ForeignKey(
-        CategoriaCSC,
-        on_delete=models.CASCADE,
-        db_column="FK_categoria_CSC_id",
+
+    dados_anteriores = models.JSONField(null=True, blank=True)
+    dados_novos = models.JSONField(null=True, blank=True)
+
+    recuperavel = models.BooleanField(default=False)
+    recuperado = models.BooleanField(default=False)
+
+    recuperado_por = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="logs_auditoria_recuperados"
     )
-    ano_referencia = models.ForeignKey(
-        YearReference,
-        on_delete=models.CASCADE,
-        db_column="FK_ano_referencia_id",
-    )
+
+    recuperado_em = models.DateTimeField(null=True, blank=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = "indicador_futuro_CSC"
-        verbose_name = "Indicador Futuro CSC"
-        verbose_name_plural = "Indicadores Futuros CSC"
+        db_table = "log_auditoria"
+        ordering = ["-criado_em"]
 
     def __str__(self):
-        return self.nome_indicador
+        return f"{self.acao} - {self.objeto_tipo} #{self.objeto_id}"
+    
 
 
+#models de designação de responsáveis por indicadores
+class DesignacaoPreenchimento(models.Model):
+    class StatusChoices(models.TextChoices):
+        PENDENTE = "PENDENTE", "Pendente"
+        EM_ANDAMENTO = "EM_ANDAMENTO", "Em andamento"
+        CONCLUIDA = "CONCLUIDA", "Concluída"
+        CANCELADA = "CANCELADA", "Cancelada"
 
-class FutureIndicatorValueCSC(models.Model):
-    valor_numerico = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
-    valor_texto = models.CharField(max_length=100, blank=True, null=True)
-    fonte = models.CharField(max_length=500, blank=True, null=True)
-    indicador_futuro = models.ForeignKey(
-        FutureIndicatorCSC,
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField(null=True, blank=True)
+
+    gestor_responsavel = models.ForeignKey(
+        "User",
+        on_delete=models.PROTECT,
+        related_name="designacoes_recebidas"
+    )
+
+    criado_por = models.ForeignKey(
+        "User",
+        on_delete=models.PROTECT,
+        related_name="designacoes_criadas"
+    )
+
+    municipio = models.ForeignKey(
+        "Municipality",
         on_delete=models.CASCADE,
-        db_column="FK_indicador_futuro_CSC_id",
+        related_name="designacoes_preenchimento"
+    )
+
+    indicadores = models.ManyToManyField(
+        "Indicator",
+        through="DesignacaoIndicador",
+        related_name="designacoes_preenchimento"
+    )
+
+    prazo = models.DateField(null=True, blank=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=StatusChoices.choices,
+        default=StatusChoices.PENDENTE,
+        db_index=True
+    )
+
+    ativa = models.BooleanField(default=True, db_index=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    concluida_em = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = "designacao_preenchimento"
+        ordering = ["-criado_em"]
+        permissions = [
+            ("acesso_total_designacao", "Pode gerenciar todas as designações de preenchimento"),
+        ]
+
+    def __str__(self):
+        return self.titulo
+
+
+class DesignacaoIndicador(models.Model):
+    designacao = models.ForeignKey(
+        DesignacaoPreenchimento,
+        on_delete=models.CASCADE,
+        related_name="itens"
+    )
+
+    indicador = models.ForeignKey(
+        "Indicator",
+        on_delete=models.CASCADE,
+        related_name="itens_designacao"
+    )
+
+    obrigatorio = models.BooleanField(default=True)
+    preenchido = models.BooleanField(default=False)
+
+    valor_indicador = models.ForeignKey(
+        "IndicatorValueYear",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="itens_designacao"
+    )
+
+    preenchido_por = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="indicadores_designados_preenchidos"
+    )
+
+    preenchido_em = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = "designacao_indicador"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["designacao", "indicador"],
+                name="uniq_designacao_indicador"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.designacao} - {self.indicador}"
+
+
+
+
+class PlatformGoalReference(models.Model):
+    platform = models.ForeignKey(
+        "Platform",
+        on_delete=models.CASCADE,
+        related_name="goal_references",
     )
     municipio = models.ForeignKey(
-        Municipality,
+        "Municipality",
         on_delete=models.CASCADE,
-        db_column="FK_municipio_id",
+        related_name="platform_goal_references_definidas",
+        null=True,
+        blank=True,
+        help_text="Município para o qual a meta vale. A referência é compartilhada por todos os gestores desse município.",
     )
+    gestor = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="platform_goal_references",
+        help_text="Usuário que definiu ou atualizou a meta.",
+    )
+    municipio_referencia = models.ForeignKey(
+        "Municipality",
+        on_delete=models.CASCADE,
+        related_name="platform_goal_references",
+    )
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "levantamento_futuro_CSC"
-        verbose_name = "Levantamento Futuro CSC"
-        verbose_name_plural = "Levantamentos Futuros CSC"
+        db_table = "plataforma_meta_referencia"
+        verbose_name = "Meta de referência da plataforma"
+        verbose_name_plural = "Metas de referência das plataformas"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["platform", "municipio"],
+                name="uniq_meta_referencia_platform_municipio",
+            )
+        ]
 
     def __str__(self):
-        return self.indicador_futuro.nome_indicador
-
-
-
-class EvidencePDFCSC(models.Model):
-    descricao = models.CharField(max_length=255, blank=True, null=True)
-    caminho_arquivo = models.CharField(max_length=500)
-    data_upload = models.DateTimeField(auto_now_add=True)
-    levantamento_futuro = models.ForeignKey(
-        FutureIndicatorValueCSC,
-        on_delete=models.CASCADE,
-        db_column="FK_levantamento_futuro_CSC_id",
-    )
-
-    class Meta:
-        db_table = "evidencia_pdf_CSC"
-        verbose_name = "Evidência PDF CSC"
-        verbose_name_plural = "Evidências PDF CSC"
+        municipio_nome = self.municipio.nome if self.municipio else "Sem município"
+        referencia_nome = self.municipio_referencia.nome if self.municipio_referencia else "Sem referência"
+        return f"{self.platform} - {municipio_nome} -> {referencia_nome}"
 
     def __str__(self):
-        return self.descricao or "Evidência PDF CSC"
-
-
-
+        return f"{self.platform} - {self.gestor} - {self.municipio_referencia}"
 
 
 #Models do ranking
@@ -355,12 +623,41 @@ class MunicipalityRanking(models.Model):
     )
 
     class Meta:
-        db_table = 'ranking_municipios'
-        
+        db_table = "ranking_municipios"
+        verbose_name = "Ranking de Município"
+        verbose_name_plural = "Rankings de Municípios"
+        indexes = [
+            models.Index(fields=["municipio", "categoria"]),
+        ]
+
     def __str__(self):
-        return self.municipio
+        return f"{self.municipio} - {self.categoria}"
     
 
+
+class RankingISOCategoriaView(models.Model):
+    municipio_id = models.BigIntegerField()
+    municipio = models.CharField(max_length=150)
+    uf = models.CharField(max_length=70)
+
+    ano = models.PositiveIntegerField()
+
+    norma_id = models.BigIntegerField()
+    codigo_norma = models.CharField(max_length=30)
+
+    categoria_id = models.BigIntegerField()
+    categoria = models.CharField(max_length=100)
+
+    pontuacao_categoria = models.DecimalField(max_digits=14, decimal_places=4)
+    indicadores_preenchidos = models.PositiveIntegerField()
+    indicadores_totais = models.PositiveIntegerField()
+    cor_classificacao = models.CharField(max_length=50, null=True, blank=True)
+    data_calculo = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = "vw_ranking_iso_categoria"
+    
 
 
 
@@ -369,22 +666,24 @@ class ExternalAPIData(models.Model):
     origem_api = models.CharField(max_length=100)
     tipo_dado = models.CharField(max_length=100)
     dados_json = models.JSONField()
-    data_coleta = models.DateTimeField()
-    valido_ate = models.DateTimeField()
+    data_coleta = models.DateTimeField(auto_now_add=True)
+    valido_ate = models.DateTimeField(null=True, blank=True)
+
     municipio = models.ForeignKey(
         Municipality,
         on_delete=models.CASCADE,
-        db_column="municipio_id",
-        related_name="external_data",
+        db_column="FK_municipio_id",
+        related_name="dados_externos_api",
     )
 
     class Meta:
         db_table = "dados_externos_api"
-        verbose_name = "Dado Externo de API"
-        verbose_name_plural = "Dados Externos de APIs"
+        verbose_name = "Dado Externo API"
+        verbose_name_plural = "Dados Externos API"
+        ordering = ["-data_coleta"]
 
     def __str__(self):
-        return f"Dados {self.origem_api} - {self.municipio.nome}"
+        return f"{self.origem_api} - {self.tipo_dado} - {self.municipio}"
 
     def is_data_valid(self):
         from django.utils import timezone
@@ -393,220 +692,3 @@ class ExternalAPIData(models.Model):
 
 
 
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-class Platform(models.Model):
-    id_plataforma = models.AutoField(primary_key=True)  # Chave primária personalizada
-    Nome = models.CharField(max_length=100, unique=True)
-    Direcionamento = models.URLField()
-    
-    class Meta:
-        ordering = ['Nome']
-        db_table = 'plataforma'
-
-    def __str__(self): 
-        return self.Nome
-
-class Norm(models.Model):
-    id_norma = models.AutoField(primary_key=True)  # Chave primária personalizada
-    Nome = models.CharField(max_length=100, unique=True)
-    Direcionamento = models.URLField()
-
-    class Meta:
-        ordering = ['Nome']
-        db_table = 'norma'
-
-    def __str__(self):
-        return self.Nome
-
-class ISO37120Indicator(models.Model):
-    id = models.AutoField(primary_key=True)
-    categoria = models.CharField(max_length=100)
-    nome_indicador = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=20, choices=[
-        ('core', 'Principal'),
-        ('supporting', 'Apoio'),
-        ('profile', 'Perfil')
-    ])
-    ods = models.CharField(max_length=10)
-    unidade = models.CharField(max_length=50)
-
-    # Dados para diferentes anos
-    dado_2022 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2023 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2024 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2025 = models.CharField(max_length=100, null=True, blank=True)
-
-    # Fontes para diferentes anos
-    fonte_2022 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2023 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2024 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2025 = models.CharField(max_length=500, null=True, blank=True)
-
-    # Anexos PDF para diferentes anos
-    anexo_2022 = models.FileField(upload_to='iso37120/anexos/', null=True, blank=True)
-    anexo_2023 = models.FileField(upload_to='iso37120/anexos/', null=True, blank=True)
-    anexo_2024 = models.FileField(upload_to='iso37120/anexos/', null=True, blank=True)
-    anexo_2025 = models.FileField(upload_to='iso37120/anexos/', null=True, blank=True)
-
-    # Cidade para permitir dados de múltiplas cidades
-    cidade = models.CharField(max_length=100, default='Londrina')
-    estado = models.CharField(max_length=50, default='PR')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'iso37120_indicators'
-        ordering = ['categoria', 'nome_indicador']
-        unique_together = ['nome_indicador', 'cidade', 'estado']
-
-    def __str__(self):
-        return f"{self.nome_indicador} - {self.cidade}/{self.estado}"
-
-class ISO37122Indicator(models.Model):
-    id = models.AutoField(primary_key=True)
-    categoria = models.CharField(max_length=100)
-    nome_indicador = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=20, choices=[
-        ('core', 'Principal'),
-        ('supporting', 'Apoio'),
-        ('profile', 'Perfil')
-    ])
-    ods = models.CharField(max_length=10)
-    unidade = models.CharField(max_length=50)
-
-    # Dados para diferentes anos
-    dado_2022 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2023 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2024 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2025 = models.CharField(max_length=100, null=True, blank=True)
-
-    # Fontes para diferentes anos
-    fonte_2022 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2023 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2024 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2025 = models.CharField(max_length=500, null=True, blank=True)
-
-    # Anexos PDF para diferentes anos
-    anexo_2022 = models.FileField(upload_to='iso37122/anexos/', null=True, blank=True)
-    anexo_2023 = models.FileField(upload_to='iso37122/anexos/', null=True, blank=True)
-    anexo_2024 = models.FileField(upload_to='iso37122/anexos/', null=True, blank=True)
-    anexo_2025 = models.FileField(upload_to='iso37122/anexos/', null=True, blank=True)
-
-    # Cidade para permitir dados de múltiplas cidades
-    cidade = models.CharField(max_length=100, default='Londrina')
-    estado = models.CharField(max_length=50, default='PR')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'iso37122_indicators'
-        ordering = ['categoria', 'nome_indicador']
-        unique_together = ['nome_indicador', 'cidade', 'estado']
-
-    def __str__(self):
-        return f"{self.nome_indicador} - {self.cidade}/{self.estado}"
-
-class ISO37123Indicator(models.Model):
-    id = models.AutoField(primary_key=True)
-    categoria = models.CharField(max_length=100)
-    nome_indicador = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=20, choices=[
-        ('core', 'Principal'),
-        ('supporting', 'Apoio'),
-        ('profile', 'Perfil')
-    ])
-    ods = models.CharField(max_length=10)
-    unidade = models.CharField(max_length=50)
-
-    # Dados para diferentes anos
-    dado_2022 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2023 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2024 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2025 = models.CharField(max_length=100, null=True, blank=True)
-
-    # Fontes para diferentes anos
-    fonte_2022 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2023 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2024 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2025 = models.CharField(max_length=500, null=True, blank=True)
-
-    # Anexos PDF para diferentes anos
-    anexo_2022 = models.FileField(upload_to='iso37123/anexos/', null=True, blank=True)
-    anexo_2023 = models.FileField(upload_to='iso37123/anexos/', null=True, blank=True)
-    anexo_2024 = models.FileField(upload_to='iso37123/anexos/', null=True, blank=True)
-    anexo_2025 = models.FileField(upload_to='iso37123/anexos/', null=True, blank=True)
-
-    # Cidade para permitir dados de múltiplas cidades
-    cidade = models.CharField(max_length=100, default='Londrina')
-    estado = models.CharField(max_length=50, default='PR')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'iso37123_indicators'
-        ordering = ['categoria', 'nome_indicador']
-        unique_together = ['nome_indicador', 'cidade', 'estado']
-
-    def __str__(self):
-        return f"{self.nome_indicador} - {self.cidade}/{self.estado}"
-
-class ISO37125Indicator(models.Model):
-    id = models.AutoField(primary_key=True)
-    categoria = models.CharField(max_length=100)
-    nome_indicador = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=20, choices=[
-        ('core', 'Principal'),
-        ('supporting', 'Apoio'),
-        ('profile', 'Perfil')
-    ])
-    ods = models.CharField(max_length=10)
-    unidade = models.CharField(max_length=50)
-
-    # Dados para diferentes anos
-    dado_2022 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2023 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2024 = models.CharField(max_length=100, null=True, blank=True)
-    dado_2025 = models.CharField(max_length=100, null=True, blank=True)
-
-    # Fontes para diferentes anos
-    fonte_2022 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2023 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2024 = models.CharField(max_length=500, null=True, blank=True)
-    fonte_2025 = models.CharField(max_length=500, null=True, blank=True)
-
-    # Anexos PDF para diferentes anos
-    anexo_2022 = models.FileField(upload_to='iso37125/anexos/', null=True, blank=True)
-    anexo_2023 = models.FileField(upload_to='iso37125/anexos/', null=True, blank=True)
-    anexo_2024 = models.FileField(upload_to='iso37125/anexos/', null=True, blank=True)
-    anexo_2025 = models.FileField(upload_to='iso37125/anexos/', null=True, blank=True)
-
-    # Cidade para permitir dados de múltiplas cidades
-    cidade = models.CharField(max_length=100, default='Londrina')
-    estado = models.CharField(max_length=50, default='PR')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'iso37125_indicators'
-        ordering = ['categoria', 'nome_indicador']
-        unique_together = ['nome_indicador', 'cidade', 'estado']
-
-    def __str__(self):
-        return f"{self.nome_indicador} - {self.cidade}/{self.estado}"

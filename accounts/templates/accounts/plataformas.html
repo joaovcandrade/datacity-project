@@ -218,7 +218,7 @@
             </div>
         </div>
         <div class="header">
-            <a href="{% url 'menu' %}" class="back-btn">← Voltar</a>
+            <a href="{% url 'menu' %}" class="back-btn">Voltar</a>
         </div>
         <div class="menu-container">
             <h1 class="menu-title">Plataformas disponíveis</h1>
@@ -233,8 +233,11 @@
             </div>
             <!-- Botões Estáticos das Plataformas (não editáveis) -->
             <div class="menu-buttons static-platforms">
-                <div class="menu-btn platform-item" data-platform-name="csc" onclick="window.location.href='{% url 'csc' %}'">
+                <div class="menu-btn platform-item" data-platform-name="csc" onclick="window.location.href='{% url 'csc_dashboard' %}'">
                     CSC
+                </div>
+                <div class="menu-btn platform-item" data-platform-name="levantamento futuro csc" onclick="window.location.href='{% url 'csc_survey_view' %}'">
+                   Levantamento Futuro CSC
                 </div>
                 <div class="menu-btn platform-item" data-platform-name="inteligente" onclick="window.location.href='{% url 'inteligente' %}'">
                    Inteli.gente
@@ -248,8 +251,8 @@
                     {{ platform.Nome }}
                     {% if user.user_type == 'ADMIN' %}
                     <div class="admin-controls">
-                        <button class="control-btn edit-platform" data-platform-id="{{ platform.id_plataforma }}" onclick="event.stopPropagation(); editPlatform('{{ platform.id_plataforma }}', '{{ platform.Nome }}', '{{ platform.Direcionamento }}')">✎</button>
-                        <button class="control-btn delete-platform" data-platform-id="{{ platform.id_plataforma }}" onclick="event.stopPropagation(); deletePlatform('{{ platform.id_plataforma }}', '{{ platform.Nome }}')">×</button>
+                        <button class="control-btn edit-platform" data-platform-id="{{ platform.id_plataforma }}" onclick="event.stopPropagation(); editPlatform('{{ platform.id_plataforma }}', '{{ platform.Nome }}', '{{ platform.Direcionamento }}')"><img src="/static/imgs/icons/edit.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></button>
+                        <button class="control-btn delete-platform" data-platform-id="{{ platform.id_plataforma }}" onclick="event.stopPropagation(); deletePlatform('{{ platform.id_plataforma }}', '{{ platform.Nome }}')">x</button>
                     </div>
                     {% endif %}
                 </div>

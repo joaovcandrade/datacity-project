@@ -626,14 +626,14 @@
 
             <div class="action-buttons">
                 <button class="action-button" onclick="clearSelection()" aria-label="Limpar seleção de município">
-                    🗑️ Limpar Seleção
+                    <img src="/static/imgs/icons/delete.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"> Limpar Seleção
                 </button>
             </div>
         </section>
 
         <!-- Info Message (default) -->
         <div id="info-message" class="empty-state">
-            <div class="empty-icon" aria-hidden="true">📊</div>
+            <div class="empty-icon" aria-hidden="true"><img src="/static/imgs/icons/chart.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
             <h3 class="empty-title">Bem-vindo à Plataforma Inteli.gente</h3>
             <p class="empty-text">
                 Selecione um estado e município acima para visualizar os indicadores de cidades inteligentes.
@@ -642,7 +642,7 @@
 
         <!-- Future Implementation Message -->
         <div id="future-message" class="empty-state hidden">
-            <div class="empty-icon" aria-hidden="true">🚧</div>
+            <div class="empty-icon" aria-hidden="true"><img src="/static/imgs/icons/construction.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></div>
             <h3 class="empty-title">Dados em breve</h3>
             <p class="empty-text">
                 No momento, apenas Londrina-PR possui dados disponíveis.<br>
@@ -675,7 +675,7 @@
             <div id="tab-caracterizacoes" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-caracterizacoes">
                 <div class="category-section">
                     <div class="category-header">
-                        <span class="category-icon" aria-hidden="true">👥</span>
+                        <span class="category-icon" aria-hidden="true"><img src="/static/imgs/icons/users.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></span>
                         <h3 class="category-title">Sociodemográfica</h3>
                     </div>
                     <div class="stats-grid" id="socio-grid"></div>
@@ -683,7 +683,7 @@
 
                 <div class="category-section">
                     <div class="category-header">
-                        <span class="category-icon" aria-hidden="true">💻</span>
+                        <span class="category-icon" aria-hidden="true"><img src="/static/imgs/icons/tech.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></span>
                         <h3 class="category-title">Transformação Digital</h3>
                     </div>
                     <div class="stats-grid" id="digital-grid"></div>
@@ -691,7 +691,7 @@
 
                 <div class="category-section">
                     <div class="category-header">
-                        <span class="category-icon" aria-hidden="true">🏛️</span>
+                        <span class="category-icon" aria-hidden="true"><img src="/static/imgs/icons/government.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></span>
                         <h3 class="category-title">Institucional</h3>
                     </div>
                     <div class="stats-grid" id="institutional-grid"></div>
@@ -1031,33 +1031,33 @@
 
         function getCategoryIcon(category) {
             const icons = {
-                'agua_esgoto': '💧',
-                'residuos_solidos': '♻️',
-                'habitacao': '🏘️',
-                'transporte': '🚌',
-                'urbanizacao_vias_publicas': '🛣️',
-                'infraestrutura_conectividade': '📡',
-                'inovacao': '💡',
-                'sistemas_tecnologia_gestao_urbana': '🏙️',
-                'servicos_online_prefeitura': '🌐',
-                'dados_abertos': '🔓',
-                'areas_verdes': '🌳',
-                'qualidade_ar': '🌬️',
-                'energia': '⚡',
-                'educacao': '🎓',
-                'cultura': '🎭',
-                'saude': '🏥',
-                'seguranca_publica': '🛡️',
-                'gestao_desastres': '🚨',
-                'inclusao_digital': '💻',
-                'inclusao_social': '🤝',
-                'participacao_publica': '🗳️',
-                'estrategia': '🎯',
-                'infraestrutura_hw_sw': '💻',
-                'servicos_aplicacoes': '📱',
-                'monitoramento': '📊'
+                'agua_esgoto': '<img src="/static/imgs/icons/water.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'residuos_solidos': '<img src="/static/imgs/icons/recycle.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'habitacao': '<img src="/static/imgs/icons/city.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'transporte': '<img src="/static/imgs/icons/bus.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'urbanizacao_vias_publicas': '<img src="/static/imgs/icons/road.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'infraestrutura_conectividade': '<img src="/static/imgs/icons/mobile.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'inovacao': '<img src="/static/imgs/icons/energy.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'sistemas_tecnologia_gestao_urbana': '<img src="/static/imgs/icons/city.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'servicos_online_prefeitura': '<img src="/static/imgs/icons/globe.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'dados_abertos': '<img src="/static/imgs/icons/lock.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'areas_verdes': '<img src="/static/imgs/icons/environment.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'qualidade_ar': '<img src="/static/imgs/icons/wind.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'energia': '<img src="/static/imgs/icons/energy.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'educacao': '<img src="/static/imgs/icons/education.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'cultura': '<img src="/static/imgs/icons/theater.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'saude': '<img src="/static/imgs/icons/health.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'seguranca_publica': '<img src="/static/imgs/icons/shield.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'gestao_desastres': '<img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'inclusao_digital': '<img src="/static/imgs/icons/tech.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'inclusao_social': '<img src="/static/imgs/icons/handshake.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'participacao_publica': '<img src="/static/imgs/icons/government.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'estrategia': '<img src="/static/imgs/icons/target.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'infraestrutura_hw_sw': '<img src="/static/imgs/icons/tech.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'servicos_aplicacoes': '<img src="/static/imgs/icons/mobile.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                'monitoramento': '<img src="/static/imgs/icons/chart.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">'
             };
-            return icons[category] || '📌';
+            return icons[category] || '<img src="/static/imgs/icons/pin.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">';
         }
 
         // Initialize

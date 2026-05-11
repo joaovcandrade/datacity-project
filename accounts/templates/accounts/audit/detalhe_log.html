@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCity - Detalhe do Log</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            background: #513C9A;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-header {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background: white;
+            color: #513C9A;
+        }
+
+        .btn-back:hover {
+            background: #f5f5f5;
+            color: #513C9A;
+        }
+
+        .btn-logout {
+            background: #9e1220;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #bd2130;
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: #513C9A;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-description {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .detail-card-header {
+            background: #513C9A;
+            color: white;
+            padding: 18px 24px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .detail-card-body {
+            padding: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .info-item {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 14px;
+            border-left: 4px solid #513C9A;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 15px;
+            word-break: break-word;
+        }
+
+        .audit-badge,
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-anexo {
+            background: #FF9800;
+            color: white;
+        }
+
+        .badge-valor {
+            background: #2196F3;
+            color: white;
+        }
+
+        .badge-indicador {
+            background: #513C9A;
+            color: white;
+        }
+
+        .badge-recuperacao {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .badge-default {
+            background: #666;
+            color: white;
+        }
+
+        .status-recuperavel {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-recuperado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-nao {
+            background: #e9ecef;
+            color: #555;
+        }
+
+        .json-box {
+            background: #1f1f1f;
+            color: #f5f5f5;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .actions-footer {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .btn-action {
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-recover {
+            background: #4CAF50;
+        }
+
+        .btn-recover:hover {
+            background: #388E3C;
+            color: white;
+        }
+
+        .btn-secondary-custom {
+            background: #666;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #444;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-footer {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">Detalhe do Log</h1>
+            <div class="header-buttons">
+                <a href="{% url 'logs' %}" class="btn-header btn-back">Voltar</a>
+                <a href="{% url 'logout' %}" class="btn-header btn-logout">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title">Log #{{ log.id }}</h2>
+        <p class="page-description">
+            Detalhes completos da ação registrada na auditoria.
+        </p>
+
+        <div class="detail-card">
+            <div class="detail-card-header">
+                Informações do Registro
+            </div>
+
+            <div class="detail-card-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Data</div>
+                        <div class="info-value">{{ log.criado_em|date:"d/m/Y H:i" }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Usuário</div>
+                        <div class="info-value">
+                            {% if log.usuario %}
+                                {{ log.usuario.username }}
+                            {% else %}
+                                Sistema
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Ação</div>
+                        <div class="info-value">
+                            {% if log.acao == "ANEXO_APAGADO" %}
+                                <span class="audit-badge badge-anexo">Anexo apagado</span>
+                            {% elif log.acao == "VALOR_ALTERADO" %}
+                                <span class="audit-badge badge-valor">Valor alterado</span>
+                            {% elif log.acao == "INDICADOR_EDITADO" %}
+                                <span class="audit-badge badge-indicador">Indicador editado</span>
+                            {% elif log.acao == "INDICADOR_DELETADO" %}
+                                <span class="audit-badge badge-indicador">Indicador deletado</span>
+                            {% elif log.acao == "RECUPERACAO" %}
+                                <span class="audit-badge badge-recuperacao">Recuperação</span>
+                            {% else %}
+                                <span class="audit-badge badge-default">{{ log.acao }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Status</div>
+                        <div class="info-value">
+                            {% if log.recuperado %}
+                                <span class="status-badge status-recuperado">Recuperado</span>
+                            {% elif log.recuperavel %}
+                                <span class="status-badge status-recuperavel">Recuperável</span>
+                            {% else %}
+                                <span class="status-badge status-nao">Apenas registro</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Objeto</div>
+                        <div class="info-value">{{ log.objeto_tipo }} #{{ log.objeto_id }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Recuperado por</div>
+                        <div class="info-value">
+                            {% if log.recuperado_por %}
+                                {{ log.recuperado_por.username }} em {{ log.recuperado_em|date:"d/m/Y H:i" }}
+                            {% else %}
+                                Não recuperado
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-item mt-4">
+                    <div class="info-label">Descrição</div>
+                    <div class="info-value">{{ log.descricao|default:"Sem descrição." }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-card-header">
+                Dados Anteriores
+            </div>
+
+            <div class="detail-card-body">
+                {% if log.dados_anteriores %}
+                    <pre class="json-box">{{ log.dados_anteriores|pprint }}</pre>
+                {% else %}
+                    <p class="text-muted mb-0">Nenhum dado anterior registrado.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-card-header">
+                Dados Novos
+            </div>
+
+            <div class="detail-card-body">
+                {% if log.dados_novos %}
+                    <pre class="json-box">{{ log.dados_novos|pprint }}</pre>
+                {% else %}
+                    <p class="text-muted mb-0">Nenhum dado novo registrado.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="actions-footer">
+            <a href="{% url 'logs' %}" class="btn-action btn-secondary-custom">Voltar para Logs</a>
+
+            {% if log.recuperavel and not log.recuperado %}
+                <a href="{% url 'recuperacao' %}" class="btn-action btn-recover">Ir para Recuperação</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

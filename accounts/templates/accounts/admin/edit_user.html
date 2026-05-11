@@ -321,33 +321,44 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="selectEstado" class="form-label">Estado</label>
-                        <select class="form-select" id="selectEstado" name="estado" onchange="carregarMunicipios(this.value)">
-                            <option value="">Selecione um estado...</option>
-                        </select>
+                {% if can_create_admin %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="selectEstado" class="form-label">Estado</label>
+                            <select class="form-select" id="selectEstado" name="estado" onchange="carregarMunicipios(this.value)">
+                                <option value="">Selecione um estado...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="selectMunicipio" class="form-label">Município</label>
+                            <select class="form-select" id="selectMunicipio" name="cidade" disabled>
+                                <option value="">Selecione um estado primeiro..</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="selectMunicipio" class="form-label">Município</label>
-                        <select class="form-select" id="selectMunicipio" name="cidade" disabled>
-                            <option value="">Selecione um estado primeiro..</option>
-                        </select>
+                {% else %}
+                    <div class="info-box">
+                        <p>Este gestor permanece vinculado ao município {{ municipio_gestor.nome }}/{{ municipio_gestor.estado }}.</p>
                     </div>
-                </div>
+                    <input type="hidden" name="cidade" value="{{ municipio_gestor.id }}">
+                    <input type="hidden" name="categoria" value="MANAGER">
+                {% endif %}
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="password" class="form-label">Nova Senha (deixe em branco para manter a atual)</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Digite uma nova senha ou deixe em branco">
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="categoria" class="form-label">Categoria <span class="required">*</span></label>
-                        <select class="form-select" id="categoria" name="categoria" required>
-                            <option value="COMMON" {% if user_to_edit.categoria == 'COMMON' %}selected{% endif %}>Usuário</option>
-                            <option value="MANAGER" {% if user_to_edit.categoria == 'MANAGER' %}selected{% endif %}>Gestor</option>
-                            <option value="ADMIN" {% if user_to_edit.categoria == 'ADMIN' %}selected{% endif %}>Administrador</option>
-                        </select>
-                    </div>
+                    {% if can_create_admin %}
+                        <div class="col-md-6 mb-3">
+                            <label for="categoria" class="form-label">Categoria <span class="required">*</span></label>
+                            <select class="form-select" id="categoria" name="categoria" required>
+                                <option value="COMMON" {% if user_to_edit.categoria == 'COMMON' %}selected{% endif %}>Usuário</option>
+                                <option value="MANAGER" {% if user_to_edit.categoria == 'MANAGER' %}selected{% endif %}>Gestor</option>
+                                <option value="ADMIN" {% if user_to_edit.categoria == 'ADMIN' %}selected{% endif %}>Administrador</option>
+                            </select>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <button type="submit" class="btn-submit">Salvar Alterações</button>
@@ -368,14 +379,16 @@
                 .then(res => res.json())
                 .then(data => {
                     const select = document.getElementById('selectEstado');
+                    if (!select) return;
                     data.data.forEach(item => {
                         let option = new Option(item.estado, item.estado);
                         select.add(option);
                     });
                 }) 
                 .then(() => {
-                    if (estadoUser) {
-                        document.getElementById('selectEstado').value = estadoUser;
+                    const estadoSelect = document.getElementById('selectEstado');
+                    if (estadoUser && estadoSelect) {
+                        estadoSelect.value = estadoUser;
                         carregarMunicipios(estadoUser)
                     }
                 });
@@ -385,6 +398,7 @@
         function carregarMunicipios(estado) {
             const municipalitySelect = document.getElementById('selectMunicipio');
             const stateSelect = document.getElementById('selectEstado');
+            if (!municipalitySelect || !stateSelect) return;
             const selectedStateId = stateSelect.value;
 
             if(selectedStateId != ''){
@@ -416,10 +430,10 @@
             toast.className = `toast ${type}`;
 
             const icons = {
-                success: '✓',
-                error: '✕',
-                warning: '⚠',
-                info: 'ℹ'
+                success: '<img src="/static/imgs/icons/success.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                error: '<img src="/static/imgs/icons/error.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                warning: '<img src="/static/imgs/icons/warning.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">',
+                info: '<img src="/static/imgs/icons/info.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;">'
             };
 
             const titles = {
@@ -435,7 +449,7 @@
                     <div class="toast-title">${titles[type]}</div>
                     <div class="toast-message">${message}</div>
                 </div>
-                <button class="toast-close" onclick="closeToast(this)">×</button>
+                <button class="toast-close" onclick="closeToast(this)">x</button>
             `;
 
             container.appendChild(toast);

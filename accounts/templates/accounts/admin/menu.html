@@ -4,25 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataCity - Menu de Administração</title>
+    <title>DataCity - Área Administrativa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
             background: white;
-            overflow: hidden;
-            height: 100vh;
+            min-height: 100vh;
         }
-
         .container {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            min-height: 100vh;
             position: relative;
             background-image: url('{% static "img/Fundo (1).png" %}');
             background-size: cover;
@@ -31,102 +24,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-bottom: 40px;
         }
-
-        /* Logo Section */
-        .logo-container {
-            margin-top: 20px;
-            width: 180px;
-            height: 126px;
-            z-index: 3;
-        }
-
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Content Section */
-        .content {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            text-align: center;
-            max-width: 700px;
-            padding: 0 20px;
-            margin-top: 20px;
-        }
-
-        .main-title {
-            color: #513C9A;
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 16px;
-            font-weight: 400;
-            margin-bottom: 30px;
-        }
-
-        .description {
-            color: #333;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 1.5;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .buttons-container {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            width: 200px;
-            height: 50px;
-            background: #513C9A;
-            border: none;
-            border-radius: 8px;
-            color: #F5F5F5;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: #6B4FB5;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(81, 60, 154, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-back {
-            background: #666;
-            width: 150px;
-        }
-
-        .btn-back:hover {
-            background: #777;
-        }
-
         .header-buttons {
             position: absolute;
             top: 20px;
@@ -135,91 +34,146 @@
             display: flex;
             gap: 10px;
         }
-
+        .btn {
+            width: 220px;
+            min-height: 52px;
+            background: #513C9A;
+            border: none;
+            border-radius: 8px;
+            color: #F5F5F5;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 14px;
+        }
+        .btn:hover {
+            background: #6B4FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 60, 154, 0.3);
+            color: white;
+        }
         .btn-header {
             width: 120px;
+            min-height: 40px;
             height: 40px;
             font-size: 14px;
         }
-
-        .btn-logout {
-            background: #9e1220 !important;
+        .btn-back { background: #666; }
+        .btn-back:hover { background: #777; }
+        .btn-logout { background: #9e1220 !important; }
+        .btn-logout:hover { background: #bd2130 !important; }
+        .btn-manager { background: #004505; }
+        .btn-manager:hover { background: #076c0a; }
+        .btn-audit { background: #2196F3; }
+        .btn-audit:hover { background: #1976D2; }
+        .btn-warning { background: #FF9800; }
+        .btn-warning:hover { background: #F57C00; }
+        .btn-goals { background: #6B4FB5; }
+        .logo-container {
+            margin-top: 22px;
+            width: 180px;
+            height: 126px;
+            z-index: 3;
         }
-
-        .btn-logout:hover {
-            background: #bd2130 !important;
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
-
-        /* Admin badge */
-        .admin-badge {
+        .content {
+            width: min(1000px, 92%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 18px;
+        }
+        .main-title {
+            color: #513C9A;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 18px;
+        }
+        .description {
+            color: #333;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 26px;
+            max-width: 760px;
+        }
+        .role-badge {
             background: #513C9A;
             color: white;
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 20px;
             font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: .3px;
         }
-
-        /* Responsive Design */
+        .role-badge.manager { background: #004505; }
+        .section-card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            margin-bottom: 18px;
+            border: 1px solid rgba(81, 60, 154, 0.10);
+        }
+        .section-title {
+            color: #513C9A;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+        .section-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+            width: 100%;
+        }
+        .empty-state {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #FF9800;
+            padding: 14px 16px;
+            border-radius: 8px;
+            text-align: left;
+            width: 100%;
+        }
         @media (max-width: 768px) {
-            .logo-container {
-                width: 140px;
-                height: 98px;
-                margin-top: 15px;
-            }
-
-            .content {
-                margin-top: 15px;
-                max-width: 90%;
-            }
-
-            .main-title {
-                font-size: 28px;
-            }
-
-            .description {
-                font-size: 16px;
-                margin-bottom: 25px;
-            }
-
-            .buttons-container {
-                gap: 15px;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 200px;
-                height: 45px;
-                font-size: 15px;
-            }
-
-            .header-buttons {
-                flex-direction: column;
-                gap: 5px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo-container {
-                width: 120px;
-                height: 84px;
-            }
-
-            .main-title {
-                font-size: 24px;
-            }
-
-            .description {
-                font-size: 15px;
-            }
-
-            .btn {
-                width: 180px;
-                height: 42px;
-                font-size: 14px;
-            }
+            .header-buttons { position: static; margin-top: 16px; }
+            .logo-container { width: 140px; height: 98px; margin-top: 12px; }
+            .content { margin-top: 14px; padding: 0 12px; }
+            .main-title { font-size: 28px; }
+            .description { font-size: 15px; }
+            .buttons-container { grid-template-columns: 1fr; }
+            .btn { width: 100%; }
+            .section-card { padding: 18px; }
         }
     </style>
 </head>
@@ -230,25 +184,79 @@
             <a href="{% url 'logout' %}" class="btn btn-header btn-logout">Sair</a>
         </div>
 
-        <!-- Logo -->
         <div class="logo-container">
             <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo" />
         </div>
 
         <div class="content">
-            <div class="admin-badge">ADMINISTRADOR</div>
-            <h1 class="main-title">Menu de Administração</h1>
+            {% if is_admin_area %}
+                <div class="role-badge">ADMINISTRADOR</div>
+            {% else %}
+                <div class="role-badge manager">GESTOR</div>
+            {% endif %}
+
+            <h1 class="main-title">Área Administrativa</h1>
             <p class="subtitle">Bem-vindo, {{ username }}</p>
-            <p class="description">
-                Gerencie usuários do sistema, modifique permissões e controle o acesso à plataforma.
-            </p>
-            <div class="buttons-container">
-                <a href="{% url 'list_users' %}" class="btn">Gerenciar Usuários</a>
-                <a href="{% url 'add_user' %}" class="btn">Adicionar Usuário</a>
-            </div>
-            <div style="padding-top: 20px;" class="buttons-container">
-                <a href="{% url 'list_years' %}" class="btn">Gerenciar Anos</a>
-                <a href="{% url 'list_norms' %}" class="btn">Gerenciar Normas ISO</a>
+
+            {% if is_admin_area %}
+                <p class="description">
+                    Você tem acesso completo às áreas administrativas, cadastros, auditoria, designações e metas.
+                </p>
+            {% else %}
+                <p class="description">
+                    Você está acessando a área administrativa como gestor. Aqui aparecem apenas as opções liberadas para o seu perfil.
+                </p>
+            {% endif %}
+
+            {% if can_manage_users %}
+                <div class="section-card">
+                    <h2 class="section-title">Cadastros administrativos</h2>
+                    <p class="section-description">
+                        {% if is_admin_area %}
+                            Gerencie usuários, anos de referência, normas, indicadores e plataformas.
+                        {% else %}
+                            Gerencie os gestores subordinados criados por você.
+                        {% endif %}
+                    </p>
+                    <div class="buttons-container">
+                        <a href="{% url 'list_users' %}" class="btn">Gerenciar Usuários</a>
+                        <a href="{% url 'add_user' %}" class="btn">Adicionar Usuário</a>
+                        {% if is_admin_area %}
+                            <a href="{% url 'list_years' %}" class="btn">Gerenciar Anos</a>
+                            <a href="{% url 'list_norms' %}" class="btn">Gerenciar Normas ISO</a>
+                            <a href="{% url 'list_indicators' %}" class="btn">Gerenciar Indicadores</a>
+                            <a href="{% url 'list_platforms' %}" class="btn">Gerenciar Plataformas</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="section-card">
+                <h2 class="section-title">Auditoria e preenchimento</h2>
+                <p class="section-description">Acesse logs, recuperação de dados, designações de preenchimento e acompanhamento de metas.</p>
+                <div class="buttons-container">
+                    {% if can_view_logs %}
+                        <a href="{% url 'logs' %}" class="btn btn-audit">Logs de Auditoria</a>
+                    {% endif %}
+
+                    {% if can_recover_logs %}
+                        <a href="{% url 'recuperacao' %}" class="btn btn-warning">Recuperação de Dados</a>
+                    {% endif %}
+
+                    {% if can_manage_designations %}
+                        <a href="{% url 'designacoes' %}" class="btn btn-manager">Designações</a>
+                    {% endif %}
+
+                    {% if can_access_goals %}
+                        <a href="{% url 'completions_goals_home' %}" class="btn btn-goals">Pontuação e Metas</a>
+                    {% endif %}
+                </div>
+
+                {% if not can_view_logs and not can_recover_logs and not can_manage_designations and not can_access_goals %}
+                    <div class="empty-state">
+                        Nenhuma opção administrativa está liberada para o seu perfil no momento.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

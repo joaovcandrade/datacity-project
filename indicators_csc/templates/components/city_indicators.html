@@ -1,0 +1,30 @@
+<div id="municipality-dashboard" class="hidden">
+<!-- Indicators Tab -->
+    <div id="indicators" class="tab-content">
+        <div class="table-container">
+            <div style="padding: 20px; background: #f8f9fa; border-bottom: 1px solid #eee;">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <select id="axis-filter" class="municipality-select" style="flex: 1; min-width: 200px;" onchange="filterIndicators()">
+                        <option value="">Filtrar por eixo</option>
+                    </select>
+                    <input type="text" id="indicator-search" class="municipality-select" style="flex: 2; min-width: 300px;" placeholder="Filtrar por indicador" oninput="filterIndicators()">
+                </div>
+            </div>
+            <table class="indicators-table">
+                <thead>
+                    <tr class="table-header">
+                        <th>Indicador</th>
+                        <th>Eixo Temático</th>
+                        <th>Dado</th>
+                        <th>Unidade</th>
+                        <th>Fonte</th>
+                        <th>Anexos</th>
+                    </tr>
+                </thead>
+                <tbody id="indicators-tbody">
+                    <!-- Indicators will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

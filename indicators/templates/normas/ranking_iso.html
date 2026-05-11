@@ -1,0 +1,628 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Geral ISO - DataCity</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafbfc;
+            min-height: 100vh;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .top-nav {
+            background: white;
+            border-bottom: 1px solid rgba(81, 60, 154, 0.1);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #fafbfc;
+            color: #513C9A;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-badge {
+            height: 50px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-badge img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #513C9A;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .page-title-section {
+            background: linear-gradient(135deg, #513C9A 0%, #6B4FB5 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(81, 60, 154, 0.15);
+            text-align: center;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9375rem;
+            font-weight: 400;
+        }
+
+        .white-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .white-section-title {
+            color: #513C9A;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .white-section-subtitle {
+            color: #6b7280;
+            font-size: 0.925rem;
+            margin-top: 0.25rem;
+        }
+
+        .ranking-controls {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+
+        .municipality-select,
+        .municipality-input {
+            background: white;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .municipality-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23513C9A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .municipality-select:focus,
+        .municipality-input:focus {
+            outline: none;
+            border-color: #513C9A;
+            box-shadow: 0 0 0 3px rgba(81, 60, 154, 0.12);
+        }
+
+        .filter-button,
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #513C9A;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .action-link {
+            padding: 0.55rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .filter-button:hover,
+        .action-link:hover {
+            background: #6B4FB5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(81, 60, 154, 0.22);
+        }
+
+        .action-link svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        .indicators-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1220px;
+        }
+
+        .indicators-table th {
+            background: #513C9A;
+            color: white;
+            padding: 1rem 0.75rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .indicators-table td {
+            padding: 0.875rem 0.75rem;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.875rem;
+            text-align: center;
+            font-weight: 500;
+            vertical-align: middle;
+        }
+
+        .indicators-table tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .indicators-table tr:hover {
+            background-color: rgba(81, 60, 154, 0.03);
+        }
+
+        .city-name {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .nota-geral {
+            font-weight: 800;
+            color: #513C9A;
+            font-size: 1rem;
+        }
+
+        .score-cell {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .score-medal {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.42rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.12);
+            line-height: 1;
+        }
+
+        .score-medal.gold {
+            background: #f1c232;
+            color: #6a4b00;
+        }
+
+        .score-medal.silver {
+            background: linear-gradient(135deg, #f7f7f7, #c9c9c9);
+            color: #555;
+        }
+
+        .score-medal.bronze {
+            background: #c9a068;
+            color: #5f3d14;
+        }
+
+        .score-medal.platinum {
+            background: linear-gradient(135deg, #777, #252525);
+            color: white;
+        }
+
+        .score-value {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .empty-state {
+            padding: 2rem !important;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .legend-box {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            color: #6b7280;
+            font-size: 0.8rem;
+            padding-top: 0.25rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.gold { background: #f1c232; }
+        .legend-dot.silver { background: #c9c9c9; }
+        .legend-dot.bronze { background: #c9a068; }
+        .legend-dot.platinum { background: #47474d; }
+
+        .helper-text {
+            margin-bottom: 16px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1300px) {
+            .ranking-controls {
+                grid-template-columns: repeat(3, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .top-nav {
+                padding: 0 1rem;
+                height: 60px;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .logo-badge {
+                height: 40px;
+            }
+
+            .logo-badge img {
+                max-width: 120px;
+            }
+
+            .logo-title {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .page-title-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.7rem;
+            }
+
+            .ranking-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .white-section {
+                padding: 20px;
+            }
+
+            .legend-box {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="top-nav" role="navigation" aria-label="Navegação principal">
+            <div class="nav-left">
+                <a href="#" class="back-link" onclick="history.back(); return false;" aria-label="Voltar para página anterior">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Voltar
+                </a>
+
+                <div class="logo-area">
+                    <div class="logo-badge">
+                        <img src="{% static 'img/Logo_drive.png' %}" alt="DataCity Logo">
+                    </div>
+                    <h1 class="logo-title">Ranking ISO</h1>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section class="page-title-section">
+                <h2 class="page-title">Ranking Geral ISO</h2>
+                <p class="page-subtitle">
+                    Compare municípios com base nas pontuações cadastradas por categoria das normas ISO.
+                </p>
+            </section>
+
+            <section class="white-section">
+                <div class="section-header">
+                    <div>
+                        <h3 class="white-section-title">Classificação dos Municípios</h3>
+                        <p class="white-section-subtitle">
+                            A nota geral é calculada a partir da média das pontuações cadastradas para cada categoria ISO.
+                        </p>
+                    </div>
+
+                    <div class="legend-box">
+                        <span class="legend-item"><span class="legend-dot platinum"></span> Platina</span>
+                        <span class="legend-item"><span class="legend-dot gold"></span> Ouro</span>
+                        <span class="legend-item"><span class="legend-dot silver"></span> Prata</span>
+                        <span class="legend-item"><span class="legend-dot bronze"></span> Bronze</span>
+                    </div>
+                </div>
+
+                <form method="get" class="ranking-controls">
+                    <select name="ano" class="municipality-select">
+                        <option value="">Ano mais recente</option>
+                        {% for ano in anos %}
+                            <option value="{{ ano.ano }}" {% if filtros.ano == ano.ano|stringformat:"s" %}selected{% endif %}>
+                                Ranking {{ ano.ano }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="estado" class="municipality-select">
+                        <option value="">Todos os estados</option>
+                        {% for uf in estados %}
+                            <option value="{{ uf }}" {% if filtros.estado == uf %}selected{% endif %}>
+                                {{ uf }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="norma" class="municipality-select">
+                        <option value="">Todas as normas ISO</option>
+                        {% for norma in normas %}
+                            <option value="{{ norma }}" {% if filtros.norma == norma %}selected{% endif %}>
+                                {{ norma }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="categoria" class="municipality-select">
+                        <option value="">Todas as categorias</option>
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}" {% if filtros.categoria == categoria.id|stringformat:"s" %}selected{% endif %}>
+                                {{ categoria.norma_iso.codigo_norma }} - {{ categoria.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <input
+                        type="text"
+                        name="busca"
+                        class="municipality-input"
+                        placeholder="Buscar município..."
+                        value="{{ filtros.busca|default:'' }}"
+                    >
+
+                    <button type="submit" class="filter-button">Filtrar</button>
+                </form>
+
+                {% if filtros.categoria %}
+                    <p class="helper-text">
+                        Exibindo ranking filtrado por categoria. A nota geral representa a pontuação da categoria selecionada.
+                    </p>
+                {% else %}
+                    <p class="helper-text">
+                        Exibindo ranking geral por município, com médias agrupadas por norma ISO.
+                    </p>
+                {% endif %}
+
+                <div class="table-container">
+                    <table class="indicators-table">
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>UF</th>
+                                <th>Município</th>
+                                <th>ISO 37120</th>
+                                <th>ISO 37122</th>
+                                <th>ISO 37123</th>
+                                <th>ISO 37125</th>
+                                <th>Nota Geral</th>
+                                <th>Porte</th>
+                                <th>Região</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in rankings %}
+                                <tr>
+                                    <td>{{ item.posicao }}º</td>
+                                    <td>{{ item.uf }}</td>
+                                    <td class="city-name">{{ item.municipio }}</td>
+
+                                    <td>
+                                        {% if item.iso37120.nota != None %}
+                                            <span class="score-cell">
+                                                <span class="score-medal {{ item.iso37120.css }}">{{ item.iso37120.classificacao }}</span>
+                                                <span class="score-value">{{ item.iso37120.nota }}</span>
+                                            </span>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if item.iso37122.nota != None %}
+                                            <span class="score-cell">
+                                                <span class="score-medal {{ item.iso37122.css }}">{{ item.iso37122.classificacao }}</span>
+                                                <span class="score-value">{{ item.iso37122.nota }}</span>
+                                            </span>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if item.iso37123.nota != None %}
+                                            <span class="score-cell">
+                                                <span class="score-medal {{ item.iso37123.css }}">{{ item.iso37123.classificacao }}</span>
+                                                <span class="score-value">{{ item.iso37123.nota }}</span>
+                                            </span>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if item.iso37125.nota != None %}
+                                            <span class="score-cell">
+                                                <span class="score-medal {{ item.iso37125.css }}">{{ item.iso37125.classificacao }}</span>
+                                                <span class="score-value">{{ item.iso37125.nota }}</span>
+                                            </span>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="nota-geral">{{ item.nota_geral }}</td>
+                                    <td>{{ item.porte }}</td>
+                                    <td>{{ item.regiao }}</td>
+                                    <td>
+                                        <a href="{% url 'consulta_cidade' item.uf item.municipio_id %}" class="action-link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M9 18l6-6-6-6"/>
+                                            </svg>
+                                            Consultar
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="11" class="empty-state">
+                                        Nenhum município encontrado para os filtros selecionados.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll(".ranking-controls select").forEach((select) => {
+            select.addEventListener("change", () => {
+                select.closest("form").submit();
+            });
+        });
+    </script>
+</body>
+</html>
