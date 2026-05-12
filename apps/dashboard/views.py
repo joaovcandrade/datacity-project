@@ -7,10 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from apps.indicators.constants import VALID_YEARS
-from apps.indicators.models import ISOIndicator, ISOStandard
+from accounts.models import ISOIndicator, ISOStandard
 
 logger = logging.getLogger(__name__)
+
+VALID_YEARS: frozenset[int] = frozenset({2022, 2023, 2024, 2025})
 
 _STANDARD_LABELS: dict[str, str] = {
     ISOStandard.ISO37120: "ISO 37120",
@@ -37,14 +38,11 @@ def indicators_dashboard(request: HttpRequest, standard_slug: str) -> HttpRespon
     if standard_slug not in _STANDARD_LABELS:
         raise Http404(f"Padrão '{standard_slug}' não encontrado.")
 
+    cidade = getattr(request.user, "cidade", None) or "Londrina"
     indicators = (
         ISOIndicator.objects
-        .for_standard(standard_slug)
-        .with_data()
-        .for_location(
-            cidade=request.user.cidade or "Londrina",
-            estado="PR",
-        )
+        .filter(standard=standard_slug, cidade=cidade, estado="PR")
+        .prefetch_related("data")
     )
 
     context: dict[str, Any] = {
