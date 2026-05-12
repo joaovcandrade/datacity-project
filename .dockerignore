@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Envs
+.env
+.env.*
+!.env.example
+
+# Dev artifacts
+*.sqlite3
+media/
+staticfiles/
+node_modules/
+.venv/
+
+# UV
+.uv/
+requirements/
+requirements.txt
+
+# Docs / IDE
+*.md
+.vscode/
+.idea/
+*.puml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+nginx/
+
+# CI
+.github/

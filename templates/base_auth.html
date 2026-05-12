@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+
+        <div class="text-center mb-4">
+          <img src="{% static 'img/logo.png' %}" alt="DataCity" height="56" class="mb-2"
+               onerror="this.style.display='none'">
+          <h1 class="h4 fw-bold text-dark">DataCity</h1>
+          <p class="text-muted small">Plataforma de Indicadores de Cidade Inteligente</p>
+        </div>
+
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4 p-md-5">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% block auth_content %}{% endblock %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

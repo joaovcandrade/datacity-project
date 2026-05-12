@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="d-flex min-vh-100">
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="bg-dark text-white d-flex flex-column" style="width:260px;min-width:260px;">
+    <div class="px-3 py-4 border-bottom border-secondary">
+      <a href="{% url 'dashboard:menu' %}" class="text-white text-decoration-none">
+        <span class="fs-5 fw-bold">DataCity</span>
+      </a>
+    </div>
+
+    <ul class="nav flex-column px-2 py-3 flex-grow-1">
+      <li class="nav-item mb-1">
+        <a class="nav-link text-white rounded {% if request.resolver_match.url_name == 'menu' %}bg-secondary{% endif %}"
+           href="{% url 'dashboard:menu' %}">
+          Início
+        </a>
+      </li>
+
+      <li class="nav-item mt-3 mb-1">
+        <small class="text-uppercase text-secondary px-2" style="font-size:.7rem;letter-spacing:.08em;">Indicadores</small>
+      </li>
+      {% for slug, label in iso_standards %}
+      <li class="nav-item mb-1">
+        <a class="nav-link text-white rounded {% if standard_slug == slug %}bg-secondary{% endif %}"
+           href="{% url 'dashboard:indicators' slug %}">
+          {{ label }}
+        </a>
+      </li>
+      {% endfor %}
+
+      {% if user.is_admin or user.is_manager %}
+      <li class="nav-item mt-3 mb-1">
+        <small class="text-uppercase text-secondary px-2" style="font-size:.7rem;letter-spacing:.08em;">Gestão</small>
+      </li>
+      <li class="nav-item mb-1">
+        <a class="nav-link text-white rounded" href="/accounts/gerenciar_plataformas/">Plataformas</a>
+      </li>
+      <li class="nav-item mb-1">
+        <a class="nav-link text-white rounded" href="/accounts/gerenciar_normas/">Normas</a>
+      </li>
+      <li class="nav-item mb-1">
+        <a class="nav-link text-white rounded" href="/accounts/gerenciar_usuarios/">Usuários</a>
+      </li>
+      {% endif %}
+    </ul>
+
+    <div class="px-3 py-3 border-top border-secondary">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+             style="width:32px;height:32px;font-size:.8rem;">
+          {{ user.nome|first|upper|default:user.email|first|upper }}
+        </div>
+        <div class="overflow-hidden">
+          <div class="text-white small text-truncate">{{ user.nome|default:user.email }}</div>
+          <div class="text-secondary" style="font-size:.75rem;">{{ user.get_user_type_display }}</div>
+        </div>
+      </div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Sair</button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+    <header class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between">
+      <h1 class="h5 mb-0 fw-semibold">{% block page_title %}{% endblock %}</h1>
+      <div>{% block header_actions %}{% endblock %}</div>
+    </header>
+
+    <main class="flex-grow-1 overflow-auto p-4 bg-light">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block dashboard_content %}{% endblock %}
+    </main>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base_dashboard.html" %}
+
+{% block title %}{{ standard_label }} — DataCity{% endblock %}
+{% block page_title %}{{ standard_label }}{% endblock %}
+
+{% block header_actions %}
+  {% if user.is_admin or user.is_manager %}
+  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addIndicatorModal">
+    + Novo indicador
+  </button>
+  {% endif %}
+{% endblock %}
+
+{% block dashboard_content %}
+
+{% if not indicators %}
+  <div class="text-center py-5 text-muted">
+    <p class="mb-0">Nenhum indicador cadastrado para {{ standard_label }}.</p>
+  </div>
+{% else %}
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle bg-white rounded shadow-sm overflow-hidden">
+    <thead class="table-light">
+      <tr>
+        <th>Categoria</th>
+        <th>Indicador</th>
+        <th>Tipo</th>
+        <th>ODS</th>
+        <th>Unidade</th>
+        {% for year in valid_years %}
+        <th class="text-center">{{ year }}</th>
+        {% endfor %}
+        {% if user.is_admin or user.is_manager %}
+        <th></th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for indicator in indicators %}
+      <tr>
+        <td class="text-muted small">{{ indicator.categoria }}</td>
+        <td class="fw-medium">{{ indicator.nome_indicador }}</td>
+        <td>
+          <span class="badge
+            {% if indicator.tipo == 'core' %}bg-primary
+            {% elif indicator.tipo == 'supporting' %}bg-secondary
+            {% else %}bg-light text-dark border{% endif %}">
+            {{ indicator.get_tipo_display }}
+          </span>
+        </td>
+        <td class="text-muted small">{{ indicator.ods|default:"—" }}</td>
+        <td class="text-muted small">{{ indicator.unidade|default:"—" }}</td>
+        {% for year in valid_years %}
+        <td class="text-center">
+          {% for d in indicator.data.all %}
+            {% if d.year == year %}
+              <span class="small">{{ d.dado|default:"—" }}</span>
+            {% endif %}
+          {% empty %}
+            <span class="text-muted">—</span>
+          {% endfor %}
+        </td>
+        {% endfor %}
+        {% if user.is_admin or user.is_manager %}
+        <td>
+          <button class="btn btn-sm btn-outline-secondary"
+                  data-indicator-id="{{ indicator.id }}">
+            Editar
+          </button>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endif %}
+{% endblock %}
