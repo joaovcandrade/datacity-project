@@ -19,10 +19,7 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("api/scraping/", include("scraping.urls")),
 
-    # New apps — REST API
-    path("api/", include("apps.indicators.urls")),
-    path("api/", include("apps.platforms.urls")),
-    path("api/", include("apps.norms.urls")),
+    # New apps — REST API (indicators/platforms/norms excluded during migration)
     path("api/", include("apps.users.urls")),
 
     # New apps — views

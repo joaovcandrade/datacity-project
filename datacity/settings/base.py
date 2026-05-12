@@ -27,11 +27,7 @@ INSTALLED_APPS = [
     # Project — legacy (mantidos durante migração)
     "accounts.apps.AccountsConfig",
     "scraping.apps.ScrapingConfig",
-    # Project — new apps
-    "apps.authentication.apps.AuthenticationConfig",
-    "apps.indicators.apps.IndicatorsConfig",
-    "apps.platforms.apps.PlatformsConfig",
-    "apps.norms.apps.NormsConfig",
+    # Project — new apps (authentication/indicators/platforms/norms excluded during migration)
     "apps.users.apps.UsersConfig",
     "apps.dashboard.apps.DashboardConfig",
 ]
