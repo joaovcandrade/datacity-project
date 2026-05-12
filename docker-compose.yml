@@ -6,7 +6,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-datacity}
-      POSTGRES_USER: ${POSTGRES_USER:-datacity}
+      POSTGRES_USER: ${POSTGRES_USER:-datacity_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
@@ -24,6 +24,7 @@ services:
       DJANGO_SETTINGS_MODULE: datacity.settings.development
     volumes:
       - .:/app
+      - venv_data:/app/.venv   # impede o bind mount de sobrescrever o .venv
       - media_data:/app/media
     ports:
       - "8000:8000"
@@ -36,4 +37,5 @@ services:
 
 volumes:
   postgres_data:
+  venv_data:
   media_data:

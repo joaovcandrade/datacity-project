@@ -31,11 +31,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
   && rm -rf /var/lib/apt/lists/*
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
 RUN useradd --no-create-home --shell /bin/false app
 
 WORKDIR /app
 
 COPY --from=builder /app/.venv /app/.venv
+COPY pyproject.toml uv.lock ./
 COPY . .
 
 RUN python manage.py collectstatic --no-input 2>/dev/null || true
